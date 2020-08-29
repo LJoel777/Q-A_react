@@ -6,15 +6,15 @@ const NavDiv = styled.div`
   background-color: #333;
   overflow: hidden;
   .link {
+    font-size: 20px;
     float: left;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
   }
   .link:hover {
-    background-color: #ddd;
+    background-color: #76d14f;
     color: black;
   }
 
@@ -30,7 +30,7 @@ const NavBar = () => {
       <Link className="link" to="/">
         HOME
       </Link>
-      <Link className="link" to="/add">
+      <Link className="link" to="/addQuestion">
         Ask Question
       </Link>
     </NavDiv>

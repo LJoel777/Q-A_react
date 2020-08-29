@@ -2,18 +2,50 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import AnswerList from "./AnswerList";
+import { Link } from "react-router-dom";
 
 const QuestionDiv = styled.div`
+  display: flex;
+  background: white;
   margin: auto;
   border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  background: white;
-  max-width: 70%;
-  margin-top: 10px;
+  padding: 18px;
+  width: 70%;
+  margin-top: 20px;
   margin-bottom: 10px;
-  img {
-    width: 20%;
+  font-size: 1.1em;
+  .textContainer {
+    flex: 70%;
+  }
+  .imageContainer {
+    flex: 30%;
+    min-width: 200px;
+    .contentImg {
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+  display: relative;
+  .add_answer {
+    width: 15%;
+    position: absolute;
+    right: 20px;
+    top: 110px;
+    text-align: center;
+    border: none;
+    border-radius: 7px;
+    background: #333;
+    color: #f2f2f2;
+    font-weight: bold;
+    padding: 10px;
+    text-decoration: none;
+    z-index: 100;
+    max-width: 100px;
+  }
+
+  .add_answer:hover {
+    background: #76d14f;
+    color: #000;
   }
 `;
 
@@ -36,9 +68,16 @@ const QuestionAndAnswers = ({ match }) => {
     content = (
       <div>
         <QuestionDiv className="question">
-          <h1>{question.title}</h1>
-          <p>{question.description}</p>
-          <img src={question.imagePath} alt=""></img>
+          <div className="textContainer">
+            <h1>{question.title}</h1>
+            <p>{question.description}</p>
+            <Link className="add_answer" to={`/addAnswer/${match.params.id}`}>
+              Add answer
+            </Link>
+          </div>
+          <div className="imageContainer">
+            <img src={question.imagePath} alt="" className="contentImg"></img>
+          </div>
         </QuestionDiv>
         <AnswerList answerId={answerId} />
       </div>

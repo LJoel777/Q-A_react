@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import Question from "./Question";
 import axios from "axios";
+
+const Container = styled.div``;
 
 const QuestionsList = () => {
   const [questions, setQuestions] = useState([]);
@@ -17,13 +20,11 @@ const QuestionsList = () => {
 
   if (!isLoading) {
     content = (
-      <div>
-        <div className="col">
-          {questions.map((question) => (
-            <Question key={question.id} question={question} />
-          ))}
-        </div>
-      </div>
+      <Container className="col">
+        {questions.map((question) => (
+          <Question key={question.id} question={question} />
+        ))}
+      </Container>
     );
   } else content = "Loading";
 
