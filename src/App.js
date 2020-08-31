@@ -5,6 +5,8 @@ import NavBar from "./components/NavBar";
 import AddQuestion from "./components/AddQuestion";
 import AddAnswer from "./components/AddAnswer";
 import Login from "./components/Login";
+import EditQuestion from "./components/EditQuestion";
+import EditAnswer from "./components/EditAnswer";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
         <Route exact path="/addQuestion" component={AddQuestion} />
         <Route exact path="/addAnswer/:id" component={AddAnswer} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/editQuestion/:id" component={EditQuestion} />
+        <Route exact path="/editAnswer/:id" component={EditAnswer} />
       </Router>
     </div>
   );

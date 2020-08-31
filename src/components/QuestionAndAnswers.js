@@ -77,6 +77,7 @@ const QuestionAndAnswers = ({ match }) => {
           </div>
           <div className="imageContainer">
             <img src={question.imagePath} alt="" className="contentImg"></img>
+            <Link to={`/editQuestion/${question.id}`}>Edit question</Link>
           </div>
         </QuestionDiv>
         <AnswerList answerId={answerId} />
