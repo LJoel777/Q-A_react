@@ -33,6 +33,9 @@ const NavBar = () => {
       <Link className="link" to="/addQuestion">
         Ask Question
       </Link>
+      <Link className="link" to="/login">
+        Login
+      </Link>
     </NavDiv>
   );
 };
