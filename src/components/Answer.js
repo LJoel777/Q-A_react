@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import trash from "../images/trash.png";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const AnswerDiv = styled.div`
   border-radius: 20px;
@@ -51,6 +52,7 @@ const Answer = (props) => {
         <h1>{answer.description}</h1>
         <img src={answer.imgPath} alt=""></img>
         <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
+        <Link to={`/editAnswer/${props.answer.id}`}>Edit answer</Link>
       </AnswerDiv>
     );
   } else content = "";

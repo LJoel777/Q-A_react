@@ -80,7 +80,8 @@ const Question = (props) => {
             </div>
           </Link>
           <div className="imageContainer">
-            <img src={question.imagePath} alt="" className="contentImg"></img>
+            <img src={question.imagePath} alt="" className="contentImg" />
+            <Link to={`/editQuestion/${question.id}`}>Edit question</Link>
           </div>
         </QuestionDiv>
       </Container>
