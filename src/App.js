@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import EditQuestion from "./components/EditQuestion";
 import EditAnswer from "./components/EditAnswer";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import UserPage from "./components/UserPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/editQuestion/:id" component={EditQuestion} />
         <Route exact path="/editAnswer/:id" component={EditAnswer} />
+        <Route exact path="/user/:id" component={UserPage} />
       </Router>
     </div>
   );
