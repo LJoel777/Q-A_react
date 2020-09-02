@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { UserSession } from "../context/UserSession";
+import axios from "axios";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -25,6 +27,19 @@ const NavDiv = styled.div`
 `;
 
 const NavBar = () => {
+  const [session, setSession] = useContext(UserSession);
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+      setUserName(res.data.userName);
+    });
+  });
+
+  const logOut = () => {
+    setSession(null);
+  };
+
   return (
     <NavDiv>
       <Link className="link" to="/">
@@ -33,15 +48,29 @@ const NavBar = () => {
       <Link className="link" to="/addQuestion">
         Ask Question
       </Link>
-      <Link className="link" to="/login">
-        Login
-      </Link>
-      <Link className="link" to="/registration">
-        Register
+      {session === null ? (
+        <Link className="link" to="/login">
+          Login
         </Link>
-      <Link className="link" to="/user/0">
-        User
-      </Link>
+      ) : (
+        <Link className="link" to={""} onClick={logOut}>
+          Logout
+        </Link>
+      )}
+      {session === null ? (
+        <Link className="link" to="/registration">
+          Register
+        </Link>
+      ) : (
+        ""
+      )}
+      {session === null ? (
+        ""
+      ) : (
+        <Link className="link" to={`/user/${session}`}>
+          {userName}
+        </Link>
+      )}
     </NavDiv>
   );
 };
