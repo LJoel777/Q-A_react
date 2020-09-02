@@ -1,7 +1,7 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { UserSession} from "../context/UserSession"
+import { UserSession } from "../context/UserSession";
 
 const FormDiv = styled.div`
   border-radius: 5px;
@@ -44,15 +44,17 @@ const FormDiv = styled.div`
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [session, setSession] = useContext(UserSession);
+  const setSession = useContext(UserSession)[1];
   const [loading, setIsLoading] = useState(true);
-  const [validate,setValidate] = useState(false);
+  const [validate, setValidate] = useState(false);
 
+  useEffect(() => {
+    if (!loading) if (validate) props.history.push("/");
+  }, [loading, props.history, validate]);
 
-  const setValidateOnChange = (valid) =>{
-      setValidate(valid);
-  }
-
+  const setValidateOnChange = (valid) => {
+    setValidate(valid);
+  };
 
   const setEmailOnChange = (e) => {
     setEmail(e.target.value);
@@ -62,35 +64,29 @@ const Login = (props) => {
     setPassword(e.target.value);
   };
 
-
   const checkFields = (e) => {
     e.preventDefault();
+    if (email.length > 0 && password.length > 0) {
+      postData();
+    } else {
+      alert("Please fill the title and description field!");
+    }
+  };
+
+  const postData = () => {
     const login = {
       email: email,
       password: password,
     };
-    if (email.length > 0 && password.length > 0) {
-       axios.post("http://localhost:8080/login", login).then((res) => {
-      setSession(res.data.id);
-      setIsLoading(false);
-      setValidateOnChange(res.data.valid); 
-      redirect();
-      });
-
-    } else {alert("Please fill the title and description field!");
-  }
-
-};
-
-const redirect = () =>{
-  if(!loading){
-    console.log(validate)
-    if(validate){
-      props.history.push("/");
-    }
-    else{alert("Wrong username or password")}
-  }
-}
+    return axios
+      .post("http://localhost:8080/login", login)
+      .then((res) => {
+        setSession(res.data.id);
+        setValidateOnChange(res.data.valid);
+        setIsLoading(false);
+      })
+      .catch((error) => alert("Wrong password or email"));
+  };
 
   return (
     <FormDiv>

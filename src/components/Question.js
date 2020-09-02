@@ -36,7 +36,7 @@ const QuestionDiv = styled.div`
       border-radius: 5px;
     }
   }
-  /* .info {
+  .info {
     flex: 0%;
     max-width: 10px;
     display: relative;
@@ -52,8 +52,8 @@ const QuestionDiv = styled.div`
     .trash:hover {
       width: 30px;
       height: 30px;
-    } */
-  /* } */
+    }
+  }
   .profile {
     margin-top: -22px;
     margin-left: -22px;
@@ -105,9 +105,9 @@ const Question = (props) => {
               <span className="userName">{userName}</span>
             </div>
           </Link>
-          {/* <div className="info">
+          <div className="info">
             <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img>
-          </div> */}
+          </div>
           <Link to={`/question/${question.id}`} className="link">
             <div className="textContainer">
               <h1>{question.title}</h1>
