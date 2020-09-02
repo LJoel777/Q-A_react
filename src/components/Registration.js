@@ -1,7 +1,6 @@
-import React, { useContext,useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { UserSession} from "../context/UserSession"
 
 const FormDiv = styled.div`
   border-radius: 5px;
@@ -44,13 +43,11 @@ const FormDiv = styled.div`
 const Register = (props) => {
   const [emailAddress, setEmailAdress] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName,setFirstName] = useState("");
-  const [lastName,setLastName] = useState("");
-  const [userName,setUserName] = useState("");
-  const [profilePicture,setProfilePicture] = useState("");
-  const [hobbies,setHobbies] = useState("");
-  const [loading, setIsLoading] = useState(true);
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  const [hobbies, setHobbies] = useState("");
 
   const setEmailOnChange = (e) => {
     setEmailAdress(e.target.value);
@@ -59,50 +56,49 @@ const Register = (props) => {
   const setPasswordOnChange = (e) => {
     setPassword(e.target.value);
   };
-  const setFirstNameOnChange = (e) =>{
-      setFirstName(e.target.value);
-  }
-  const setLastNameOnChange = (e) =>{
+  const setFirstNameOnChange = (e) => {
+    setFirstName(e.target.value);
+  };
+  const setLastNameOnChange = (e) => {
     setLastName(e.target.value);
-}
-const setUserNameOnChange = (e) =>{
+  };
+  const setUserNameOnChange = (e) => {
     setUserName(e.target.value);
-}
-const setProfilePictureOnChange = (e) =>{
+  };
+  const setProfilePictureOnChange = (e) => {
     setProfilePicture(e.target.value);
-}
-const setHobbiesOnChange = (e) =>{
+  };
+  const setHobbiesOnChange = (e) => {
     setHobbies(e.target.value);
-}
+  };
 
   const checkFields = (e) => {
     e.preventDefault();
     const register = {
-        firstName : firstName,
-        lastName:lastName,
-        userName:userName,
-        profilePicture:profilePicture,
-        emailAddress: emailAddress,
-        password: password,
-        hobbies :hobbies
+      firstName: firstName,
+      lastName: lastName,
+      userName: userName,
+      profilePicture: profilePicture,
+      emailAddress: emailAddress,
+      password: password,
+      hobbies: hobbies,
     };
     if (emailAddress.length > 0 && password.length > 0) {
-       axios.post("http://localhost:8080/registration", register).then((res) => {
-      });
-
-    } else {alert(password.length);
-  }
-};
+      axios.post("http://localhost:8080/registration", register).then((res) => {});
+    } else {
+      alert(password.length);
+    }
+  };
 
   return (
     <FormDiv>
-      <input id="description" placeholder="First Name"  onChange={setFirstNameOnChange} />
-      <input id="description" placeholder="Last Name"  onChange={setLastNameOnChange} />
-      <input id="description" placeholder="Username"  onChange={setUserNameOnChange} />
+      <input id="description" placeholder="First Name" onChange={setFirstNameOnChange} />
+      <input id="description" placeholder="Last Name" onChange={setLastNameOnChange} />
+      <input id="description" placeholder="Username" onChange={setUserNameOnChange} />
       <input id="title" placeholder="Email..." onChange={setEmailOnChange} />
       <input id="description" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
-      <input id="description" placeholder="Hobbies"  onChange={setHobbiesOnChange} />
-      <input id="description" placeholder="Profile picture"  onChange={setProfilePictureOnChange} />
+      <input id="description" placeholder="Hobbies" onChange={setHobbiesOnChange} />
+      <input id="description" placeholder="Profile picture" onChange={setProfilePictureOnChange} />
       <button name="submit" onClick={checkFields}>
         Register
       </button>
