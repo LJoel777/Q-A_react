@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext,useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { UserSession} from "../context/UserSession"
 
 const FormDiv = styled.div`
   border-radius: 5px;
@@ -43,6 +44,9 @@ const FormDiv = styled.div`
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [session, setSession] = useContext(UserSession);
+  const [loading, setIsLoading] = useState(true);
+
 
   const setEmailOnChange = (e) => {
     setEmail(e.target.value);
@@ -60,11 +64,22 @@ const Login = (props) => {
       password: password,
     };
     if (email.length > 0 && password.length > 0) {
-      return axios.post("http://localhost:8080/login", login).then(() => {
-        props.history.push(`/`);
+       axios.post("http://localhost:8080/login", login).then((res) => {
+      setSession(res.data);
+      setIsLoading(false);  
       });
-    } else alert("Please fill the title and description field!");
-  };
+
+    } else {alert("Please fill the title and description field!");
+  }
+    if(!loading){
+      console.log(session)
+      if(session){
+        props.history.push("/");
+
+      }
+      else{props.history.push("/register")}
+    }
+};
 
   return (
     <FormDiv>
@@ -76,5 +91,4 @@ const Login = (props) => {
     </FormDiv>
   );
 };
-
 export default Login;

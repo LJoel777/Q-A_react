@@ -36,6 +36,9 @@ const NavBar = () => {
       <Link className="link" to="/login">
         Login
       </Link>
+      <Link className="link" to="/registration">
+        Register
+      </Link>
     </NavDiv>
   );
 };
