@@ -48,7 +48,6 @@ const Register = (props) => {
   const [userName, setUserName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [hobbies, setHobbies] = useState("");
-  const [loading, setIsLoading] = useState(true);
 
   const setEmailOnChange = (e) => {
     setEmailAdress(e.target.value);
@@ -95,13 +94,13 @@ const Register = (props) => {
 
   return (
     <FormDiv>
-      <input id="description" placeholder="First Name" onChange={setFirstNameOnChange} />
-      <input id="description" placeholder="Last Name" onChange={setLastNameOnChange} />
-      <input id="description" placeholder="Username" onChange={setUserNameOnChange} />
-      <input id="title" placeholder="Email..." onChange={setEmailOnChange} />
-      <input id="description" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
-      <input id="description" placeholder="Hobbies" onChange={setHobbiesOnChange} />
-      <input id="description" placeholder="Profile picture" onChange={setProfilePictureOnChange} />
+      <input id="firstName" placeholder="First Name" onChange={setFirstNameOnChange} />
+      <input id="lastName" placeholder="Last Name" onChange={setLastNameOnChange} />
+      <input id="userName" placeholder="Username" onChange={setUserNameOnChange} />
+      <input id="email" placeholder="Email..." onChange={setEmailOnChange} />
+      <input id="password" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
+      <input id="hobbies" placeholder="Hobbies" onChange={setHobbiesOnChange} />
+      <input id="profilePicture" placeholder="Profile picture" onChange={setProfilePictureOnChange} />
       <button name="submit" onClick={checkFields}>
         Register
       </button>

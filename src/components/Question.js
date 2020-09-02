@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import trash from "../images/trash.png";
+// import trash from "../images/trash.png";
 import axios from "axios";
 
 const Container = styled.div`
@@ -84,17 +84,16 @@ const Question = (props) => {
     axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
       setUserName(res.data.userName);
       setUserProfilePicture(res.data.profilePicture);
-      console.log(res.data);
       setIsLoading(false);
     });
   }, [question.userId]);
 
-  const deleteQuestion = (e) => {
-    e.preventDefault();
-    axios.get(`http://localhost:8080/question/${question.id}/remove`);
-    setQuestion({});
-    setDeleted(true);
-  };
+  // const deleteQuestion = (e) => {
+  //   e.preventDefault();
+  //   axios.get(`http://localhost:8080/question/${question.id}/remove`);
+  //   setQuestion({});
+  //   setDeleted(true);
+  // };
   if (!deleted && !isLoading) {
     content = (
       <Container className="question" id={question.id}>
