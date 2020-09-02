@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import {UserSession} from "../context/UserSession"
 import { useState,useContext } from "react";
 import Register from "./Registration";
+import UserPage from "./components/UserPage";
 
 function Main() {
   return (
@@ -24,6 +25,7 @@ function Main() {
         <Route exact path="/registration" component={Register} />
         <Route exact path="/editQuestion/:id" component={EditQuestion} />
         <Route exact path="/editAnswer/:id" component={EditAnswer} />
+        <Route exact path="/user/:id" component={UserPage} />
     </div>
   );
 }
