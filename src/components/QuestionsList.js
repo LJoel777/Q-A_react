@@ -46,7 +46,7 @@ const QuestionsList = (props) => {
           </Container>
         </div>
     );
-  } else if (typeof session === "boolean") {
+  } else if (session === null) {
     props.history.push("/login")
   }else content = "Loading";
 
