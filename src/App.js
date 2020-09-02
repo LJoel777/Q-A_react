@@ -11,7 +11,6 @@ function App() {
           <Main>
           </Main>
         </UserSessionProvider>
-        <NavBar />
       </Router>
     </div>
   );
