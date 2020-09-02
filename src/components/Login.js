@@ -46,6 +46,12 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [session, setSession] = useContext(UserSession);
   const [loading, setIsLoading] = useState(true);
+  const [validate,setValidate] = useState(false);
+
+
+  const setValidateOnChange = (valid) =>{
+      setValidate(valid);
+  }
 
 
   const setEmailOnChange = (e) => {
@@ -65,21 +71,27 @@ const Login = (props) => {
     };
     if (email.length > 0 && password.length > 0) {
        axios.post("http://localhost:8080/login", login).then((res) => {
-      setSession(res.data);
-      setIsLoading(false);  
+      setSession(res.data.id);
+      setIsLoading(false);
+      setValidateOnChange(res.data.valid); 
+      redirect();
       });
 
     } else {alert("Please fill the title and description field!");
   }
-    if(!loading){
-      console.log(session)
-      if(session){
-        props.history.push("/");
 
-      }
-      else{props.history.push("/register")}
-    }
 };
+
+const redirect = () =>{
+  if(!loading){
+    console.log(validate)
+    if(validate){
+      props.history.push("/");
+
+    }
+    else{alert("Wrong username or password")}
+  }
+}
 
   return (
     <FormDiv>
