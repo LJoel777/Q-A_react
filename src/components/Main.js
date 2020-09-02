@@ -8,8 +8,6 @@ import Login from "./Login";
 import EditQuestion from "./EditQuestion";
 import EditAnswer from "./EditAnswer";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import {UserSession} from "../context/UserSession"
-import { useState,useContext } from "react";
 import Register from "./Registration";
 import UserPage from "../components/UserPage";
 

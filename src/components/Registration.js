@@ -43,7 +43,7 @@ const FormDiv = styled.div`
 
 const Register = (props) => {
   const [emailAddress, setEmailAdress] = useState("");
-  const [password, setPassword] = useState("");
+  const [psw, setPassword] = useState("");
   const [firstName,setFirstName] = useState("");
   const [lastName,setLastName] = useState("");
   const [userName,setUserName] = useState("");
@@ -83,14 +83,15 @@ const setHobbiesOnChange = (e) =>{
         userName:userName,
         profilePicture:profilePicture,
         emailAddress: emailAddress,
-        password: password,
+        psw: psw,
         hobbies :hobbies
     };
-    if (emailAddress.length > 0 && password.length > 0) {
+    if (emailAddress.length > 0 && psw.length > 0) {
        axios.post("http://localhost:8080/registration", register).then((res) => {
+         props.history.push("/login")
       });
 
-    } else {alert(password.length);
+    } else {alert(psw.length);
   }
 };
 
