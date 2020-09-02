@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import trash from "../images/trash.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { UserSession } from "../context/UserSession";
 
 const AnswerDiv = styled.div`
   border-radius: 20px;
@@ -32,12 +33,40 @@ const AnswerDiv = styled.div`
     width: 40px;
     height: 40px;
   }
+  .profile {
+    margin-top: -22px;
+    margin-left: -22px;
+    flex: 20%;
+    padding: 10px;
+    text-align: left;
+    .profilePicture {
+      border-radius: 50%;
+      width: 50px;
+    }
+  }
+  .linkToProfile {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userProfilePicture, setUserProfilePicture] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const session = parseInt(useContext(UserSession));
   let content = "";
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios.get(`http://localhost:8080/user/${answer.userId}`).then((res) => {
+      setUserName(res.data.userName);
+      setUserProfilePicture(res.data.profilePicture);
+      setIsLoading(false);
+    });
+  }, [answer.userId]);
 
   const deleteAnswer = (e) => {
     e.preventDefault();
@@ -46,13 +75,26 @@ const Answer = (props) => {
     setDeleted(true);
   };
 
-  if (!deleted) {
+  if (!deleted && !isLoading) {
     content = (
       <AnswerDiv>
+        <Link to={`/user/${answer.userId}`} className="linkToProfile">
+          <div className="profile">
+            <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
+            <br />
+            <span className="userName">{userName}</span>
+          </div>
+        </Link>
         <h1>{answer.description}</h1>
         <img src={answer.imgPath} alt=""></img>
-        <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
-        <Link to={`/editAnswer/${props.answer.id}`}>Edit answer</Link>
+        {session === answer.userId ? (
+          <div>
+            <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
+            <Link to={`/editAnswer/${props.answer.id}`}>Edit answer</Link>{" "}
+          </div>
+        ) : (
+          ""
+        )}
       </AnswerDiv>
     );
   } else content = "";

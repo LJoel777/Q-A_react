@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import AnswerList from "./AnswerList";
 import { Link } from "react-router-dom";
+import { UserSession } from "../context/UserSession";
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -47,12 +48,28 @@ const QuestionDiv = styled.div`
     background: #76d14f;
     color: #000;
   }
+  .profile {
+    margin-top: -22px;
+    margin-left: -22px;
+    flex: 20%;
+    padding: 10px;
+    text-align: left;
+    .profilePicture {
+      border-radius: 50%;
+      width: 50px;
+    }
+  }
+  .linkToProfile {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const QuestionAndAnswers = ({ match }) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [answerId, setAnswerId] = useState(null);
+  const session = parseInt(useContext(UserSession));
   let content = "";
 
   useEffect(() => {
@@ -64,10 +81,29 @@ const QuestionAndAnswers = ({ match }) => {
     });
   }, [match.params.id]);
 
+  const [userName, setUserName] = useState("");
+  const [userProfilePicture, setUserProfilePicture] = useState("");
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+      setUserName(res.data.userName);
+      setUserProfilePicture(res.data.profilePicture);
+      setIsLoading(false);
+    });
+  }, [question.userId]);
+
   if (!isLoading) {
     content = (
       <div>
         <QuestionDiv className="question">
+          <Link to={`/user/${question.userId}`} className="linkToProfile">
+            <div className="profile">
+              <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
+              <br />
+              <span className="userName">{userName}</span>
+            </div>
+          </Link>
           <div className="textContainer">
             <h1>{question.title}</h1>
             <p>{question.description}</p>
@@ -77,7 +113,7 @@ const QuestionAndAnswers = ({ match }) => {
           </div>
           <div className="imageContainer">
             <img src={question.imagePath} alt="" className="contentImg"></img>
-            <Link to={`/editQuestion/${question.id}`}>Edit question</Link>
+            {session === question.userId ? <Link to={`/editQuestion/${question.id}`}>Edit question</Link> : ""}
           </div>
         </QuestionDiv>
         <AnswerList answerId={answerId} />

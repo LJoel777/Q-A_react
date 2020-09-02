@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { UserSession } from "../context/UserSession";
 
 const FormDiv = styled.div`
   border-radius: 5px;
@@ -44,7 +45,7 @@ const AddQuestion = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imagePath, setImagePath] = useState("");
-  const session = localStorage.getItem("session");
+  const session = useContext(UserSession)[0];
 
   const setTitleOnChange = (e) => {
     setTitle(e.target.value);

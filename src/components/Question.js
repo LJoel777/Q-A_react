@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import trash from "../images/trash.png";
 import axios from "axios";
+import { UserSession } from "../context/UserSession";
 
 const Container = styled.div`
   .link {
@@ -77,6 +78,7 @@ const Question = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const session = parseInt(useContext(UserSession));
   let content = "";
 
   useEffect(() => {
@@ -107,9 +109,7 @@ const Question = (props) => {
               <span className="userName">{userName}</span>
             </div>
           </Link>
-          <div className="info">
-            <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img>
-          </div>
+          <div className="info">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
           <Link to={`/question/${question.id}`} className="link">
             <div className="textContainer">
               <h1>{question.title}</h1>
@@ -118,7 +118,7 @@ const Question = (props) => {
           </Link>
           <div className="imageContainer">
             <img src={question.imagePath} alt="" className="contentImg" />
-            <Link to={`/editQuestion/${question.id}`}>Edit question</Link>
+            {session === question.userId ? <Link to={`/editQuestion/${question.id}`}>Edit question</Link> : ""}
           </div>
         </QuestionDiv>
       </Container>
