@@ -89,11 +89,13 @@ const Question = (props) => {
   }, [question.userId]);
 
   const deleteQuestion = (e) => {
+    console.log(question.id);
     e.preventDefault();
-    axios.get(`http://localhost:8080/question/${question.id}/remove`);
+    axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
     setQuestion({});
     setDeleted(true);
   };
+
   if (!deleted && !isLoading) {
     content = (
       <Container className="question" id={question.id}>

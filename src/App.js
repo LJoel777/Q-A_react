@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Router>
         <UserSessionProvider>
-          <Main></Main>
+          <Main />
         </UserSessionProvider>
       </Router>
     </div>

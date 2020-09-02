@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
@@ -42,19 +42,9 @@ const FormDiv = styled.div`
 `;
 
 const Login = (props) => {
+  const setSession = useContext(UserSession)[1];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setSession = useContext(UserSession)[1];
-  const [loading, setIsLoading] = useState(true);
-  const [validate, setValidate] = useState(false);
-
-  useEffect(() => {
-    if (!loading) if (validate) props.history.push("/");
-  }, [loading, props.history, validate]);
-
-  const setValidateOnChange = (valid) => {
-    setValidate(valid);
-  };
 
   const setEmailOnChange = (e) => {
     setEmail(e.target.value);
@@ -81,9 +71,11 @@ const Login = (props) => {
     return axios
       .post("http://localhost:8080/login", login)
       .then((res) => {
-        setSession(res.data.id);
-        setValidateOnChange(res.data.valid);
-        setIsLoading(false);
+        if (res.data.valid) {
+          localStorage.setItem("session", res.data.id);
+          setSession(res.data.id);
+          props.history.push("/");
+        }
       })
       .catch((error) => alert("Wrong password or email"));
   };

@@ -41,7 +41,7 @@ const FormDiv = styled.div`
 `;
 
 const Register = (props) => {
-  const [emailAddress, setEmailAdress] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [psw, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -50,7 +50,7 @@ const Register = (props) => {
   const [hobbies, setHobbies] = useState("");
 
   const setEmailOnChange = (e) => {
-    setEmailAdress(e.target.value);
+    setEmailAddress(e.target.value);
   };
 
   const setPasswordOnChange = (e) => {

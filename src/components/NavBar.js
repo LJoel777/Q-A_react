@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { UserSession } from "../context/UserSession";
 import axios from "axios";
+import { UserSession } from "../context/UserSession";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -29,50 +29,52 @@ const NavDiv = styled.div`
 const NavBar = () => {
   const [session, setSession] = useContext(UserSession);
   const [userName, setUserName] = useState("");
+  let content = "";
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-      setUserName(res.data.userName);
-    });
-  });
+    if (session !== "null") {
+      axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+        setUserName(res.data.userName);
+      });
+    }
+  }, [session]);
 
   const logOut = () => {
-    setSession(null);
+    localStorage.setItem("session", "null");
+    setSession(localStorage.getItem("session"));
   };
 
-  return (
-    <NavDiv>
-      <Link className="link" to="/">
-        HOME
-      </Link>
-      <Link className="link" to="/addQuestion">
-        Ask Question
-      </Link>
-      {session === null ? (
+  if (session === "null") {
+    content = (
+      <div>
         <Link className="link" to="/login">
           Login
         </Link>
-      ) : (
+        <Link className="link" to="/registration">
+          Registration
+        </Link>
+      </div>
+    );
+  } else {
+    content = (
+      <div>
+        <Link className="link" to="/">
+          HOME
+        </Link>
+        <Link className="link" to="/addQuestion">
+          Ask Question
+        </Link>
         <Link className="link" to={""} onClick={logOut}>
           Logout
         </Link>
-      )}
-      {session === null ? (
-        <Link className="link" to="/registration">
-          Register
-        </Link>
-      ) : (
-        ""
-      )}
-      {session === null ? (
-        ""
-      ) : (
         <Link className="link" to={`/user/${session}`}>
           {userName}
         </Link>
-      )}
-    </NavDiv>
-  );
+      </div>
+    );
+  }
+
+  return <NavDiv>{content}</NavDiv>;
 };
 
 export default NavBar;
