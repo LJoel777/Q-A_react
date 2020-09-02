@@ -38,6 +38,9 @@ const NavBar = () => {
       </Link>
       <Link className="link" to="/registration">
         Register
+        </Link>
+      <Link className="link" to="/user/0">
+        User
       </Link>
     </NavDiv>
   );
