@@ -7,7 +7,7 @@ import AddAnswer from "./AddAnswer";
 import Login from "./Login";
 import EditQuestion from "./EditQuestion";
 import EditAnswer from "./EditAnswer";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Register from "./Registration";
 import UserPage from "./UserPage";
 

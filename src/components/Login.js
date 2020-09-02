@@ -44,7 +44,7 @@ const FormDiv = styled.div`
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [session, setSession] = useContext(UserSession);
+  const setSession = useContext(UserSession)[1];
   const [loading, setIsLoading] = useState(true);
   const [validate, setValidate] = useState(false);
 
