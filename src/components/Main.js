@@ -15,7 +15,7 @@ function Main() {
   return (
     <div className="Main">
       <NavBar />
-      <Route exact path="/" component={QuestionsList} />
+      <Route exact path={["/", "/hobby-news", "/friend-news"]} component={QuestionsList} />
       <Route exact path="/question/:id" component={QuestionAndAnswer} />
       <Route exact path="/addQuestion" component={AddQuestion} />
       <Route exact path="/addAnswer/:id" component={AddAnswer} />

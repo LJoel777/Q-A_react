@@ -87,7 +87,6 @@ const redirect = () =>{
     console.log(validate)
     if(validate){
       props.history.push("/");
-
     }
     else{alert("Wrong username or password")}
   }

@@ -84,7 +84,6 @@ const Question = (props) => {
     axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
       setUserName(res.data.userName);
       setUserProfilePicture(res.data.profilePicture);
-      console.log(res.data);
       setIsLoading(false);
     });
   }, [question.userId]);
