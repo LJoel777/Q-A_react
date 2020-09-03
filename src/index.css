@@ -3,7 +3,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #dae0e6;
+  background: #1c1e21;
 }
 
 code {
@@ -22,16 +22,19 @@ div {
 .modal-content{
   position: absolute;
   top:30vh;
-  background:rgba(255,255,255, 0.3);
+  background:rgba(255,255,255, 0.0);
   height: 40vh;
   width: 60vh;
   left:50%;
   border-radius: 6px;
+  border:none;
   transform: translateX(-50%);
 }
 
 .modal-body{
   width: 100%;
+  border-radius:6px;
+  background:#333;
   height: fit-content;
 }
 .modal-content .modal-body textarea{
@@ -40,9 +43,15 @@ div {
   background:#333;
   color:white;
   font-weight: bold;
+  border:none;
   font-size: 25px;
 
 }
+.modal-footer{
+  border:none;
+  background:#333;
+}
 .postButton{
+  border:none;
   background: #333;
 }

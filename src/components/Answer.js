@@ -8,9 +8,9 @@ import { UserSession } from "../context/UserSession";
 const AnswerDiv = styled.div`
   border-radius: 20px;
   padding: 20px;
-  text-align: left;
-  background: white;
-  width: 40%;
+  text-align: center;
+  background: #333;
+  max-width: 60%;
   margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -59,13 +59,26 @@ const AnswerDiv = styled.div`
     padding: 10px;
     text-align: center;
     .profilePicture {
+      float:left;
       border-radius: 50%;
       width: 50px;
     }
   }
   .linkToProfile {
     text-decoration: none;
-    color: black;
+    color: white;
+  }
+
+  h1{
+    color:white;
+  }
+
+  .userName{
+    position:relative;
+    left:60px;  
+    font-size:20px;
+    font-weight:bold;
+    bottom:38px;
   }
   .description {
     flex: 70%;

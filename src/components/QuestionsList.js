@@ -122,32 +122,32 @@ const LinkDiv = styled.div`
   }
 `;
 
-const Post = styled.div`
-  .btn {
-    background: rgba(0, 0, 0, 0);
-    position: relative;
-    left: 50%;
-    transform: translate(-50%);
-    width: 30%;
-    border: none;
-  }
-  .btn .textarea {
-    position: relative;
-    z-index: 20;
-    opacity: 1;
-    width: 100%;
-  }
-  .btn .textarea textarea {
-    background: #333;
-    width: 100%;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    border-radius: 5px;
-  }
-  .myModal {
-    background: black;
-  }
+const Post = styled.div `
+    .btn{
+      background:rgba(0,0,0,0.0);
+      position:relative;
+      left:50%;
+      transform:translate(-50%);
+      width:30%;
+      border:none;
+    }
+    .btn .textarea{
+      position:relative;
+      z-index:20;
+      opacity:1;
+      width:100%;
+    }
+    .btn .textarea textarea{
+      background:white;
+      width:100%;
+      font-size:20px;
+      font-weight:bold;
+      color:white;
+      border-radius:5px;
+    }
+   .myModal{
+      background:black;
+    }
 `;
 
 export default QuestionsList;
