@@ -15,7 +15,11 @@ function Main() {
   return (
     <div className="Main">
       <NavBar />
-      <Route exact path={["/", "/hobby-news", "/friend-news"]} component={QuestionsList} />
+      <Route
+        exact
+        path={["/", "/hobby-news", "/friend-news"]}
+        component={QuestionsList}
+      />
       <Route exact path="/question/:id" component={QuestionAndAnswer} />
       <Route exact path="/addQuestion" component={AddQuestion} />
       <Route exact path="/addAnswer/:id" component={AddAnswer} />
@@ -23,7 +27,11 @@ function Main() {
       <Route exact path="/registration" component={Register} />
       <Route exact path="/editQuestion/:id" component={EditQuestion} />
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
-      <Route exact path="/user/:id" component={UserPage} />
+      <Route
+        exact
+        path={["/user/:id", "user/:id/settings"]}
+        component={UserPage}
+      />
     </div>
   );
 }

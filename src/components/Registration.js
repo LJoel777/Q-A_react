@@ -94,13 +94,34 @@ const Register = (props) => {
 
   return (
     <FormDiv>
-      <input id="firstName" placeholder="First Name" onChange={setFirstNameOnChange} />
-      <input id="lastName" placeholder="Last Name" onChange={setLastNameOnChange} />
-      <input id="userName" placeholder="Username" onChange={setUserNameOnChange} />
+      <input
+        id="firstName"
+        placeholder="First Name"
+        onChange={setFirstNameOnChange}
+      />
+      <input
+        id="lastName"
+        placeholder="Last Name"
+        onChange={setLastNameOnChange}
+      />
+      <input
+        id="userName"
+        placeholder="Username"
+        onChange={setUserNameOnChange}
+      />
       <input id="email" placeholder="Email..." onChange={setEmailOnChange} />
-      <input id="password" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
+      <input
+        id="password"
+        placeholder="Password..."
+        type="password"
+        onChange={setPasswordOnChange}
+      />
       <input id="hobbies" placeholder="Hobbies" onChange={setHobbiesOnChange} />
-      <input id="profilePicture" placeholder="Profile picture" onChange={setProfilePictureOnChange} />
+      <input
+        id="profilePicture"
+        placeholder="Profile picture"
+        onChange={setProfilePictureOnChange}
+      />
       <button name="submit" onClick={checkFields}>
         Register
       </button>
