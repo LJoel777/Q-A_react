@@ -69,7 +69,7 @@ const QuestionAndAnswers = ({ match }) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [answerId, setAnswerId] = useState(null);
-  const session = parseInt(useContext(UserSession));
+  const session = useContext(UserSession);
   let content = "";
 
   useEffect(() => {
