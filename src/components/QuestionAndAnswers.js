@@ -7,7 +7,7 @@ import { UserSession } from "../context/UserSession";
 import Question from "./Question";
 
 const PostAndComment = styled.div`
-  .comment {
+  .button {
     margin-left: 20%;
     border-radius: 20px;
     padding: 5px;
@@ -15,11 +15,11 @@ const PostAndComment = styled.div`
     width: 100px;
     text-align: center;
   }
-  .commentLink {
+  .LinkButton {
     text-decoration: none;
     color: white;
   }
-  .comment:hover {
+  .button:hover {
     background: #76d14f;
     color: black;
   }
@@ -46,8 +46,8 @@ const QuestionAndAnswers = ({ match }) => {
     content = (
       <PostAndComment>
         <Question question={question} />
-        <Link to={`/addAnswer/${question.id}`} className="commentLink">
-          <div className="comment">Comment</div>
+        <Link to={`/addAnswer/${question.id}`} className="LinkButton">
+          <div className="button">Comment</div>
         </Link>
         <hr />
         <AnswerList answerId={answerId} />

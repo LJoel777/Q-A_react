@@ -17,16 +17,34 @@ const AnswerDiv = styled.div`
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  position: relative;
+  .button {
+    margin-right: 20px;
+    border-radius: 20px;
+    padding: 5px;
+    background: #333333;
+    width: 100px;
+    text-align: center;
+  }
+  .LinkButton {
+    text-decoration: none;
+    color: white;
+  }
+  .button:hover {
+    background: #76d14f;
+    color: black;
+  }
   img {
     width: 20%;
     flex: 20%;
   }
   .trash {
+    flex: 5%;
     width: 30px;
     height: 30px;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 90px;
     transform: translate(50%, -50%);
     z-index: 100;
   }
@@ -60,22 +78,24 @@ const Answer = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession);
+  const session = useContext(UserSession)[0];
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/user/${answer.userId}`).then((res) => {
-      setUserName(res.data.userName);
-      setUserProfilePicture(res.data.profilePicture);
-      setIsLoading(false);
-    });
-  }, [answer.userId]);
+    if (answer !== null) {
+      axios.get(`http://localhost:8080/user/${answer.userId}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [answer]);
 
   const deleteAnswer = (e) => {
     e.preventDefault();
     axios.get(`http://localhost:8080/answer/${answer.id}/remove`);
-    setAnswer({});
+    setAnswer(null);
     setDeleted(true);
   };
 
@@ -94,7 +114,9 @@ const Answer = (props) => {
         {session === answer.userId ? (
           <div>
             <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
-            <Link to={`/editAnswer/${props.answer.id}`}>Edit answer</Link>{" "}
+            <Link to={`/editAnswer/${props.answer.id}`} className="LinkButton">
+              <div className="button">Edit comment</div>
+            </Link>{" "}
           </div>
         ) : (
           ""

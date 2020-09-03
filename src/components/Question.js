@@ -27,6 +27,22 @@ const QuestionDiv = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
   max-width: 1000px;
+  .button {
+    margin-left: 20%;
+    border-radius: 20px;
+    padding: 5px;
+    background: #333333;
+    width: 100px;
+    text-align: center;
+  }
+  .LinkButton {
+    text-decoration: none;
+    color: white;
+  }
+  .button:hover {
+    background: #76d14f;
+    color: black;
+  }
   .textContainer {
     flex: 60%;
   }
@@ -119,7 +135,13 @@ const Question = (props) => {
           </Link>
           <div className="imageContainer">
             <img src={question.imagePath} alt="" className="contentImg" />
-            {session === question.userId ? <Link to={`/editQuestion/${question.id}`}>Edit question</Link> : ""}
+            {session === question.userId ? (
+              <Link to={`/editQuestion/${question.id}`} className="LinkButton">
+                <div className="button">Edit Post</div>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </QuestionDiv>
       </Container>

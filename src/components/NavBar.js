@@ -62,7 +62,7 @@ const NavBar = () => {
           HOME
         </Link>
         <Link className="link" to="/addQuestion">
-          Ask Question
+          Add Post
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           Logout
