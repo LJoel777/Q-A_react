@@ -53,6 +53,7 @@ const UserPage = (props) => {
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
       setIsLoading(false);
+      console.log(res.data.friends);
     });
   }, [id]);
 
@@ -114,11 +115,7 @@ const UserPage = (props) => {
               <hr />
             </UseData>
             <input type="button" onClick={handleClick} value={value} />
-            <Route
-              exact
-              path="/user/:id"
-              component={!isSetting ? UserPost : Settings}
-            />
+            <Route exact path="/user/:id" component={!isSetting ? UserPost : Settings} />
           </Router>
         </div>
       );

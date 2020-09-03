@@ -46,12 +46,10 @@ const Settings = (props) => {
       userId: session,
       fieldsOfInterest: String(hobbies).replace(/\s/g, "").split(","),
     };
-    return axios
-      .post("http://localhost:8080/update-hobbies", data)
-      .then((res) => {
-        console.log(props);
-        props.history.push(`/user/${session}`);
-      });
+    return axios.post("http://localhost:8080/update-hobbies", data).then((res) => {
+      console.log(data.fieldsOfInterest);
+      props.history.push(`/user/${session}`);
+    });
   };
 
   const setValues = (e) => {
@@ -62,6 +60,7 @@ const Settings = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+      console.log(res.data.fieldsOfInterest);
       setHobbies(res.data.fieldsOfInterest);
       setIsLoading(false);
     });

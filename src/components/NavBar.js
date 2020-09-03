@@ -61,6 +61,9 @@ const NavBar = () => {
         <Link className="link" to="/">
           Home
         </Link>
+        <Link className="link" to="/friend-news">
+          News by friends
+        </Link>
         <Link className="link" to={""} onClick={logOut}>
           Logout
         </Link>
