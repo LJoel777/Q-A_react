@@ -43,11 +43,11 @@ const Settings = (props) => {
   const handleClick = (e) => {
     e.preventDefault();
     let data = {
-      userId: session,
+      id: session,
       fieldsOfInterest: String(hobbies).replace(/\s/g, "").split(","),
     };
     return axios.post("http://localhost:8080/update-hobbies", data).then((res) => {
-      console.log(data.fieldsOfInterest);
+      console.log(data.userId);
       props.history.push(`/user/${session}`);
     });
   };
@@ -60,7 +60,6 @@ const Settings = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-      console.log(res.data.fieldsOfInterest);
       setHobbies(res.data.fieldsOfInterest);
       setIsLoading(false);
     });

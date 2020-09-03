@@ -53,7 +53,6 @@ const UserPage = (props) => {
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
       setIsLoading(false);
-      console.log(res.data.friends);
     });
   }, [id]);
 
