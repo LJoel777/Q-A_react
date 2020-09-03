@@ -18,3 +18,31 @@ div {
   font: inherit;
   vertical-align: baseline;
 }
+
+.modal-content{
+  position: absolute;
+  top:30vh;
+  background:rgba(255,255,255, 0.3);
+  height: 40vh;
+  width: 60vh;
+  left:50%;
+  border-radius: 6px;
+  transform: translateX(-50%);
+}
+
+.modal-body{
+  width: 100%;
+  height: fit-content;
+}
+.modal-content .modal-body textarea{
+  width: 100%;
+  height: 100%;
+  background:#333;
+  color:white;
+  font-weight: bold;
+  font-size: 25px;
+
+}
+.postButton{
+  background: #333;
+}

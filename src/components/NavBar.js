@@ -59,10 +59,7 @@ const NavBar = () => {
     content = (
       <div>
         <Link className="link" to="/">
-          HOME
-        </Link>
-        <Link className="link" to="/addQuestion">
-          Ask Question
+          Home
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           Logout

@@ -17,6 +17,22 @@ const QuestionsList = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [description, setDescription] = useState("");
+  const [imagePath, setImagePath] = useState("");
+  const [hobbies, setHobbies] = useState([]);
+
+  const setHobbiesOnChange = (e) => {
+    setHobbies(e.target.value);
+  };
+
+
+  const setDescriptionOnChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const setImagePathOnChange = (e) => {
+    setImagePath(e.target.value);
+  };
 
   let content = "";
 
@@ -39,34 +55,53 @@ const QuestionsList = (props) => {
   }, [session, props.match.path]);
 
   if (!isLoading && !isNaN(session)) {
+
+  const checkFields = (e) => {
+    e.preventDefault();
+    const question = {
+      userId: session,
+      description: description,
+      fieldsOfInterest: hobbies.replace(/\s/g, "").split(","),
+      imagePath: imagePath,
+    };
+    if (description.length > 0) {
+      return axios.post("http://localhost:8080/question/add", question).then((res) => {
+        props.history.push(`/question/${res.data}`);
+      });
+    } else alert("Please fill the title and description field!");
+  };
     content = (
       <div>
-        <Button className="post" variant="primary" onClick={handleShow}>
-          <textarea id="subject" name="rg" placeholder="Share your story"></textarea>
-        </Button>
-
-        <Modal show={show} onHide={handleClose}>
-        <Modal.Body>
-        <textarea className="postText" placeholder="Share your story...">
-        </textarea>
-        </Modal.Body>
-        <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-        Close
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-        Save Changes
-        </Button>
-        </Modal.Footer>
-        </Modal>
-        <LinkDiv>
+           <LinkDiv>
           <Link className="link" to="/">
             News by hobbies
           </Link>
           <Link className="link" to="/friend-news">
             News by friends
           </Link>
-        </LinkDiv>
+          </LinkDiv>
+          <Post>
+        <Button className="post" variant="primary" onClick={handleShow}>
+        <div className="textarea">
+          <textarea id="subject" name="rg" placeholder="Share your story..." ></textarea>
+          </div>
+        </Button>
+
+        <Modal className="myModal" show={show} onHide={handleClose}>
+        <Modal.Body >
+       
+        <textarea className="postText" placeholder="Share your story..." onChange={setDescriptionOnChange}>
+        </textarea>
+        </Modal.Body>
+        <Modal.Footer>
+        <input type="text" placeholder="Tags" onChange={setHobbiesOnChange}/>
+          <input type="text" placeholder="Image URL" onChange={setImagePathOnChange} />
+        <Button variant="primary" name="submit" className="postButton"  onClick={checkFields}>
+        Submit
+        </Button>
+        </Modal.Footer>
+        </Modal>
+        </Post>
         <Container className="col">
           {questions.map((question) => (
             <Question key={question.id} question={question} />
@@ -101,5 +136,36 @@ const LinkDiv = styled.div`
     color: white;
   }
 `;
+
+const Post = styled.div `
+    .btn{
+      background:rgba(0,0,0,0.0);
+      position:relative;
+      left:50%;
+      transform:translate(-50%);
+      width:30%;
+      border:none;
+    }
+    .btn .textarea{
+      position:relative;
+      z-index:20;
+      opacity:1;
+      width:100%;
+    }
+    .btn .textarea textarea{
+      background:#333;
+      width:100%;
+      font-size:20px;
+      font-weight:bold;
+      color:white;
+      border-radius:5px;
+    }
+   .myModal{
+      background:black;
+    }
+`;
+
+
+
 
 export default QuestionsList;
