@@ -27,6 +27,22 @@ const QuestionDiv = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
   max-width: 1000px;
+  .button {
+    margin-left: 20%;
+    border-radius: 20px;
+    padding: 5px;
+    background: #333333;
+    width: 100px;
+    text-align: center;
+  }
+  .LinkButton {
+    text-decoration: none;
+    color: white;
+  }
+  .button:hover {
+    background: #76d14f;
+    color: black;
+  }
   .textContainer {
     flex: 60%;
   }
@@ -60,7 +76,7 @@ const QuestionDiv = styled.div`
     margin-left: -22px;
     flex: 20%;
     padding: 10px;
-    text-align: left;
+    text-align: center;
     .profilePicture {
       border-radius: 50%;
       width: 50px;
@@ -78,23 +94,24 @@ const Question = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = parseInt(useContext(UserSession));
+  const session = useContext(UserSession)[0];
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
-      setUserName(res.data.userName);
-      setUserProfilePicture(res.data.profilePicture);
-      setIsLoading(false);
-    });
-  }, [question.userId]);
+    if (question !== null) {
+      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [question, session]);
 
   const deleteQuestion = (e) => {
-    console.log(question.id);
     e.preventDefault();
     axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
-    setQuestion({});
+    setQuestion(null);
     setDeleted(true);
   };
 
@@ -118,7 +135,13 @@ const Question = (props) => {
           </Link>
           <div className="imageContainer">
             <img src={question.imagePath} alt="" className="contentImg" />
-            {session === question.userId ? <Link to={`/editQuestion/${question.id}`}>Edit question</Link> : ""}
+            {session === question.userId ? (
+              <Link to={`/editQuestion/${question.id}`} className="LinkButton">
+                <div className="button">Edit Post</div>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </QuestionDiv>
       </Container>
