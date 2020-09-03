@@ -4,6 +4,9 @@ import Question from "./Question";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
+import {Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
+
 
 const Container = styled.div``;
 
@@ -11,6 +14,10 @@ const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   let content = "";
 
   useEffect(() => {
@@ -33,6 +40,24 @@ const QuestionsList = (props) => {
   if (!isLoading && session !== "null") {
     content = (
       <div>
+        <Button className="post" variant="primary" onClick={handleShow}>
+          <textarea id="subject" name="rg" placeholder="Share your story"></textarea>
+        </Button>
+
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Body>
+        <textarea className="postText" placeholder="Share your story...">
+        </textarea>
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+        Close
+        </Button>
+        <Button variant="primary" onClick={handleClose}>
+        Save Changes
+        </Button>
+        </Modal.Footer>
+        </Modal>
         <LinkDiv>
           <Link className="link" to="/">
             News by hobbies
