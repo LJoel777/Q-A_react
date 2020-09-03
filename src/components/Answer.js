@@ -56,7 +56,7 @@ const Answer = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = parseInt(useContext(UserSession));
+  const session = useContext(UserSession);
   let content = "";
 
   useEffect(() => {

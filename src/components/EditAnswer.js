@@ -53,7 +53,6 @@ const EditAnswer = (props) => {
       setDescription(res.data.description);
       setImagePath(res.data.imgPath);
       setIsLoading(false);
-      console.log(res.data);
     });
   }, [id]);
 

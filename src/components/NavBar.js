@@ -32,7 +32,7 @@ const NavBar = () => {
   let content = "";
 
   useEffect(() => {
-    if (session !== "null") {
+    if (!isNaN(session)) {
       axios.get(`http://localhost:8080/user/${session}`).then((res) => {
         setUserName(res.data.userName);
       });
@@ -40,11 +40,11 @@ const NavBar = () => {
   }, [session]);
 
   const logOut = () => {
-    localStorage.setItem("session", "null");
+    localStorage.setItem("session", null);
     setSession(localStorage.getItem("session"));
   };
 
-  if (session === "null") {
+  if (isNaN(session)) {
     content = (
       <div>
         <Link className="link" to="/login">

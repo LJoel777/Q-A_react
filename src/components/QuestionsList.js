@@ -21,7 +21,8 @@ const QuestionsList = (props) => {
     } else {
       url = "http://localhost:8080/friend-news/" + session;
     }
-    if (session !== "null") {
+    if (!isNaN(session)) {
+      console.log(session);
       axios.get(url).then((res) => {
         console.log(res);
         setQuestions(res.data);
@@ -30,7 +31,7 @@ const QuestionsList = (props) => {
     }
   }, [session, props.match.path]);
 
-  if (!isLoading && session !== "null") {
+  if (!isLoading && !isNaN(session)) {
     content = (
       <div>
         <LinkDiv>
@@ -48,10 +49,9 @@ const QuestionsList = (props) => {
         </Container>
       </div>
     );
-  } else if (session === "null") {
+  } else if (isNaN(session)) {
     props.history.push("/login");
   } else content = "Loading";
-
   return content;
 };
 

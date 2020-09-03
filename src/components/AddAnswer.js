@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
@@ -44,6 +44,7 @@ const FormDiv = styled.div`
 const AddAnswer = (props) => {
   const [description, setDescription] = useState("");
   const [imagePath, setImagePath] = useState("");
+  const session = parseInt(useContext(UserSession)[0]);
 
   const setDescriptionOnChange = (e) => {
     setDescription(e.target.value);
@@ -65,6 +66,7 @@ const AddAnswer = (props) => {
       questionId: props.match.params.id,
       description: description,
       imagePath: imagePath,
+      userId: session,
     };
     return axios.post(`http://localhost:8080/answer/add`, answer).then((res) => {
       props.history.push(`/question/${props.match.params.id}`);
