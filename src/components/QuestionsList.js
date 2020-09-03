@@ -23,6 +23,7 @@ const QuestionsList = (props) => {
     }
     if (session !== "null") {
       axios.get(url).then((res) => {
+        console.log(res);
         setQuestions(res.data);
         setIsLoading(false);
       });

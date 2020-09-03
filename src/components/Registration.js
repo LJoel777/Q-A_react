@@ -47,7 +47,7 @@ const Register = (props) => {
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [hobbies, setHobbies] = useState("");
+  const [hobbies, setHobbies] = useState([]);
 
   const setEmailOnChange = (e) => {
     setEmailAddress(e.target.value);
@@ -81,7 +81,7 @@ const Register = (props) => {
       profilePicture: profilePicture,
       emailAddress: emailAddress,
       psw: psw,
-      hobbies: hobbies,
+      fieldsOfInterest: hobbies.replace(/\s/g, "").split(","),
     };
     if (emailAddress.length > 0 && psw.length > 0) {
       axios.post("http://localhost:8080/registration", register).then((res) => {
