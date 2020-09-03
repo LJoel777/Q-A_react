@@ -22,13 +22,11 @@ const QuestionsList = (props) => {
       url = "http://localhost:8080/friend-news/" + session;
     }
     if (!isNaN(session)) {
-      console.log(session);
       axios.get(url).then((res) => {
-        console.log(res);
         setQuestions(res.data);
         setIsLoading(false);
       });
-    }
+    } else console.log("Most");
   }, [session, props.match.path]);
 
   if (!isLoading && !isNaN(session)) {

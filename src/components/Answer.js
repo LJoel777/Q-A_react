@@ -8,17 +8,18 @@ import { UserSession } from "../context/UserSession";
 const AnswerDiv = styled.div`
   border-radius: 20px;
   padding: 20px;
-  text-align: center;
+  text-align: left;
   background: white;
-  max-width: 60%;
+  width: 40%;
   margin-top: 10px;
   margin-bottom: 10px;
-  position: relative;
+  display: flex;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
   img {
     width: 20%;
+    flex: 20%;
   }
   .trash {
     width: 30px;
@@ -38,7 +39,7 @@ const AnswerDiv = styled.div`
     margin-left: -22px;
     flex: 20%;
     padding: 10px;
-    text-align: left;
+    text-align: center;
     .profilePicture {
       border-radius: 50%;
       width: 50px;
@@ -47,6 +48,9 @@ const AnswerDiv = styled.div`
   .linkToProfile {
     text-decoration: none;
     color: black;
+  }
+  .description {
+    flex: 70%;
   }
 `;
 
@@ -85,7 +89,7 @@ const Answer = (props) => {
             <span className="userName">{userName}</span>
           </div>
         </Link>
-        <h1>{answer.description}</h1>
+        <h1 className="description">{answer.description}</h1>
         <img src={answer.imgPath} alt=""></img>
         {session === answer.userId ? (
           <div>

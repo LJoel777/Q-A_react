@@ -60,7 +60,7 @@ const QuestionDiv = styled.div`
     margin-left: -22px;
     flex: 20%;
     padding: 10px;
-    text-align: left;
+    text-align: center;
     .profilePicture {
       border-radius: 50%;
       width: 50px;
@@ -78,23 +78,24 @@ const Question = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = parseInt(useContext(UserSession));
+  const session = useContext(UserSession)[0];
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
-      setUserName(res.data.userName);
-      setUserProfilePicture(res.data.profilePicture);
-      setIsLoading(false);
-    });
-  }, [question.userId]);
+    if (question !== null) {
+      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [question, session]);
 
   const deleteQuestion = (e) => {
-    console.log(question.id);
     e.preventDefault();
     axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
-    setQuestion({});
+    setQuestion(null);
     setDeleted(true);
   };
 
