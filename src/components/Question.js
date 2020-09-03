@@ -6,83 +6,6 @@ import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import {Button} from "react-bootstrap";
 
-// const Container = styled.div`
-//   .link {
-//     width: 100%;
-//     text-decoration: none;
-//     color: black;
-//     margin: auto;
-//   }
-//   .link:hover {
-//     color: #76d14f;
-//   }
-// `;
-
-// const QuestionDiv = styled.div`
-//   display: flex;
-//   background: white;
-//   margin: auto;
-//   border-radius: 20px;
-//   padding: 18px;
-//   width: 70%;
-//   margin-top: 20px;
-//   margin-bottom: 10px;
-//   max-width: 1000px;
-//   .postContainer{
-//     position:relative;
-//   }
-//   .link2{
-//     position:relative;
-//     display:flex;
-//   }
-//   .textContainer {
-//     position: absolute;
-//     display:flex;
-//     flex: 60%;
-//     left: 50%;
-//     transform: translateX(-50%);
-//   }
-//   .imageContainer {
-//     .contentImg {
-//       width: 600px;
-//       height:400px;
-//       border-radius: 5px;
-//     }
-//   }
-//   .info {
-//     flex: 0%;
-//     max-width: 10px;
-//     display: relative;
-//     .trash {
-//       width: 25px;
-//       height: 25px;
-//       position: absolute;
-//       left: -3px;
-//       top: 120px;
-//       transform: translate(50%, -50%);
-//       z-index: 100;
-//     }
-//     .trash:hover {
-//       width: 30px;
-//       height: 30px;
-//     }
-//   }
-//   .profile {
-//     margin-top: -22px;
-//     margin-left: -22px;
-//     flex: 20%;
-//     padding: 10px;
-//     text-align: left;
-//     .profilePicture {
-//       border-radius: 50%;
-//       width: 50px;
-//     }
-//   }
-//   .linkToProfile {
-//     text-decoration: none;
-//     color: black;
-//   }
-// `;
 
 const PostDiv = styled.div `
   position:relative;
@@ -166,23 +89,24 @@ const Question = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = parseInt(useContext(UserSession));
+  const session = useContext(UserSession)[0];
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
-      setUserName(res.data.userName);
-      setUserProfilePicture(res.data.profilePicture);
-      setIsLoading(false);
-    });
-  }, [question.userId]);
+    if (question !== null) {
+      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [question, session]);
 
   const deleteQuestion = (e) => {
-    console.log(question.id);
     e.preventDefault();
     axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
-    setQuestion({});
+    setQuestion(null);
     setDeleted(true);
   };
 
