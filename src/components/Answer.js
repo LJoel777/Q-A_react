@@ -9,7 +9,7 @@ const AnswerDiv = styled.div`
   border-radius: 20px;
   padding: 20px;
   text-align: center;
-  background: white;
+  background: #333;
   max-width: 60%;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -40,13 +40,26 @@ const AnswerDiv = styled.div`
     padding: 10px;
     text-align: left;
     .profilePicture {
+      float:left;
       border-radius: 50%;
       width: 50px;
     }
   }
   .linkToProfile {
     text-decoration: none;
-    color: black;
+    color: white;
+  }
+
+  h1{
+    color:white;
+  }
+
+  .userName{
+    position:relative;
+    left:10px;
+    font-size:20px;
+    font-weight:bold;
+    bottom:15px;
   }
 `;
 

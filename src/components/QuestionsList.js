@@ -61,7 +61,7 @@ const QuestionsList = (props) => {
     const question = {
       userId: session,
       description: description,
-      fieldsOfInterest: hobbies.replace(/\s/g, "").split(","),
+      category: hobbies.replace(/\s/g, "").split(","),
       imagePath: imagePath,
     };
     if (description.length > 0) {
@@ -153,7 +153,7 @@ const Post = styled.div `
       width:100%;
     }
     .btn .textarea textarea{
-      background:#333;
+      background:white;
       width:100%;
       font-size:20px;
       font-weight:bold;

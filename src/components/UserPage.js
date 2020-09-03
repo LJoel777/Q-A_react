@@ -16,6 +16,12 @@ const UseData = styled.div`
       border-radius: 50%;
     }
   }
+  h1{
+    color:white
+  }
+  h3{
+    color:white
+  }
   .infoContainer {
     text-align: center;
   }
@@ -32,6 +38,8 @@ const UseData = styled.div`
 
 const UserPosts = styled.div`
   .postsTitle {
+    display:flex;
+    color:white;
     margin-left: 13%;
   }
 `;
