@@ -19,11 +19,11 @@ const UseData = styled.div`
       border-radius: 50%;
     }
   }
-  h1{
-    color:white
+  h1 {
+    color: white;
   }
-  h3{
-    color:white
+  h3 {
+    color: white;
   }
   .infoContainer {
     text-align: center;
@@ -36,14 +36,6 @@ const UseData = styled.div`
   hr {
     width: 90%;
     text-align: center;
-  }
-`;
-
-const UserPosts = styled.div`
-  .postsTitle {
-    display:flex;
-    color:white;
-    margin-left: 13%;
   }
 `;
 
@@ -62,6 +54,7 @@ const UserPage = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${id}`).then((res) => {
+      console.log(id);
       setUserName(res.data.userName);
       setProfilePicture(res.data.profilePicture);
       setFirstName(res.data.firstName);
@@ -105,7 +98,7 @@ const UserPage = (props) => {
             <input type="button" value="Set as friend" onClick={handleFriend} />
             <hr />
           </UseData>
-          <UserPost />
+          <UserPost id={id} />
         </div>
       );
     } else {

@@ -52,18 +52,18 @@ const QuestionsList = (props) => {
   if (!isLoading && !isNaN(session)) {
     const checkFields = (e) => {
       e.preventDefault();
-      const question = {
-        userId: session,
-        description: description,
-        categories: hobbies.replace(/\s/g, "").split(","),
-        imagePath: imagePath,
-      };
-      if (description.length > 0) {
+      if (description.length > 0 && hobbies.length > 0) {
+        const question = {
+          userId: session,
+          description: description,
+          categories: hobbies.replace(/\s/g, "").split(","),
+          imagePath: imagePath,
+        };
         return axios.post("http://localhost:8080/question/add", question).then((res) => {
           console.log(props.history);
           props.history.push(`/question/${res.data}`);
         });
-      } else alert("Please fill the title and description field!");
+      } else alert("Please fill the tags and description field!");
     };
     content = (
       <div>
@@ -100,54 +100,31 @@ const QuestionsList = (props) => {
   return content;
 };
 
-const LinkDiv = styled.div`
-  background-color: #333;
-  overflow: hidden;
-  .link {
+const Post = styled.div`
+  .btn {
+    background: rgba(0, 0, 0, 0);
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    width: 30%;
+    border: none;
+  }
+  .btn .textarea {
+    position: relative;
+    z-index: 20;
+    opacity: 1;
+    width: 100%;
+  }
+  .btn .textarea textarea {
+    background: white;
+    width: 100%;
     font-size: 20px;
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  .link:hover {
-    background-color: #76d14f;
-    color: black;
-  }
-
-  .link:active {
-    background-color: #333;
+    font-weight: bold;
     color: white;
+    border-radius: 5px;
+  }
+  .myModal {
+    background: black;
   }
 `;
-
-const Post = styled.div `
-    .btn{
-      background:rgba(0,0,0,0.0);
-      position:relative;
-      left:50%;
-      transform:translate(-50%);
-      width:30%;
-      border:none;
-    }
-    .btn .textarea{
-      position:relative;
-      z-index:20;
-      opacity:1;
-      width:100%;
-    }
-    .btn .textarea textarea{
-      background:white;
-      width:100%;
-      font-size:20px;
-      font-weight:bold;
-      color:white;
-      border-radius:5px;
-    }
-   .myModal{
-      background:black;
-    }
-`;
-
 export default QuestionsList;

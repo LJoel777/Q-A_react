@@ -42,7 +42,6 @@ const FormDiv = styled.div`
 
 const EditQuestion = (props) => {
   const id = props.match.params.id;
-  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imagePath, setImagePath] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +50,6 @@ const EditQuestion = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/question/${id}`).then((res) => {
-      setTitle(res.data.title);
       setDescription(res.data.description);
       setImagePath(res.data.imagePath);
       setIsLoading(false);

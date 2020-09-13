@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {useEffect, useState, useContext} from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { UserSession } from "../context/UserSession";
+import {UserSession} from "../context/UserSession";
 
 const SettingsDiv = styled.div`
   .imageContainer {
@@ -31,52 +31,52 @@ const SettingsDiv = styled.div`
 `;
 
 const Settings = (props) => {
-  const [hobbies, setHobbies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
-  let content = "";
+    const [hobbies, setHobbies] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const session = useContext(UserSession)[0];
+    let content = "";
 
-  if (isNaN(session)) {
-    props.history.push("/login");
-  }
+    if (isNaN(session)) {
+        props.history.push("/login");
+    }
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    let data = {
-      id: session,
-      fieldsOfInterest: String(hobbies).replace(/\s/g, "").split(","),
+    const handleClick = (e) => {
+        e.preventDefault();
+        let data = {
+            id: session,
+            fieldsOfInterest: String(hobbies).replace(/\s/g, "").split(","),
+        };
+        return axios.post("http://localhost:8080/update-hobbies", data).then((res) => {
+            console.log(data.userId);
+            props.history.push(`/user/${session}`);
+        });
     };
-    return axios.post("http://localhost:8080/update-hobbies", data).then((res) => {
-      console.log(data.userId);
-      props.history.push(`/user/${session}`);
-    });
-  };
 
-  const setValues = (e) => {
-    e.preventDefault();
-    setHobbies(e.target.value);
-  };
+    const setValues = (e) => {
+        e.preventDefault();
+        setHobbies(e.target.value);
+    };
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-      setHobbies(res.data.fieldsOfInterest);
-      setIsLoading(false);
-    });
-  }, [session]);
+    useEffect(() => {
+        setIsLoading(true);
+        axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+            setHobbies(res.data.fieldsOfInterest);
+            setIsLoading(false);
+        });
+    }, [session]);
 
-  if (!isLoading) {
-    content = (
-      <SettingsDiv>
-        <input type="text" value={String(hobbies)} onChange={setValues} />
-        <input type="button" value="Submit" onClick={handleClick} />
-      </SettingsDiv>
-    );
-  } else {
-    content = "Loading";
-  }
+    if (!isLoading) {
+        content = (
+            <SettingsDiv>
+                <input type="text" value={String(hobbies)} onChange={setValues}/>
+                <input type="button" value="Submit" onClick={handleClick}/>
+            </SettingsDiv>
+        );
+    } else {
+        content = "Loading";
+    }
 
-  return content;
+    return content;
 };
 
 export default Settings;
