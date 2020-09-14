@@ -89,27 +89,20 @@ const Question = (props) => {
   const [deleted, setDeleted] = useState(false);
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
   let content = "";
 
-  const [isLoading, data] = useGet(`http://localhost:8080/user/${question.userId}`, [question, session]);
-
-  if (data) {
-    setUserName(data.userName);
-    setUserProfilePicture(data.profilePicture);
-  }
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   if (question !== null) {
-  //     axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
-  //       setUserName(res.data.userName);
-  //       setUserProfilePicture(res.data.profilePicture);
-  //       setIsLoading(false);
-  //     });
-  //   }
-  // }, [question, session]);
+  useEffect(() => {
+    setIsLoading(true);
+    if (question !== null) {
+      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [question, session]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();
