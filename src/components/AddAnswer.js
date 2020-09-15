@@ -25,7 +25,7 @@ const AddAnswer = (props) => {
 
   const postData = () => {
     const answer = {
-      questionId: props.match.params.id,
+      postId: props.match.params.id,
       description: description,
       imagePath: imagePath,
       userId: session,

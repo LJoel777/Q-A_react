@@ -5,7 +5,6 @@ import trash from "../images/trash.png";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import { Button } from "react-bootstrap";
-import { useGet } from "../axios";
 
 const PostDiv = styled.div`
   position: relative;
@@ -96,7 +95,7 @@ const Question = (props) => {
   useEffect(() => {
     setIsLoading(true);
     if (question !== null) {
-      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+      axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
         setUserName(res.data.userName);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
@@ -106,7 +105,7 @@ const Question = (props) => {
 
   const deleteQuestion = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
+    axios.get(`http://localhost:8080/post/${question.id}/remove`).catch((error) => console.log(error));
     setQuestion(null);
     setDeleted(true);
   };
@@ -116,13 +115,13 @@ const Question = (props) => {
       <div className="question" id={question.id}>
         <PostDiv>
           <div className="firstCol">
-            <Link to={`/user/${question.userId}`} className="linkToProfile">
+            <Link to={`/user/${question.user.id}`} className="linkToProfile">
               <span className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
                 <p className="userName">{userName}</p>
               </span>
             </Link>
-            <div className="trash">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
+            <div className="trash">{session === question.user.id ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
           </div>
 
           <div className="secondCol">
@@ -133,7 +132,7 @@ const Question = (props) => {
                 <p>{question.description}</p>
               </div>
             </Link>
-            {session === question.userId ? (
+            {session === question.user.id ? (
               <Button className="btn" href={`/editQuestion/${question.id}`}>
                 Edit question
               </Button>

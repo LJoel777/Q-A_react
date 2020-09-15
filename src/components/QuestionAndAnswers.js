@@ -33,7 +33,7 @@ const QuestionAndAnswers = ({ match }) => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/question/${match.params.id}`).then((res) => {
+    axios.get(`http://localhost:8080/post/${match.params.id}`).then((res) => {
       console.log(match.params.id);
       setQuestion(res.data);
       setAnswerId(res.data.id);
