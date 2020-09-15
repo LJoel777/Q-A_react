@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Question from "./Question";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import PostModal from "./PostModal";
 
@@ -33,21 +32,20 @@ const QuestionsList = (props) => {
   }, [session, props.match.path]);
 
   if (!isLoading && !isNaN(session)) {
-
+    content = (
+      <div>
+        <PostModal isLoading={isLoading} session={session} history={props.history} />
         <Container className="col">
           {questions.map((question) => (
             <Question key={question.id} question={question} />
           ))}
         </Container>
       </div>
-    )
+    );
   } else if (isNaN(session)) {
     props.history.push("/login");
   } else content = "Loading";
   return content;
 };
-
-
-
 
 export default QuestionsList;

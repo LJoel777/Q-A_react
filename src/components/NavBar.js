@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useContext} from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import {UserSession} from "../context/UserSession";
+import { UserSession } from "../context/UserSession";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -27,54 +27,57 @@ const NavDiv = styled.div`
 `;
 
 const NavBar = () => {
-    const [session, setSession] = useContext(UserSession);
-    const [userName, setUserName] = useState("");
-    let content = "";
+  const [session, setSession] = useContext(UserSession);
+  const [userName, setUserName] = useState("");
+  let content = "";
 
-    useEffect(() => {
-        if (!isNaN(session)) {
-            axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-                setUserName(res.data.userName);
-            });
-        }
-    }, [session]);
-
-    const logOut = () => {
-        localStorage.setItem("session", null);
-        setSession(localStorage.getItem("session"));
-    };
-
-    if (isNaN(session)) {
-        content = (
-            <div>
-                <Link className="link" to="/login">
-                    Login
-                </Link>
-                <Link className="link" to="/registration">
-                    Registration
-                </Link>
-            </div>
-        );
-    } else {
-        content = (
-            <div>
-                <Link className="link" to="/">
-                    Home
-                </Link>
-                <Link className="link" to="/friend-news">
-                    News by friends
-                </Link>
-                <Link className="link" to={""} onClick={logOut}>
-                    Logout
-                </Link>
-                <Link className="link" to={`/user/${session}`}>
-                    {userName}
-                </Link>
-            </div>
-        );
+  useEffect(() => {
+    if (!isNaN(session)) {
+      axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+        setUserName(res.data.userName);
+      });
     }
+  }, [session]);
 
-    return <NavDiv>{content}</NavDiv>;
+  const logOut = () => {
+    localStorage.setItem("session", null);
+    setSession(localStorage.getItem("session"));
+  };
+
+  if (isNaN(session)) {
+    content = (
+      <div>
+        <Link className="link" to="/login">
+          Login
+        </Link>
+        <Link className="link" to="/registration">
+          Registration
+        </Link>
+      </div>
+    );
+  } else {
+    content = (
+      <div>
+        <Link className="link" to="/">
+          Home
+        </Link>
+        <Link className="link" to="/friend-news">
+          News by friends
+        </Link>
+        <Link className="link" to={""} onClick={logOut}>
+          Logout
+        </Link>
+        <Link className="link" to={`/user/${session}`}>
+          {userName}
+        </Link>
+        <Link className="link" to={`/chat`}>
+          Chat
+        </Link>
+      </div>
+    );
+  }
+
+  return <NavDiv>{content}</NavDiv>;
 };
 
 export default NavBar;
