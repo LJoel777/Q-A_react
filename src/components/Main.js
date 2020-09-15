@@ -9,6 +9,8 @@ import EditAnswer from "./EditAnswer";
 import { Route } from "react-router-dom";
 import Register from "./Registration";
 import UserPage from "./UserPage";
+import Chat from "./Chat";
+import Store from "./Store";
 
 function Main() {
   return (
@@ -22,6 +24,15 @@ function Main() {
       <Route exact path="/editQuestion/:id" component={EditQuestion} />
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
       <Route exact path="/user/:id" component={UserPage} />
+
+      <Store>
+      <Route exact path="/chat" component={Chat}/>
+      </Store>
+      <Route
+        exact
+        path={["/user/:id", "user/:id/settings"]}
+        component={UserPage}
+      />
     </div>
   );
 }
