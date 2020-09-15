@@ -1,44 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import axios from "axios";
-
-const FormDiv = styled.div`
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 40px;
-  width: 80%;
-  max-width: 1100px;
-  margin: auto;
-  margin-top: 50px;
-  font-size: 20px;
-  input {
-    font-size: 20px;
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-  button {
-    font-size: 30px;
-    width: 100%;
-    background-color: black;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #76d14f;
-    color: black;
-  }
-`;
+import FormDiv from "../style/form";
 
 const Register = (props) => {
   const [emailAddress, setEmailAddress] = useState("");
@@ -94,34 +56,13 @@ const Register = (props) => {
 
   return (
     <FormDiv>
-      <input
-        id="firstName"
-        placeholder="First Name"
-        onChange={setFirstNameOnChange}
-      />
-      <input
-        id="lastName"
-        placeholder="Last Name"
-        onChange={setLastNameOnChange}
-      />
-      <input
-        id="userName"
-        placeholder="Username"
-        onChange={setUserNameOnChange}
-      />
+      <input id="firstName" placeholder="First Name" onChange={setFirstNameOnChange} />
+      <input id="lastName" placeholder="Last Name" onChange={setLastNameOnChange} />
+      <input id="userName" placeholder="Username" onChange={setUserNameOnChange} />
       <input id="email" placeholder="Email..." onChange={setEmailOnChange} />
-      <input
-        id="password"
-        placeholder="Password..."
-        type="password"
-        onChange={setPasswordOnChange}
-      />
+      <input id="password" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
       <input id="hobbies" placeholder="Hobbies" onChange={setHobbiesOnChange} />
-      <input
-        id="profilePicture"
-        placeholder="Profile picture"
-        onChange={setProfilePictureOnChange}
-      />
+      <input id="profilePicture" placeholder="Profile picture" onChange={setProfilePictureOnChange} />
       <button name="submit" onClick={checkFields}>
         Register
       </button>

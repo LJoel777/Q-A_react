@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import trash from "../images/trash.png";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { useGet } from "../axios";
 
-
-const PostDiv = styled.div `
-  position:relative;
+const PostDiv = styled.div`
+  position: relative;
   display: flex;
   background: #333;
   margin: auto;
@@ -19,68 +19,69 @@ const PostDiv = styled.div `
   margin-bottom: 10px;
   max-width: 1000px;
 
-  .firstCol{
-    position:relative;
-    width:20%;
+  .firstCol {
+    position: relative;
+    width: 20%;
     height: inherit;
   }
 
-  .profile{
-    position:relative;
-    display:inline-block;
+  .profile {
+    position: relative;
+    display: inline-block;
   }
   .profile img {
-        height:50px;
-        width:50px;
-        border-radius:20px;
-        float:left;
-    }
-
-
-    .trash{
-      position:relative;
-      bottom: 0px;
-      top: 70%;
-  }
-    }
-  .trash img{
-    height:50px;
-    width:50px;
+    height: 50px;
+    width: 50px;
+    border-radius: 20px;
+    float: left;
   }
 
-  .userName{
-    position :relative;
-    display:inline-block;
-    font-size:20px;
-    font-weight:bold;
-    padding:5px;
-    left:10px;
-    color:white;
-    
+  .trash {
+    position: relative;
+    top: 5px;
   }
-  p{overflow-wrap: break-word;}
+  .trash img {
+    height: 50px;
+    width: 50px;
+  }
+  .trash:hover {
+    height: 55px;
+    width: 55px;
+  }
 
-.secondCol{
-  position:relative;
-  width:80%;
-  height:fit-content;
-}
-.btn{
-  position: relative;
+  .userName {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    left: 10px;
+    color: white;
+  }
+  p {
+    overflow-wrap: break-word;
+  }
+
+  .secondCol {
+    position: relative;
+    width: 80%;
+    height: fit-content;
+  }
+  .btn {
+    position: relative;
     left: 47%;
     transform: translateX(-100%);
-}
-}
-.textContainer p {
-  color: white;
+  }
+  .textContainer p {
+    color: white;
     font-weight: bold;
     font-size: 18px;
-}
-.secondCol img{
-  position:relative;
-  width:600px;
-  heigth:450px;
-}
+  }
+  .secondCol img {
+    position: relative;
+    width: 600px;
+    height: 450px;
+  }
 `;
 
 const Question = (props) => {
@@ -115,30 +116,32 @@ const Question = (props) => {
       <div className="question" id={question.id}>
         <PostDiv>
           <div className="firstCol">
-          <Link to={`/user/${question.userId}`} className="linkToProfile">
-            <span className="profile">
-            <img src={userProfilePicture} alt="profilePicture" className="profilePicture"/>
-            <p className="userName">{userName}</p>
-            </span>
-          </Link>  
-              <div className="trash">
-          {session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}
+            <Link to={`/user/${question.userId}`} className="linkToProfile">
+              <span className="profile">
+                <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
+                <p className="userName">{userName}</p>
+              </span>
+            </Link>
+            <div className="trash">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
           </div>
-          </div>
-          
+
           <div className="secondCol">
-            <img src={question.imagePath} alt="contentImage"></img>
-            
+            <img src={question.imagePath} alt=""></img>
+
             <Link to={`/question/${question.id}`} className="link2">
-            <div className="textContainer">
-              <p>{question.description}</p>
-            </div>
-          </Link> 
-          {session === question.userId ? <Button className="btn" href={`/editQuestion/${question.id}`}>Edit question</Button> : ""}
-          </div>         
-
+              <div className="textContainer">
+                <p>{question.description}</p>
+              </div>
+            </Link>
+            {session === question.userId ? (
+              <Button className="btn" href={`/editQuestion/${question.id}`}>
+                Edit question
+              </Button>
+            ) : (
+              ""
+            )}
+          </div>
         </PostDiv>
-
       </div>
     );
   } else content = "";
