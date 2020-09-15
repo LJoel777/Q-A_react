@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import trash from "../images/trash.png";
 import axios from "axios";
-import {Link} from "react-router-dom";
-import {UserSession} from "../context/UserSession";
+import { Link } from "react-router-dom";
+import { UserSession } from "../context/UserSession";
 
 const AnswerDiv = styled.div`
   border-radius: 20px;
@@ -89,60 +89,59 @@ const AnswerDiv = styled.div`
 `;
 
 const Answer = (props) => {
-    const [answer, setAnswer] = useState(props.answer);
-    const [deleted, setDeleted] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [userProfilePicture, setUserProfilePicture] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
-    const session = useContext(UserSession)[0];
-    let content = "";
+  const [answer, setAnswer] = useState(props.answer);
+  const [deleted, setDeleted] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userProfilePicture, setUserProfilePicture] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const session = useContext(UserSession)[0];
+  let content = "";
 
-    useEffect(() => {
-        setIsLoading(true);
-        if (answer !== null) {
-            axios.get(`http://localhost:8080/user/${answer.userId}`).then((res) => {
-                setUserName(res.data.userName);
-                setUserProfilePicture(res.data.profilePicture);
-                setIsLoading(false);
-            });
-        }
-    }, [answer]);
+  useEffect(() => {
+    setIsLoading(true);
+    if (answer !== null) {
+      axios.get(`http://localhost:8080/user/${answer.user.id}`).then((res) => {
+        setUserName(res.data.userName);
+        setUserProfilePicture(res.data.profilePicture);
+        setIsLoading(false);
+      });
+    }
+  }, [answer]);
 
-    const deleteAnswer = (e) => {
-        e.preventDefault();
-        axios.get(`http://localhost:8080/answer/${answer.id}/remove`);
-        setAnswer(null);
-        setDeleted(true);
-    };
+  const deleteAnswer = (e) => {
+    e.preventDefault();
+    axios.get(`http://localhost:8080/answer/${answer.id}/remove`);
+    setAnswer(null);
+    setDeleted(true);
+  };
 
-    if (!deleted && !isLoading) {
-        content = (
-            <AnswerDiv>
-                <Link to={`/user/${answer.userId}`} className="linkToProfile">
-                    <div className="profile">
-                        <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
-                        <br/>
-                        <span className="userName">{userName}</span>
-                    </div>
-                </Link>
-                <p className="description">{answer.description}</p>
-                <img src={answer.imgPath} alt=""></img>
-                {session === answer.userId ? (
-                    <div>
-                        <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
-                        <Link to={`/editAnswer/${props.answer.id}`} className="LinkButton">
-                            <div className="button">Edit comment</div>
-                        </Link>
-                        {" "}
-                    </div>
-                ) : (
-                    ""
-                )}
-            </AnswerDiv>
-        );
-    } else content = "";
+  if (!deleted && !isLoading) {
+    content = (
+      <AnswerDiv>
+        <Link to={`/user/${answer.user.id}`} className="linkToProfile">
+          <div className="profile">
+            <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
+            <br />
+            <span className="userName">{userName}</span>
+          </div>
+        </Link>
+        <p className="description">{answer.description}</p>
+        <img src={answer.imgPath} alt=""></img>
+        {session === answer.user.id ? (
+          <div>
+            <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
+            <Link to={`/editAnswer/${props.answer.id}`} className="LinkButton">
+              <div className="button">Edit comment</div>
+            </Link>{" "}
+          </div>
+        ) : (
+          ""
+        )}
+      </AnswerDiv>
+    );
+  } else content = "";
 
-    return content;
+  return content;
 };
 
 export default Answer;

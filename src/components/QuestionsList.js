@@ -24,6 +24,7 @@ const QuestionsList = (props) => {
     }
     if (!isNaN(session)) {
       axios.get(url).then((res) => {
+        console.log(res.data);
         setQuestions(res.data);
         setIsLoading(false);
       });

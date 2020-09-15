@@ -62,7 +62,7 @@ const PostModal = (props) => {
           categories: hobbies.replace(/\s/g, "").split(","),
           imagePath: imagePath,
         };
-        return axios.post("http://localhost:8080/question/add", question).then((res) => {
+        return axios.post("http://localhost:8080/post/add", question).then((res) => {
           console.log(props.history);
           props.history.push(`/question/${res.data}`);
         });

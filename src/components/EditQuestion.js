@@ -11,7 +11,7 @@ const EditQuestion = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/question/${id}`).then((res) => {
+    axios.get(`http://localhost:8080/post/${id}`).then((res) => {
       setDescription(res.data.description);
       setImagePath(res.data.imagePath);
       setIsLoading(false);
@@ -38,7 +38,7 @@ const EditQuestion = (props) => {
       description: description,
       imagePath: imagePath,
     };
-    return axios.post(`http://localhost:8080/question/${id}/update`, question).then((res) => {
+    return axios.post(`http://localhost:8080/post/${id}/update`, question).then((res) => {
       props.history.push(`/question/${id}`);
     });
   };
