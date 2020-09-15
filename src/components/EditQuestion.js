@@ -58,10 +58,6 @@ const EditQuestion = (props) => {
     });
   }, [id]);
 
-  const setTitleOnChange = (e) => {
-    setTitle(e.target.value);
-  };
-
   const setDescriptionOnChange = (e) => {
     setDescription(e.target.value);
   };
@@ -72,14 +68,13 @@ const EditQuestion = (props) => {
 
   const checkFields = (e) => {
     e.preventDefault();
-    if (title.length > 0 && description.length > 0) {
+    if (description.length > 0) {
       postData();
     } else alert("Please fill the title and description field!");
   };
 
   const postData = () => {
     const question = {
-      title: title,
       description: description,
       imagePath: imagePath,
     };
@@ -91,7 +86,6 @@ const EditQuestion = (props) => {
   if (!isLoading) {
     content = (
       <FormDiv>
-        <input value={title} id="title" placeholder="Title..." onChange={setTitleOnChange} />
         <input value={description} id="description" placeholder="Description..." onChange={setDescriptionOnChange} />
         <input value={imagePath} id="imagePath" placeholder="ImagePath..." onChange={setImagePathOnChange} />
         <button name="submit" onClick={checkFields}>

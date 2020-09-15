@@ -23,10 +23,8 @@ function reducer(state,action){
     switch(action.type){
       case 'RECEIVE_MESSAGE': 
       let valami = { ...state, [topic]:[...state[topic],{from,msg}]}
-    //   console.log(JSON.stringify(valami)+"VALAMII");
           return valami;
         default:
-            // console.log("IDEMEGY")
             return state;
     }
 }
@@ -37,13 +35,11 @@ let socket;
 
 function sendChatAction(value){
     socket.emit('chat message', value);
-    // console.log(JSON.stringify(value));
 }
 
 
 function Store(props) {
     const [allChats, dispatch] = useReducer(reducer,initState);
-    // console.log(JSON.stringify(allChats)+"INITSTATEEEEEEEE");
     React.useEffect(()=>{
        if(!socket){
         socket = io(':3001');
@@ -52,16 +48,6 @@ function Store(props) {
           },[allChats]);
     }
     })
-
-    // console.log(JSON.stringify(allChats)+"INITSTATEEEEEEEE");
-
-
-    // if(!socket){
-    //     socket = io(':3001');
-    //     socket.on('chat message', function(msg){
-    //        dispatch({type:'RECEIVE_MESSAGE',payload: msg});
-    //       });
-    // }
 
     return (
         <CTX.Provider value={{allChats,sendChatAction}}>

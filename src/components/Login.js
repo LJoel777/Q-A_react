@@ -75,9 +75,11 @@ const Login = (props) => {
           localStorage.setItem("session", res.data.id);
           setSession(res.data.id);
           props.history.push("/");
+        } else {
+          alert("Wrong password or email!");
         }
       })
-      .catch((error) => alert("Wrong password or email"));
+      .catch((error) => alert("Wrong password or email!"));
   };
 
   return (

@@ -22,7 +22,7 @@ const QuestionsList = (props) => {
   const [hobbies, setHobbies] = useState([]);
 
   const setHobbiesOnChange = (e) => {
-    setHobbies(e.target.value);
+    setHobbies(e.target.value); 
   };
 
 
@@ -106,7 +106,7 @@ const QuestionsList = (props) => {
           ))}
         </Container>
       </div>
-    );
+    )
   } else if (isNaN(session)) {
     props.history.push("/login");
   } else content = "Loading";
