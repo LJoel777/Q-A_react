@@ -70,7 +70,7 @@ const PostModal = (props) => {
     };
 
     return (
-      <Post>
+      <Post className="postModal">
         <Button className="post" variant="primary" onClick={handleShow}>
           <div className="textarea">
             <textarea id="subject" name="rg" placeholder="Share your story..."></textarea>

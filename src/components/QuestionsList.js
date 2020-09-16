@@ -6,7 +6,12 @@ import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import PostModal from "./PostModal";
 
-const Container = styled.div``;
+const Container = styled.div`
+  display:flex;
+  flex:1;
+  min-width:fit-content;
+  flex-direction:row;
+`;
 
 const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
@@ -28,18 +33,40 @@ const QuestionsList = (props) => {
         setQuestions(res.data);
         setIsLoading(false);
       });
-    } else console.log("Most");
-  }, [session, props.match.path]);
+    } else{ console.log("Most");
+  }}, [session, props.match.path]);
 
   if (!isLoading && !isNaN(session)) {
+      content = (
+        <Container className="col">           
 
-        <Container className="col">
-          {questions.map((question) => (
-            <Question key={question.id} question={question} />
-          ))}
-        </Container>
-      </div>
-    )
+                 <div className="profileSide">
+                   <ul>
+                     <li>casdas</li>
+                     <li>dasdas</li>
+                     <li>fefefefe</li>
+                     <li>fafafaafa</li>
+                     <li>fefefefe</li>
+                   </ul>
+                </div>    
+                <div className="feed">
+                <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />      
+                {questions.map((question) => (            
+                   <Question key={question.id} question={question} />           
+                   ))}
+                   </div>       
+                <div className="chatSide">
+                <ul>
+                     <li>casdas</li>
+                     <li>dasdas</li>
+                     <li>fefefefe</li>
+                     <li>fafafaafa</li>
+                     <li>fefefefe</li>
+                   </ul>
+                  </div>    
+                  </Container> 
+      )
+    
   } else if (isNaN(session)) {
     props.history.push("/login");
   } else content = "Loading";

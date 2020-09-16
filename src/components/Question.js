@@ -5,83 +5,95 @@ import trash from "../images/trash.png";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import { Button } from "react-bootstrap";
-import { useGet } from "../axios";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import RepeatIcon from "@material-ui/icons/Repeat";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import PublishIcon from "@material-ui/icons/Publish";
+// import { useGet } from "../axios";
 
 const PostDiv = styled.div`
-  position: relative;
+
+
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position:relative;
   background: #333;
-  margin: auto;
-  border-radius: 20px;
   padding: 18px;
-  width: 70%;
   margin-top: 20px;
   margin-bottom: 10px;
-  max-width: 1000px;
-
-  .firstCol {
-    position: relative;
-    width: 20%;
-    height: inherit;
-  }
-
-  .profile {
-    position: relative;
-    display: inline-block;
-  }
-  .profile img {
-    height: 50px;
-    width: 50px;
+  border-radius: 20px;
+  .postBody > img {
     border-radius: 20px;
-    float: left;
+    height:auto;
   }
-
-  .trash {
+  .postHeader{
+    width: 100%;
     position: relative;
-    top: 5px;
+}
+  
+  .postFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width:100%;
+    position:relative;
   }
-  .trash img {
-    height: 50px;
-    width: 50px;
-  }
-  .trash:hover {
-    height: 55px;
-    width: 55px;
-  }
-
-  .userName {
-    position: relative;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 5px;
-    left: 10px;
-    color: white;
-  }
-  p {
-    overflow-wrap: break-word;
-  }
-
-  .secondCol {
-    position: relative;
-    width: 80%;
-    height: fit-content;
-  }
-  .btn {
-    position: relative;
-    left: 47%;
-    transform: translateX(-100%);
-  }
-  .textContainer p {
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  .secondCol img {
+  .imgContainer{
     position: relative;
     width: 600px;
-    height: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+}
   }
+    // display:flex;
+    // position:relative;
+    // flex-direction:row;
+    // justify-content:center;
+    // background: #333;
+    // border-radius: 20px;
+    // width:60%;
+    // padding: 18px;
+    // margin-top: 20px;
+    // margin-bottom: 10px;
+    // .flexbox-item{
+    //     margin:10px;
+    // }
+    // firstCol{
+    //   position:relative;
+    //   width:20%
+    //   flex:1;
+    // }
+    // .secondCol{
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    // }
+    // .trash{
+    //   position:absolute;
+    //   bottom:5%;
+    //   left:5%;
+    // }
+    // .postDescription{
+    //   position: relative;
+    //   width: 50%;
+    // }
+    // .link2 .postText{
+    //   word-break: break-all;
+    //   color:white;
+    //   font-weight:bold;
+    // }
+    // .profile{
+    //   position:absolute;
+    //   left:5%
+    //   ;
+    // }
+    p{
+      word-break: keep-all;
+    }
+ 
+
 `;
 
 const Question = (props) => {
@@ -113,36 +125,35 @@ const Question = (props) => {
 
   if (!deleted && !isLoading) {
     content = (
-      <div className="question" id={question.id}>
-        <PostDiv>
-          <div className="firstCol">
+        <PostDiv className="postDiv"  id={question.id}>
+          <div className="postHeader flexbox-item">
             <Link to={`/user/${question.userId}`} className="linkToProfile">
-              <span className="profile">
+              <div className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
                 <p className="userName">{userName}</p>
-              </span>
-            </Link>
-            <div className="trash">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
-          </div>
-
-          <div className="secondCol">
-            <img src={question.imagePath} alt=""></img>
-
-            <Link to={`/question/${question.id}`} className="link2">
-              <div className="textContainer">
-                <p>{question.description}</p>
               </div>
             </Link>
-            {session === question.userId ? (
-              <Button className="btn" href={`/editQuestion/${question.id}`}>
-                Edit question
-              </Button>
-            ) : (
-              ""
-            )}
           </div>
-        </PostDiv>
-      </div>
+            <div className="postBody" >
+              <div className="imgContainer">
+              <img src={question.imagePath} alt=""></img>
+              </div>
+              <div className="postDescription">
+              <Link to={`/question/${question.id}`} className="link2">
+                  <p className="postText">{question.description}</p>
+              </Link>
+              </div>
+            </div>
+            <div className="postFooter">
+            {/* <div className="trash">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
+            </div> */}
+             <ChatBubbleOutlineIcon fontSize="small" />
+            <RepeatIcon fontSize="small" />
+            <FavoriteBorderIcon fontSize="small" />
+            <PublishIcon fontSize="small" />
+            </div>
+          </PostDiv>
+           
     );
   } else content = "";
 
@@ -150,3 +161,11 @@ const Question = (props) => {
 };
 
 export default Question;
+
+            {/* {session === question.userId ? (
+              <Button className="btn" href={`/editQuestion/${question.id}`}>
+                Edit question
+              </Button>
+            ) : (
+              ""
+            )} */}

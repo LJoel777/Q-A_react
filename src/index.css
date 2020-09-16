@@ -6,18 +6,19 @@ body {
     background: #1c1e21;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
 
-div {
+/* code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+} */
+
+/* div {
     margin: 0;
     padding: 0;
     border: 0;
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-}
+} */
 
 .modal-content {
     position: absolute;
@@ -57,4 +58,90 @@ div {
 .postButton {
     border: none;
     background: #333;
+}
+
+
+    .trash img{
+        height: 50px;
+       width: 50px;
+      }
+      .profile img{
+        height: 50px;
+        width: 50px;
+        border-radius: 20px;
+        float: left;
+      }
+
+
+.mainContainer{
+    display: flex;
+    /* flex: 1,0,0px; */
+    justify-content: center;
+
+}
+
+.profileSide{
+    flex:0.3;
+    position: relative;
+    flex-shrink: 0;
+    color:white;
+}
+.chatSide{
+    flex:0.3;
+    color:white;
+}
+.feed{
+    flex:0.4;
+}
+/* .col{
+    display: flex;
+    flex-direction: row;
+    flex:1;
+} */
+
+
+
+/* .postModal{
+    width:100%;
+}
+.postDiv{
+    flex-basis: 20%;
+    flex-grow: 0;
+} */
+/* @media (min-width:1300px){
+    .postDiv{
+        width:100vh;
+    }
+}*/
+/* @media (min-width:1300px){
+    .postDiv{
+        width:100vh;
+    }
+} 
+@media (max-width:600px){
+    .postDiv .postBody .imgContainer {
+        width:20vh;
+    }
+    .link2 p{
+        width: 10%;
+        
+    }
+    .imgContainer img{
+        width: 20vh;
+    }
+
+}  */
+
+
+.imgContainer img{
+        height: auto;
+        width: 100%;
+}
+.navBar{
+    display: flex;
+    flex:1;
+}
+.userName{
+    position: relative;
+    top: 10px;
 }

@@ -7,6 +7,7 @@ import {UserSession} from "../context/UserSession";
 const NavDiv = styled.div`
   background-color: #333;
   overflow: hidden;
+  display:flex;
   .link {
     font-size: 20px;
     float: left;
@@ -46,18 +47,18 @@ const NavBar = () => {
 
     if (isNaN(session)) {
         content = (
-            <div>
+            <div className="navBar">
                 <Link className="link" to="/login">
                     Login
                 </Link>
                 <Link className="link" to="/registration">
                     Registration
-                </Link>
+         </Link>
             </div>
         );
     } else {
         content = (
-            <div>
+            <div className="navBar">
                 <Link className="link" to="/">
                     Home
                 </Link>
@@ -70,6 +71,7 @@ const NavBar = () => {
                 <Link className="link" to={`/user/${session}`}>
                     {userName}
                 </Link>
+               
             </div>
         );
     }
