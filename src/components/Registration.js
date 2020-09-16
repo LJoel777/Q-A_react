@@ -7,7 +7,7 @@ const Register = (props) => {
   const [psw, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [hobbies, setHobbies] = useState([]);
 
@@ -25,7 +25,7 @@ const Register = (props) => {
     setLastName(e.target.value);
   };
   const setUserNameOnChange = (e) => {
-    setUserName(e.target.value);
+    setUsername(e.target.value);
   };
   const setProfilePictureOnChange = (e) => {
     setProfilePicture(e.target.value);
@@ -39,7 +39,7 @@ const Register = (props) => {
     const register = {
       firstName: firstName,
       lastName: lastName,
-      userName: userName,
+      username: username,
       profilePicture: profilePicture,
       emailAddress: emailAddress,
       psw: psw,

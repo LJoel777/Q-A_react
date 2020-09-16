@@ -91,7 +91,7 @@ const AnswerDiv = styled.div`
 const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
@@ -101,7 +101,7 @@ const Answer = (props) => {
     setIsLoading(true);
     if (answer !== null) {
       axios.get(`http://localhost:8080/user/${answer.user.id}`).then((res) => {
-        setUserName(res.data.userName);
+        setUsername(res.data.username);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
       });
@@ -122,7 +122,7 @@ const Answer = (props) => {
           <div className="profile">
             <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
             <br />
-            <span className="userName">{userName}</span>
+            <span className="userName">{username}</span>
           </div>
         </Link>
         <p className="description">{answer.description}</p>

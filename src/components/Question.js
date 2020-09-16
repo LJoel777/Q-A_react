@@ -86,7 +86,7 @@ const PostDiv = styled.div`
 const Question = (props) => {
   const [question, setQuestion] = useState(props.question);
   const [deleted, setDeleted] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
@@ -96,7 +96,7 @@ const Question = (props) => {
     setIsLoading(true);
     if (question !== null) {
       axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
-        setUserName(res.data.userName);
+        setUsername(res.data.username);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
       });
@@ -118,7 +118,7 @@ const Question = (props) => {
             <Link to={`/user/${question.user.id}`} className="linkToProfile">
               <span className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
-                <p className="userName">{userName}</p>
+                <p className="userName">{username}</p>
               </span>
             </Link>
             <div className="trash">{session === question.user.id ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
