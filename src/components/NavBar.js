@@ -28,13 +28,13 @@ const NavDiv = styled.div`
 
 const NavBar = () => {
   const [session, setSession] = useContext(UserSession);
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   let content = "";
 
   useEffect(() => {
     if (!isNaN(session)) {
       axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-        setUserName(res.data.userName);
+        setUsername(res.data.username);
       });
     }
   }, [session]);
@@ -68,7 +68,7 @@ const NavBar = () => {
           Logout
         </Link>
         <Link className="link" to={`/user/${session}`}>
-          {userName}
+          {username}
         </Link>
         <Link className="link" to={`/chat`}>
           Chat

@@ -11,6 +11,7 @@ import Register from "./Registration";
 import UserPage from "./UserPage";
 import Chat from "./Chat";
 import Store from "./Store";
+import Settings from "./Settings";
 
 function Main() {
   return (
@@ -23,11 +24,11 @@ function Main() {
       <Route exact path="/registration" component={Register} />
       <Route exact path="/editQuestion/:id" component={EditQuestion} />
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
-
+      <Route exact path="/user/:id" component={UserPage} />
+      <Route exact path="/settings" component={Settings} />
       <Store>
         <Route exact path="/chat" component={Chat} />
       </Store>
-      <Route exact path={["/user/:id", "user/:id/settings"]} component={UserPage} />
     </div>
   );
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { UserSession } from "../context/UserSession";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Settings from "./Settings";
 import UserPost from "./UserPost";
+import { Button } from "react-bootstrap";
 
 const UseData = styled.div`
   .imageContainer {
@@ -37,6 +37,12 @@ const UseData = styled.div`
     width: 90%;
     text-align: center;
   }
+  .setFriend {
+    width: 150px;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 20px;
+  }
 `;
 
 const UserPage = (props) => {
@@ -46,32 +52,26 @@ const UserPage = (props) => {
   const [lastName, setLastName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isSetting, setIsSetting] = useState(false);
+  const [friendIdList, setFriendIdList] = useState([]);
   const session = useContext(UserSession)[0];
-  const [value, setValue] = useState("Set hobbies");
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${id}`).then((res) => {
-      console.log(id);
       setUserName(res.data.userName);
       setProfilePicture(res.data.profilePicture);
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
+      console.log(res.data);
+      // setFriendIdList(
+      // res.data.friends.map((friend) => {
+      //   return friend.id;
+      // })
+      // );
       setIsLoading(false);
     });
   }, [id]);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (!isSetting) {
-      setValue("See posts");
-    } else {
-      setValue("Set hobbies");
-    }
-    setIsSetting(!isSetting);
-  };
 
   const handleFriend = (e) => {
     e.preventDefault();
@@ -79,53 +79,39 @@ const UserPage = (props) => {
   };
 
   if (!isLoading) {
-    if (parseInt(id) !== session) {
-      content = (
-        <div>
-          <UseData>
-            <div className="imageContainer">
-              <img src={profilePicture} alt="profilePicture" />
-            </div>
-            <div className="nameContainer">
-              <h1>{userName}</h1>
-            </div>
-            <div className="infoContainer">
-              <h1>Personal Details:</h1>
-              <h3>
-                Name: {firstName} {lastName}
-              </h3>
-            </div>
-            <input type="button" value="Set as friend" onClick={handleFriend} />
-            <hr />
-          </UseData>
-          <UserPost id={id} />
-        </div>
-      );
-    } else {
-      content = (
-        <div>
-          <Router>
-            <UseData>
-              <div className="imageContainer">
-                <img src={profilePicture} alt="profilePicture" />
-              </div>
-              <div className="nameContainer">
-                <h1>{userName}</h1>
-              </div>
-              <div className="infoContainer">
-                <h1>Personal Details:</h1>
-                <h3>
-                  Name: {firstName} {lastName}
-                </h3>
-              </div>
-              <hr />
-            </UseData>
-            <input type="button" onClick={handleClick} value={value} />
-            <Route exact path="/user/:id" component={!isSetting ? UserPost : Settings} />
-          </Router>
-        </div>
-      );
-    }
+    content = (
+      <div>
+        <UseData>
+          <div className="imageContainer">
+            <img src={profilePicture} alt="profilePicture" />
+          </div>
+          <div className="nameContainer">
+            <h1>{userName}</h1>
+          </div>
+          <div className="infoContainer">
+            <h1>Personal Details:</h1>
+            <h3>
+              Name: {firstName} {lastName}
+            </h3>
+          </div>
+          {parseInt(id) !== session ? (
+            !friendIdList.includes(session) ? (
+              <Button type="button" className="setFriend" onClick={handleFriend}>
+                Set as friend
+              </Button>
+            ) : (
+              <Button type="button" className="setFriend" onClick={handleFriend}>
+                Remove friend
+              </Button>
+            )
+          ) : (
+            <Settings history={props.history} />
+          )}
+          <hr />
+        </UseData>
+        <UserPost id={id} />
+      </div>
+    );
   } else content = "Loading...";
 
   return content;
