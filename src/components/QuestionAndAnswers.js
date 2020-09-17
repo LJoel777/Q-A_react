@@ -8,6 +8,8 @@ import Question from "./Question";
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const PostAndComment = styled.div`
@@ -84,8 +86,7 @@ const QuestionAndAnswers = ({ match }) => {
     content = (
       <QandAContainer>
           <div className="profileSide">
-                   <ul>
-                   
+                   <ul>                   
                      <li>
                      <Link className="link" to={`/user/${session}`}>
                        <PersonIcon color="secondary" fontSize="large" />
@@ -97,6 +98,11 @@ const QuestionAndAnswers = ({ match }) => {
                      <HomeIcon color="secondary" fontSize="large" /><p>Home</p>
                      </Link>
                      </li>
+                     <li>
+                     <Link className="link" to="/chat">
+                      <ChatBubbleIcon color="secondary" fontSize="large"/><p>Chat</p>
+                     </Link>
+                   </li>
                      <li>
                        <Link className="link" to={""} onClick={logOut}>
                        <PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p>

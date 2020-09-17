@@ -63,8 +63,8 @@ const PostModal = (props) => {
           categories: hobbies.replace(/\s/g, "").split(","),
           imagePath: imagePath,
         };
+        console.log(question)
         return axios.post("http://localhost:8080/post/add", question).then((res) => {
-          console.log(props.history);
           props.history.push(`/question/${res.data}`);
         });
       } else alert("Please fill the tags and description field!");

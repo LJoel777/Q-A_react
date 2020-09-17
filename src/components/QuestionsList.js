@@ -7,6 +7,7 @@ import PostModal from "./PostModal";
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import { Link } from "react-router-dom";
 
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -60,7 +61,6 @@ const QuestionsList = (props) => {
 
                  <div className="profileSide">
                  <ul>
-                   
                    <li>
                    <Link className="link" to={`/user/${session}`}>
                      <PersonIcon color="secondary" fontSize="large" />
@@ -71,6 +71,11 @@ const QuestionsList = (props) => {
                  <Link className="link" to="/">
                    <HomeIcon color="secondary" fontSize="large" /><p>Home</p>
                    </Link>
+                   </li>
+                   <li>
+                     <Link className="link" to="/chat">
+                      <ChatBubbleIcon color="secondary" fontSize="large"/><p>Chat</p>
+                     </Link>
                    </li>
                    <li>
                      <Link className="link" to={""} onClick={logOut}>
