@@ -2,9 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Question from "./Question";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import PostModal from "./PostModal";
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const Container = styled.div`
   display:flex;
@@ -30,6 +33,7 @@ const QuestionsList = (props) => {
     }
     if (!isNaN(session)) {
       axios.get(url).then((res) => {
+        console.log(res.data);
         setQuestions(res.data);
         setIsLoading(false);
       });
@@ -42,11 +46,10 @@ const QuestionsList = (props) => {
 
                  <div className="profileSide">
                    <ul>
-                     <li>casdas</li>
-                     <li>dasdas</li>
-                     <li>fefefefe</li>
-                     <li>fafafaafa</li>
-                     <li>fefefefe</li>
+                     <li><HomeIcon color="secondary" fontSize="large" /><p>Home</p></li>
+                     <li><PersonIcon color="secondary" fontSize="large"/><p>Profile</p></li>
+                     <li><SettingsIcon color="secondary" fontSize="large"/><p>Settings</p></li>
+                     <li><PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p></li>
                    </ul>
                 </div>    
                 <div className="feed">
@@ -57,11 +60,11 @@ const QuestionsList = (props) => {
                    </div>       
                 <div className="chatSide">
                 <ul>
-                     <li>casdas</li>
+                     {/* <li>casdas</li>
                      <li>dasdas</li>
                      <li>fefefefe</li>
                      <li>fafafaafa</li>
-                     <li>fefefefe</li>
+                     <li>fefefefe</li> */}
                    </ul>
                   </div>    
                   </Container> 
@@ -72,8 +75,5 @@ const QuestionsList = (props) => {
   } else content = "Loading";
   return content;
 };
-
-
-
 
 export default QuestionsList;

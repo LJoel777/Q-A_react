@@ -1,8 +1,13 @@
-import React, {useEffect, useState, useContext} from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import {UserSession} from "../context/UserSession";
+import { UserSession } from "../context/UserSession";
+import Logo from "../images/logo.png";
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { Tooltip } from "@material-ui/core";
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -11,39 +16,31 @@ const NavDiv = styled.div`
   .link {
     font-size: 20px;
     float: left;
-    color: #f2f2f2;
+    color:#f50057;  
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
   }
-  .link:hover {
-    background-color: #76d14f;
-    color: black;
-  }
 
-  .link:active {
-    background-color: #333;
-    color: white;
-  }
 `;
 
 const NavBar = () => {
-    const [session, setSession] = useContext(UserSession);
-    const [userName, setUserName] = useState("");
-    let content = "";
+  const [session, setSession] = useContext(UserSession);
+  const [userName, setUserName] = useState("");
+  let content = "";
 
-    useEffect(() => {
-        if (!isNaN(session)) {
-            axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-                setUserName(res.data.userName);
-            });
-        }
-    }, [session]);
+  useEffect(() => {
+    if (!isNaN(session)) {
+      axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+        setUserName(res.data.userName);
+      });
+    }
+  }, [session]);
 
-    const logOut = () => {
-        localStorage.setItem("session", null);
-        setSession(localStorage.getItem("session"));
-    };
+  const logOut = () => {
+    localStorage.setItem("session", null);
+    setSession(localStorage.getItem("session"));
+  };
 
     if (isNaN(session)) {
         content = (
@@ -59,24 +56,26 @@ const NavBar = () => {
     } else {
         content = (
             <div className="navBar">
+              <div className="logo">
                 <Link className="link" to="/">
-                    Home
+                    <img className="logo" src={Logo}/>
                 </Link>
-                <Link className="link" to="/friend-news">
-                    News by friends
-                </Link>
-                <Link className="link" to={""} onClick={logOut}>
-                    Logout
-                </Link>
+                </div>
                 <Link className="link" to={`/user/${session}`}>
                     {userName}
+                </Link>
+                <Link className="link" to="/friend-news">
+                  <Tooltip title="News by friends"  ><PeopleAltIcon color="secondary" fontSize="large" ></PeopleAltIcon></Tooltip>
+                </Link>
+                <Link className="link" to={""} onClick={logOut}>
+                <Tooltip title="Logout"><PowerSettingsNewIcon color="secondary" fontSize="large"/></Tooltip>
                 </Link>
                
             </div>
         );
     }
 
-    return <NavDiv>{content}</NavDiv>;
+  return <NavDiv>{content}</NavDiv>;
 };
 
 export default NavBar;

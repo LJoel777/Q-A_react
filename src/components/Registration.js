@@ -43,7 +43,7 @@ const Register = (props) => {
       profilePicture: profilePicture,
       emailAddress: emailAddress,
       psw: psw,
-      fieldsOfInterest: hobbies.replace(/\s/g, "").split(","),
+      fieldsOfInterests: hobbies.replace(/\s/g, "").split(","),
     };
     if (emailAddress.length > 0 && psw.length > 0) {
       axios.post("http://localhost:8080/registration", register).then((res) => {

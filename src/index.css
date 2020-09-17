@@ -7,19 +7,6 @@ body {
 }
 
 
-/* code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-} */
-
-/* div {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-} */
-
 .modal-content {
     position: absolute;
     top: 30vh;
@@ -75,7 +62,6 @@ body {
 
 .mainContainer{
     display: flex;
-    /* flex: 1,0,0px; */
     justify-content: center;
 
 }
@@ -93,44 +79,11 @@ body {
 .feed{
     flex:0.4;
 }
-/* .col{
-    display: flex;
-    flex-direction: row;
-    flex:1;
-} */
-
-
-
-/* .postModal{
-    width:100%;
+.logo{
+    width: 80px;
+    height: 80px;
+    color: wheat;
 }
-.postDiv{
-    flex-basis: 20%;
-    flex-grow: 0;
-} */
-/* @media (min-width:1300px){
-    .postDiv{
-        width:100vh;
-    }
-}*/
-/* @media (min-width:1300px){
-    .postDiv{
-        width:100vh;
-    }
-} 
-@media (max-width:600px){
-    .postDiv .postBody .imgContainer {
-        width:20vh;
-    }
-    .link2 p{
-        width: 10%;
-        
-    }
-    .imgContainer img{
-        width: 20vh;
-    }
-
-}  */
 
 
 .imgContainer img{
@@ -140,8 +93,48 @@ body {
 .navBar{
     display: flex;
     flex:1;
+    align-items: center;
+    justify-content: flex-end;
+    font-weight: bold;
+    height: 9vh;
+}
+
+.logo{
+    position: absolute;
+    left: 0;
+    margin-left: 8px;
+    top: 3px;
 }
 .userName{
     position: relative;
     top: 10px;
+}
+svg{
+    color:white;
+}
+.postModal .post{
+    width: 50%;
+}
+
+.profileSide svg{
+    color: gradient(#cc2b5e → #753a88);
+}
+.profileSide ul{
+    position: relative;
+    list-style-type: none;
+    left: -12%;
+}
+.profileSide li{
+    padding: 10px;
+    margin: 30px;
+}
+.profileSide li p{
+    display: inline-flex;
+    margin: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.postText{
+    color:white;
 }

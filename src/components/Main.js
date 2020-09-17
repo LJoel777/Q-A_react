@@ -23,16 +23,11 @@ function Main() {
       <Route exact path="/registration" component={Register} />
       <Route exact path="/editQuestion/:id" component={EditQuestion} />
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
-      <Route exact path="/user/:id" component={UserPage} />
 
       <Store>
-      <Route exact path="/chat" component={Chat}/>
+        <Route exact path="/chat" component={Chat} />
       </Store>
-      <Route
-        exact
-        path={["/user/:id", "user/:id/settings"]}
-        component={UserPage}
-      />
+      <Route exact path={["/user/:id", "user/:id/settings"]} component={UserPage} />
     </div>
   );
 }

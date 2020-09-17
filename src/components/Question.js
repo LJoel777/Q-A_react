@@ -9,6 +9,9 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import AnswerList from "./AnswerList";
+import QuestionAndAnswers from './QuestionAndAnswers'
 // import { useGet } from "../axios";
 
 const PostDiv = styled.div`
@@ -46,53 +49,7 @@ const PostDiv = styled.div`
     transform: translateX(-50%);
 }
   }
-    // display:flex;
-    // position:relative;
-    // flex-direction:row;
-    // justify-content:center;
-    // background: #333;
-    // border-radius: 20px;
-    // width:60%;
-    // padding: 18px;
-    // margin-top: 20px;
-    // margin-bottom: 10px;
-    // .flexbox-item{
-    //     margin:10px;
-    // }
-    // firstCol{
-    //   position:relative;
-    //   width:20%
-    //   flex:1;
-    // }
-    // .secondCol{
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-    // }
-    // .trash{
-    //   position:absolute;
-    //   bottom:5%;
-    //   left:5%;
-    // }
-    // .postDescription{
-    //   position: relative;
-    //   width: 50%;
-    // }
-    // .link2 .postText{
-    //   word-break: break-all;
-    //   color:white;
-    //   font-weight:bold;
-    // }
-    // .profile{
-    //   position:absolute;
-    //   left:5%
-    //   ;
-    // }
-    p{
-      word-break: keep-all;
-    }
- 
+  
 
 `;
 
@@ -102,13 +59,18 @@ const Question = (props) => {
   const [userName, setUserName] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [show,setShow]= useState(false);
   const session = useContext(UserSession)[0];
   let content = "";
+
+  const showAnswerList = ()=>{
+      setShow(!show);
+  }
 
   useEffect(() => {
     setIsLoading(true);
     if (question !== null) {
-      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
+      axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
         setUserName(res.data.userName);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
@@ -118,7 +80,7 @@ const Question = (props) => {
 
   const deleteQuestion = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/question/${question.id}/remove`).catch((error) => console.log(error));
+    axios.get(`http://localhost:8080/post/${question.id}/remove`).catch((error) => console.log(error));
     setQuestion(null);
     setDeleted(true);
   };
@@ -127,7 +89,7 @@ const Question = (props) => {
     content = (
         <PostDiv className="postDiv"  id={question.id}>
           <div className="postHeader flexbox-item">
-            <Link to={`/user/${question.userId}`} className="linkToProfile">
+            <Link to={`/user/${question.user.id}`} className="linkToProfile">
               <div className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
                 <p className="userName">{userName}</p>
@@ -145,13 +107,22 @@ const Question = (props) => {
               </div>
             </div>
             <div className="postFooter">
-            {/* <div className="trash">{session === question.userId ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
-            </div> */}
-             <ChatBubbleOutlineIcon fontSize="small" />
-            <RepeatIcon fontSize="small" />
-            <FavoriteBorderIcon fontSize="small" />
-            <PublishIcon fontSize="small" />
-            </div>
+             <ChatBubbleOutlineIcon fontSize="small" color="white" onClick={showAnswerList}>
+             </ChatBubbleOutlineIcon>
+            <RepeatIcon fontSize="small" color="white"/>
+            <FavoriteBorderIcon fontSize="small" color="white"/>
+            {session === question.userId ? (
+            <MoreHorizIcon  fontSize="small" color="white" >
+                <p class="postSettings" href={`/editQuestion/${question.id}`}>Edit post</p>
+                <p class="postSettings" onClick={deleteQuestion}>Delete post</p>
+            </MoreHorizIcon>
+            ):("")}</div>
+            <QuestionAndAnswers key={show}>
+
+            </QuestionAndAnswers>
+
+
+
           </PostDiv>
            
     );

@@ -10,7 +10,7 @@ const Post = styled.div`
     position: relative;
     left: 50%;
     transform: translate(-50%);
-    width: 30%;
+    width: 60%;
     border: none;
   }
   .btn .textarea {
@@ -20,12 +20,13 @@ const Post = styled.div`
     width: 100%;
   }
   .btn .textarea textarea {
-    background: white;
+    background: #333;
     width: 100%;
     font-size: 20px;
     font-weight: bold;
     color: white;
     border-radius: 5px;
+    border:none;
   }
   .myModal {
     background: black;
@@ -62,7 +63,7 @@ const PostModal = (props) => {
           categories: hobbies.replace(/\s/g, "").split(","),
           imagePath: imagePath,
         };
-        return axios.post("http://localhost:8080/question/add", question).then((res) => {
+        return axios.post("http://localhost:8080/post/add", question).then((res) => {
           console.log(props.history);
           props.history.push(`/question/${res.data}`);
         });
