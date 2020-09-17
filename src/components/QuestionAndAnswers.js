@@ -8,6 +8,8 @@ import Question from "./Question";
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const PostAndComment = styled.div`
@@ -50,9 +52,11 @@ const QandAContainer = styled.div`
   .profileSide li p{
       display: inline-flex;
       margin: 10px;
+      color:white;
       font-weight: bold;
       font-size: 18px;
   }
+
   
 `;
 
@@ -61,9 +65,13 @@ const QuestionAndAnswers = ({ match }) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [answerId, setAnswerId] = useState(null);
-  const session = useContext(UserSession)[0][0];
+  const [session, setSession] = useContext(UserSession)[0];
   let content = "";
 
+  const logOut = () => {
+    localStorage.setItem("session", null);
+    setSession(localStorage.getItem("session"));
+  };
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/post/${match.params.id}`).then((res) => {
@@ -78,11 +86,28 @@ const QuestionAndAnswers = ({ match }) => {
     content = (
       <QandAContainer>
           <div className="profileSide">
-                   <ul>
-                   <li><HomeIcon color="secondary" fontSize="large" /><p>Home</p></li>
-                     <li><PersonIcon color="secondary" fontSize="large"/><p>Profile</p></li>
-                     <li><SettingsIcon color="secondary" fontSize="large"/><p>Settings</p></li>
-                     <li><PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p></li>
+                   <ul>                   
+                     <li>
+                     <Link className="link" to={`/user/${session}`}>
+                       <PersonIcon color="secondary" fontSize="large" />
+                     <p>Profile</p>
+                      </Link>
+                      </li>
+                   <li>
+                   <Link className="link" to="/">
+                     <HomeIcon color="secondary" fontSize="large" /><p>Home</p>
+                     </Link>
+                     </li>
+                     <li>
+                     <Link className="link" to="/chat">
+                      <ChatBubbleIcon color="secondary" fontSize="large"/><p>Chat</p>
+                     </Link>
+                   </li>
+                     <li>
+                       <Link className="link" to={""} onClick={logOut}>
+                       <PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p>
+                       </Link>
+                       </li>
                    </ul>
                 </div>    
       <PostAndComment>

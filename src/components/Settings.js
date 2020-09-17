@@ -93,9 +93,9 @@ const Settings = (props) => {
         </Button>
         <Modal className="myModal" show={show} onHide={handleClose}>
           <FormDiv>
-            <input className="postText" placeholder="Email Address..." value={emailAddress} onChange={changeEmailAddress}></input>
-            <input className="postText" placeholder="Profile Picture link..." value={profilePicture} onChange={changeProfilePicture}></input>
-            <input className="postText" placeholder="Username..." value={username} onChange={changeUsername}></input>
+            <input className="" placeholder="Email Address..." value={emailAddress} onChange={changeEmailAddress}></input>
+            <input className="" placeholder="Profile Picture link..." value={profilePicture} onChange={changeProfilePicture}></input>
+            <input className="" placeholder="Username..." value={username} onChange={changeUsername}></input>
             <input type="text" value={String(hobbies)} onChange={changeHobbies} />
             <Button variant="primary" name="submit" className="postButton" onClick={postData}>
               Submit
