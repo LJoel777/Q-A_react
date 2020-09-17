@@ -6,81 +6,52 @@ import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import { Button } from "react-bootstrap";
 
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import RepeatIcon from "@material-ui/icons/Repeat";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import PublishIcon from "@material-ui/icons/Publish";
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import AnswerList from "./AnswerList";
+import QuestionAndAnswers from './QuestionAndAnswers'
+
+
 const PostDiv = styled.div`
-  position: relative;
+
+
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position:relative;
   background: #333;
-  margin: auto;
-  border-radius: 20px;
   padding: 18px;
-  width: 70%;
   margin-top: 20px;
   margin-bottom: 10px;
-  max-width: 1000px;
-
-  .firstCol {
-    position: relative;
-    width: 20%;
-    height: inherit;
-  }
-
-  .profile {
-    position: relative;
-    display: inline-block;
-  }
-  .profile img {
-    height: 50px;
-    width: 50px;
+  border-radius: 20px;
+  .postBody > img {
     border-radius: 20px;
-    float: left;
+    height:auto;
   }
-
-  .trash {
+  .postHeader{
+    width: 100%;
     position: relative;
-    top: 5px;
+}
+  
+  .postFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width:100%;
+    position:relative;
   }
-  .trash img {
-    height: 50px;
-    width: 50px;
-  }
-  .trash:hover {
-    height: 55px;
-    width: 55px;
-  }
-
-  .userName {
-    position: relative;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 5px;
-    left: 10px;
-    color: white;
-  }
-  p {
-    overflow-wrap: break-word;
-  }
-
-  .secondCol {
-    position: relative;
-    width: 80%;
-    height: fit-content;
-  }
-  .btn {
-    position: relative;
-    left: 47%;
-    transform: translateX(-100%);
-  }
-  .textContainer p {
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  .secondCol img {
+  .imgContainer{
     position: relative;
     width: 600px;
-    height: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+}
   }
+  
+
 `;
 
 const Question = (props) => {
@@ -92,11 +63,16 @@ const Question = (props) => {
   const session = useContext(UserSession)[0][0];
   let content = "";
 
+  const showAnswerList = ()=>{
+      setShow(!show);
+  }
+
   useEffect(() => {
     setIsLoading(true);
     if (question !== null) {
       axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
         setUsername(res.data.username);
+
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
       });
@@ -112,36 +88,45 @@ const Question = (props) => {
 
   if (!deleted && !isLoading) {
     content = (
-      <div className="question" id={question.id}>
-        <PostDiv>
-          <div className="firstCol">
+        <PostDiv className="postDiv"  id={question.id}>
+          <div className="postHeader flexbox-item">
             <Link to={`/user/${question.user.id}`} className="linkToProfile">
-              <span className="profile">
+              <div className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
                 <p className="userName">{username}</p>
-              </span>
-            </Link>
-            <div className="trash">{session === question.user.id ? <img src={trash} alt="trash" className="trash" onClick={deleteQuestion}></img> : ""}</div>
-          </div>
-
-          <div className="secondCol">
-            <img src={question.imagePath} alt=""></img>
-
-            <Link to={`/question/${question.id}`} className="link2">
-              <div className="textContainer">
-                <p>{question.description}</p>
               </div>
             </Link>
-            {session === question.user.id ? (
-              <Button className="btn" href={`/editQuestion/${question.id}`}>
-                Edit question
-              </Button>
-            ) : (
-              ""
-            )}
           </div>
-        </PostDiv>
-      </div>
+            <div className="postBody" >
+              <div className="imgContainer">
+              <img src={question.imagePath} alt=""></img>
+              </div>
+
+              <div className="postDescription">
+              <Link to={`/question/${question.id}`} className="link2">
+                  <p className="postText">{question.description}</p>
+              </Link>
+              </div>
+            </div>
+            <div className="postFooter">
+             <ChatBubbleOutlineIcon fontSize="small" color="white" onClick={showAnswerList}>
+             </ChatBubbleOutlineIcon>
+            <RepeatIcon fontSize="small" color="white"/>
+            <FavoriteBorderIcon fontSize="small" color="white"/>
+            {session === question.userId ? (
+            <MoreHorizIcon  fontSize="small" color="white" >
+                <p class="postSettings" href={`/editQuestion/${question.id}`}>Edit post</p>
+                <p class="postSettings" onClick={deleteQuestion}>Delete post</p>
+            </MoreHorizIcon>
+            ):("")}</div>
+            <QuestionAndAnswers key={show}>
+
+            </QuestionAndAnswers>
+
+
+
+          </PostDiv>
+           
     );
   } else content = "";
 
@@ -149,3 +134,11 @@ const Question = (props) => {
 };
 
 export default Question;
+
+            {/* {session === question.userId ? (
+              <Button className="btn" href={`/editQuestion/${question.id}`}>
+                Edit question
+              </Button>
+            ) : (
+              ""
+            )} */}

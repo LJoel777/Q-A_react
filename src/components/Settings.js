@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import FormDiv from "../style/form";
 import settings from "../images/settings.png";
 
+
 const SettingsDiv = styled.div`
   .post {
     width: 150px;
@@ -55,6 +56,7 @@ const Settings = (props) => {
   };
 
   const changeHobbies = (e) => {
+
     e.preventDefault();
     setHobbies(e.target.value);
   };
@@ -108,6 +110,7 @@ const Settings = (props) => {
   } else {
     content = "Loading";
   }
+
   return content;
 };
 

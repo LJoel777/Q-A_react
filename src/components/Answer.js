@@ -92,6 +92,7 @@ const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
   const [username, setUsername] = useState("");
+
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
@@ -101,7 +102,9 @@ const Answer = (props) => {
     setIsLoading(true);
     if (answer !== null) {
       axios.get(`http://localhost:8080/user/${answer.user.id}`).then((res) => {
+
         setUsername(res.data.username);
+
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
       });
@@ -123,6 +126,7 @@ const Answer = (props) => {
             <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
             <br />
             <span className="userName">{username}</span>
+
           </div>
         </Link>
         <p className="description">{answer.description}</p>
