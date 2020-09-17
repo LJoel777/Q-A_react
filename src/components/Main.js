@@ -29,6 +29,7 @@ function Main() {
       <Store>
         <Route exact path="/chat" component={Chat} />
       </Store>
+
     </div>
   );
 }
