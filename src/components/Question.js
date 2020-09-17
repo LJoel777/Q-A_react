@@ -120,9 +120,9 @@ const Question = (props) => {
                 <p class="postSettings" onClick={deleteQuestion}>Delete post</p>
             </MoreHorizIcon>
             ):("")}</div>
-            <QuestionAndAnswers key={show}>
+            {/* <QuestionAndAnswers key={show}>
 
-            </QuestionAndAnswers>
+            </QuestionAndAnswers> */}
 
 
 
