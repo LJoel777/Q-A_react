@@ -7,7 +7,6 @@ import { Button } from "react-bootstrap";
 import FormDiv from "../style/form";
 import settings from "../images/settings.png";
 
-
 const SettingsDiv = styled.div`
   .post {
     width: 150px;
@@ -21,7 +20,6 @@ const SettingsDiv = styled.div`
     }
   }
 `;
-sada;
 const Settings = (props) => {
   const [hobbies, setHobbies] = useState([]);
   const [emailAddress, setEmailAddress] = useState("");
@@ -56,7 +54,6 @@ const Settings = (props) => {
   };
 
   const changeHobbies = (e) => {
-
     e.preventDefault();
     setHobbies(e.target.value);
   };
