@@ -41,6 +41,7 @@ const QuestionsList = (props) => {
   }}, [session, props.match.path]);
 
   if (!isLoading && !isNaN(session)) {
+
       content = (
         <Container className="col">           
 

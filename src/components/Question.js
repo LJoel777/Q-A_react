@@ -5,6 +5,7 @@ import trash from "../images/trash.png";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import { Button } from "react-bootstrap";
+
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -12,7 +13,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import AnswerList from "./AnswerList";
 import QuestionAndAnswers from './QuestionAndAnswers'
-// import { useGet } from "../axios";
+
 
 const PostDiv = styled.div`
 
@@ -56,7 +57,7 @@ const PostDiv = styled.div`
 const Question = (props) => {
   const [question, setQuestion] = useState(props.question);
   const [deleted, setDeleted] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [show,setShow]= useState(false);
@@ -71,7 +72,8 @@ const Question = (props) => {
     setIsLoading(true);
     if (question !== null) {
       axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
-        setUserName(res.data.userName);
+        setUsername(res.data.username);
+
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
       });
@@ -92,7 +94,7 @@ const Question = (props) => {
             <Link to={`/user/${question.user.id}`} className="linkToProfile">
               <div className="profile">
                 <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
-                <p className="userName">{userName}</p>
+                <p className="userName">{username}</p>
               </div>
             </Link>
           </div>
@@ -100,6 +102,7 @@ const Question = (props) => {
               <div className="imgContainer">
               <img src={question.imagePath} alt=""></img>
               </div>
+
               <div className="postDescription">
               <Link to={`/question/${question.id}`} className="link2">
                   <p className="postText">{question.description}</p>

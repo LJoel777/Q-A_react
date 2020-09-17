@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
+
 import Logo from "../images/logo.png";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { Tooltip } from "@material-ui/core";
@@ -26,13 +27,16 @@ const NavDiv = styled.div`
 
 const NavBar = () => {
   const [session, setSession] = useContext(UserSession);
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
+
   let content = "";
 
   useEffect(() => {
     if (!isNaN(session)) {
       axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-        setUserName(res.data.userName);
+
+        setUsername(res.data.username);
+
       });
     }
   }, [session]);
@@ -41,6 +45,7 @@ const NavBar = () => {
     localStorage.setItem("session", null);
     setSession(localStorage.getItem("session"));
   };
+
 
     if (isNaN(session)) {
         content = (
@@ -62,7 +67,7 @@ const NavBar = () => {
                 </Link>
                 </div>
                 <Link className="link" to={`/user/${session}`}>
-                    {userName}
+                    {username}
                 </Link>
                 <Link className="link" to="/friend-news">
                   <Tooltip title="News by friends"  ><PeopleAltIcon color="secondary" fontSize="large" ></PeopleAltIcon></Tooltip>
