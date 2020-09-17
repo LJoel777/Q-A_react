@@ -10,7 +10,7 @@ const Container = styled.div``;
 const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
 
   let content = "";
 

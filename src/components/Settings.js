@@ -25,9 +25,9 @@ const Settings = (props) => {
   const [hobbies, setHobbies] = useState([]);
   const [emailAddress, setEmailAddress] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
+  const [username, setUsername] = useContext(UserSession)[1];
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,7 +83,7 @@ const Settings = (props) => {
       setUsername(res.data.username);
       setIsLoading(false);
     });
-  }, [session]);
+  }, [session, setUsername]);
 
   if (!isLoading) {
     content = (

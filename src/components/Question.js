@@ -89,7 +89,7 @@ const Question = (props) => {
   const [username, setUsername] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const Question = (props) => {
         setIsLoading(false);
       });
     }
-  }, [question, session]);
+  }, [question, session, setUsername]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();

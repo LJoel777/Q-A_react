@@ -12,6 +12,7 @@ import UserPage from "./UserPage";
 import Chat from "./Chat";
 import Store from "./Store";
 import Settings from "./Settings";
+import { MessageContextProvider } from "../context/MessageContext";
 
 function Main() {
   return (
@@ -26,9 +27,11 @@ function Main() {
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
       <Route exact path="/user/:id" component={UserPage} />
       <Route exact path="/settings" component={Settings} />
-      <Store>
-        <Route exact path="/chat" component={Chat} />
-      </Store>
+      <MessageContextProvider>
+        <Store>
+          <Route exact path="/chat" component={Chat} />
+        </Store>
+      </MessageContextProvider>
     </div>
   );
 }
