@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -26,9 +26,8 @@ const NavDiv = styled.div`
 `;
 
 const NavBar = () => {
-  const [session, setSession] = useContext(UserSession);
-  const [username, setUsername] = useState("");
-
+  const [session, setSession] = useContext(UserSession)[0];
+  const [username, setUsername] = useContext(UserSession)[1];
   let content = "";
 
   useEffect(() => {
@@ -39,7 +38,7 @@ const NavBar = () => {
 
       });
     }
-  }, [session]);
+  }, [session, setUsername]);
 
   const logOut = () => {
     localStorage.setItem("session", null);
