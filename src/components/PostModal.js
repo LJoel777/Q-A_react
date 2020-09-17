@@ -10,7 +10,7 @@ const Post = styled.div`
     position: relative;
     left: 50%;
     transform: translate(-50%);
-    width: 30%;
+    width: 60%;
     border: none;
   }
   .btn .textarea {
@@ -20,12 +20,13 @@ const Post = styled.div`
     width: 100%;
   }
   .btn .textarea textarea {
-    background: white;
+    background: #333;
     width: 100%;
     font-size: 20px;
     font-weight: bold;
     color: white;
     border-radius: 5px;
+    border:none;
   }
   .myModal {
     background: black;
@@ -70,7 +71,7 @@ const PostModal = (props) => {
     };
 
     return (
-      <Post>
+      <Post className="postModal">
         <Button className="post" variant="primary" onClick={handleShow}>
           <div className="textarea">
             <textarea id="subject" name="rg" placeholder="Share your story..."></textarea>
