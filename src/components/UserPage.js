@@ -54,6 +54,7 @@ const UserPage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [friendIdList, setFriendIdList] = useState([]);
   const session = useContext(UserSession)[0];
+  const [friendButtonText, setFriendButtonText] = useState("Set friend");
   let content = "";
 
   useEffect(() => {
@@ -64,18 +65,29 @@ const UserPage = (props) => {
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
       console.log(res.data);
-      // setFriendIdList(
-      // res.data.friends.map((friend) => {
-      //   return friend.id;
-      // })
-      // );
+      setFriendIdList(
+        res.data.friends.map((friend) => {
+          return friend;
+        })
+      );
       setIsLoading(false);
     });
   }, [id]);
 
   const handleFriend = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/user/${id}/add-friend/${session}`);
+    axios.get(`http://localhost:8080/user/${id}/add-friend/${session}`).then((res) => {
+      setFriendIdList(res.data);
+      console.log(res.data);
+    });
+  };
+
+  const handleRemoveFriend = (e) => {
+    e.preventDefault();
+    axios.get(`http://localhost:8080/user/${id}/remove-friend/${session}`).then((res) => {
+      setFriendIdList(res.data);
+      console.log(res.data);
+    });
   };
 
   if (!isLoading) {
@@ -97,10 +109,10 @@ const UserPage = (props) => {
           {parseInt(id) !== session ? (
             !friendIdList.includes(session) ? (
               <Button type="button" className="setFriend" onClick={handleFriend}>
-                Set as friend
+                Set friend
               </Button>
             ) : (
-              <Button type="button" className="setFriend" onClick={handleFriend}>
+              <Button type="button" className="setFriend" onClick={handleRemoveFriend}>
                 Remove friend
               </Button>
             )

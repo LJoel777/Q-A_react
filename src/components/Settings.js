@@ -40,13 +40,16 @@ const Settings = (props) => {
   const postData = (e) => {
     e.preventDefault();
     let data = {
-      fieldsOfInterests: String(hobbies).replace(/\s/g, "").split(","),
       username: username,
-      profilePicture,
       emailAddress: emailAddress,
+      profilePicture: profilePicture,
+      fieldsOfInterests: String(hobbies).replace(/\s/g, "").split(","),
     };
     return axios.post(`http://localhost:8080/update-user/${session}`, data).then((res) => {
-      props.history.push(`/user/${session}`);
+      setUsername(res.data.username);
+      setEmailAddress(res.data.emailAddress);
+      setHobbies(res.data.fieldsOfInterests);
+      setProfilePicture(res.data.profilePicture);
       setShow(false);
     });
   };
