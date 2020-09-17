@@ -20,7 +20,7 @@ const SettingsDiv = styled.div`
     }
   }
 `;
-
+sada;
 const Settings = (props) => {
   const [hobbies, setHobbies] = useState([]);
   const [emailAddress, setEmailAddress] = useState("");
