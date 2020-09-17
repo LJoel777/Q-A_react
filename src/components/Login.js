@@ -4,7 +4,9 @@ import { UserSession } from "../context/UserSession";
 import FormDiv from "../style/form";
 
 const Login = (props) => {
-  const setSession = useContext(UserSession)[1];
+  const setSession = useContext(UserSession)[0][1];
+  const setUsername = useContext(UserSession)[1][1];
+  const setHobbies = useContext(UserSession)[2][1];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -35,7 +37,11 @@ const Login = (props) => {
       .then((res) => {
         if (res.data.valid) {
           localStorage.setItem("session", res.data.id);
+          localStorage.setItem("username", res.data.username);
+          localStorage.setItem("hobbies", res.data.hobbies);
           setSession(res.data.id);
+          setUsername(res.data.username);
+          setHobbies(res.data.hobbies);
           props.history.push("/");
         } else {
           alert("Wrong password or email!");

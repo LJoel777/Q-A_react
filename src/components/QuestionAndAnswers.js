@@ -61,7 +61,7 @@ const QuestionAndAnswers = ({ match }) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [answerId, setAnswerId] = useState(null);
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   useEffect(() => {

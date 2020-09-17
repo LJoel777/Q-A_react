@@ -60,8 +60,7 @@ const Question = (props) => {
   const [username, setUsername] = useState("");
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [show,setShow]= useState(false);
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   const showAnswerList = ()=>{
@@ -78,7 +77,7 @@ const Question = (props) => {
         setIsLoading(false);
       });
     }
-  }, [question, session]);
+  }, [question, session, setUsername]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();
