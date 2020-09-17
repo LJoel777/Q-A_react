@@ -7,6 +7,8 @@ import PostModal from "./PostModal";
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { Link } from "react-router-dom";
+
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const Container = styled.div`
@@ -14,14 +16,25 @@ const Container = styled.div`
   flex:1;
   min-width:fit-content;
   flex-direction:row;
+  .profileSide li p{
+    display: inline-flex;
+    margin: 10px;
+    color:white;
+    font-weight: bold;
+    font-size: 18px;
+}
 `;
 
 const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
+  const [session, setSession] = useContext(UserSession)[0];
 
   let content = "";
+  const logOut = () => {
+    localStorage.setItem("session", null);
+    setSession(localStorage.getItem("session"));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -46,12 +59,25 @@ const QuestionsList = (props) => {
         <Container className="col">           
 
                  <div className="profileSide">
-                   <ul>
-                     <li><HomeIcon color="secondary" fontSize="large" /><p>Home</p></li>
-                     <li><PersonIcon color="secondary" fontSize="large"/><p>Profile</p></li>
-                     <li><SettingsIcon color="secondary" fontSize="large"/><p>Settings</p></li>
-                     <li><PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p></li>
-                   </ul>
+                 <ul>
+                   
+                   <li>
+                   <Link className="link" to={`/user/${session}`}>
+                     <PersonIcon color="secondary" fontSize="large" />
+                   <p>Profile</p>
+                    </Link>
+                    </li>
+                 <li>
+                 <Link className="link" to="/">
+                   <HomeIcon color="secondary" fontSize="large" /><p>Home</p>
+                   </Link>
+                   </li>
+                   <li>
+                     <Link className="link" to={""} onClick={logOut}>
+                     <PowerSettingsNewIcon color="secondary" fontSize="large"/><p>Logout</p>
+                     </Link>
+                     </li>
+                 </ul>
                 </div>    
                 <div className="feed">
                 <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />      

@@ -63,11 +63,9 @@ const QuestionAndAnswers = ({ match }) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [answerId, setAnswerId] = useState(null);
-  // const session = useContext(UserSession)[0][0];
-  const username = useContext(UserSession)[1][0];
-  const [session, setSession] = useContext(UserSession);
-
+  const [session, setSession] = useContext(UserSession)[0];
   let content = "";
+
   const logOut = () => {
     localStorage.setItem("session", null);
     setSession(localStorage.getItem("session"));
