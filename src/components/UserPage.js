@@ -53,8 +53,7 @@ const UserPage = (props) => {
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [friendIdList, setFriendIdList] = useState([]);
-  const session = useContext(UserSession)[0];
-  const [friendButtonText, setFriendButtonText] = useState("Set friend");
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   useEffect(() => {
