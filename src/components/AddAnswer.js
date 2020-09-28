@@ -6,7 +6,7 @@ import FormDiv from "../style/form";
 const AddAnswer = (props) => {
   const [description, setDescription] = useState("");
   const [imagePath, setImagePath] = useState("");
-  const session = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
 
   const setDescriptionOnChange = (e) => {
     setDescription(e.target.value);

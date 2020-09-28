@@ -58,8 +58,9 @@ export default function Chat() {
     axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
       setAllChats(res.data);
       setRender(false);
+      console.log(topics);
     });
-  }, [activeTopic, render, setAllChats]);
+  }, [activeTopic, render, setAllChats, topics]);
 
   const checkKey = (e) => {
     if (e.key === "Enter") {

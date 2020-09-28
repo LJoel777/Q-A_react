@@ -21,7 +21,7 @@ const SettingsDiv = styled.div`
   }
 `;
 const Settings = (props) => {
-  const [hobbies, setHobbies] = useState([]);
+  const [hobbies, setHobbies] = useContext(UserSession)[2];
   const [emailAddress, setEmailAddress] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +82,7 @@ const Settings = (props) => {
       setUsername(res.data.username);
       setIsLoading(false);
     });
-  }, [session, setUsername]);
+  }, [session, setHobbies, setUsername]);
 
   if (!isLoading) {
     content = (
