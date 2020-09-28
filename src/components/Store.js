@@ -1,46 +1,46 @@
-import React, { useReducer, useContext, useEffect, useState } from "react";
-import io from "socket.io-client";
-import { MessageContext } from "../context/MessageContext";
-import axios from "axios";
+// import React, { useContext, useEffect } from "react";
+// import io from "socket.io-client";
+// import { MessageContext } from "../context/MessageContext";
+// import axios from "axios";
 
-export const CTX = React.createContext();
+// export const CTX = React.createContext();
 
-let socket;
+// let socket;
 
-function sendChatAction(value) {
-  socket.emit("chat message", value);
-}
+// function sendChatAction(value) {
+//   socket.emit("chat message", value);
+// }
 
-function Store(props) {
-  const activeTopic = useContext(MessageContext)[1][0];
-  const [initState, setInitState] = useContext(MessageContext)[0];
+// function Store(props) {
+//   const activeTopic = useContext(MessageContext)[1][0];
+//   const [initState, setInitState] = useContext(MessageContext)[0];
 
-  useEffect(() => {
-    if (activeTopic !== "") {
-      console.log(activeTopic);
-      axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
-        setInitState(res.data);
-      });
-    }
-  }, [activeTopic, setInitState]);
+//   useEffect(() => {
+//     if (activeTopic !== "") {
+//       console.log(activeTopic);
+//       axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
+//         setInitState(res.data);
+//       });
+//     }
+//   }, [activeTopic, setInitState]);
 
-  useEffect(() => {
-    if (!socket) {
-      socket = io(":3001");
-      socket.on(
-        "chat message",
-        function (msg) {
-          console.log(initState);
-          let newArr = [...initState];
-          console.log(newArr);
-          newArr.push({ username: msg.username, msg: msg.msg });
-          setInitState(newArr);
-        },
-        [initState]
-      );
-    }
-  });
+//   useEffect(() => {
+//     if (!socket) {
+//       socket = io(":3001");
+//       socket.on(
+//         "chat message",
+//         function (msg) {
+//           console.log(initState);
+//           let newArr = [...initState];
+//           console.log(newArr);
+//           newArr.push({ username: msg.username, msg: msg.msg });
+//           setInitState(newArr);
+//         },
+//         [initState]
+//       );
+//     }
+//   });
 
-  return <CTX.Provider value={{ sendChatAction }}>{props.children}</CTX.Provider>;
-}
-export default Store;
+//   return <CTX.Provider value={{ sendChatAction }}>{props.children}</CTX.Provider>;
+// }
+// export default Store;

@@ -44,7 +44,7 @@ const Settings = (props) => {
       profilePicture: profilePicture,
       fieldsOfInterests: String(hobbies).replace(/\s/g, "").split(","),
     };
-    return axios.post(`http://localhost:8080/update-user/${session}`, data).then((res) => {
+    return axios.post(`http://localhost:8080/user/update-user/${session}`, data).then((res) => {
       setUsername(res.data.username);
       setEmailAddress(res.data.emailAddress);
       setHobbies(res.data.fieldsOfInterests);

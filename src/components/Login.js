@@ -2,16 +2,17 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import FormDiv from "../style/form";
+import { setToken } from "../LocalStorageService";
+import { setLocalStorageHobbies, setLocalStorageUsername, setLocalStorageSession } from "../LocalStorageService";
 
 const Login = (props) => {
   const setSession = useContext(UserSession)[0][1];
-  const setUsername = useContext(UserSession)[1][1];
+  const [username, setUsername] = useContext(UserSession)[1];
   const setHobbies = useContext(UserSession)[2][1];
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const setEmailOnChange = (e) => {
-    setEmail(e.target.value);
+    setUsername(e.target.value);
   };
 
   const setPasswordOnChange = (e) => {
@@ -20,7 +21,7 @@ const Login = (props) => {
 
   const checkFields = (e) => {
     e.preventDefault();
-    if (email.length > 0 && password.length > 0) {
+    if (username.length > 0 && password.length > 0) {
       postData();
     } else {
       alert("Please fill the title and description field!");
@@ -29,23 +30,21 @@ const Login = (props) => {
 
   const postData = () => {
     const login = {
-      email: email,
+      username: username,
       password: password,
     };
     return axios
       .post("http://localhost:8080/login", login)
       .then((res) => {
-        if (res.data.valid) {
-          localStorage.setItem("session", res.data.id);
-          localStorage.setItem("username", res.data.username);
-          localStorage.setItem("hobbies", res.data.hobbies);
-          setSession(res.data.id);
-          setUsername(res.data.username);
-          setHobbies(res.data.hobbies);
-          props.history.push("/");
-        } else {
-          alert("Wrong password or email!");
-        }
+        console.log(res.data);
+        setToken(res.data.token);
+        setLocalStorageSession(res.data.user.id);
+        setLocalStorageUsername(res.data.user.username);
+        setLocalStorageHobbies(res.data.user.fieldsOfInterests);
+        setHobbies(res.data.user.fieldsOfInterests);
+        setUsername(res.data.user.username);
+        setSession(res.data.user.id);
+        props.history.push("/");
       })
       .catch((error) => alert("Wrong password or email!"));
   };

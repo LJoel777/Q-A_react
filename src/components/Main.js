@@ -27,11 +27,11 @@ function Main() {
       <Route exact path="/editAnswer/:id" component={EditAnswer} />
       <Route exact path="/user/:id" component={UserPage} />
       <Route exact path="/settings" component={Settings} />
-      <MessageContextProvider>
+      {/* <MessageContextProvider>
         <Store>
           <Route exact path="/chat" component={Chat} />
         </Store>
-      </MessageContextProvider>
+      </MessageContextProvider> */}
     </div>
   );
 }
