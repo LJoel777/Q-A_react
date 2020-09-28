@@ -39,8 +39,6 @@ const PostDiv = styled.div`
     margin-top: 20px;
     width: 100%;
     position: relative;
-
- 
   }
   .imgContainer {
     position: relative;
@@ -48,10 +46,8 @@ const PostDiv = styled.div`
     left: 50%;
     transform: translateX(-50%);
   }
-  .likes{
-    
-    color:white;
-
+  .likes {
+    color: white;
   }
 `;
 
@@ -62,17 +58,14 @@ const Question = (props) => {
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0][0];
-  const [like,setLike] = useState(0);
-  const [isLiked,setIsLiked] = useState(false);
+  const [like, setLike] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
-  const changeLike =(e)=>{
+  const changeLike = (e) => {
     e.preventDefault();
     axios.get(`http://localhost:8080/post/${question.id}/vote/${session}/1 `).catch((error) => console.log(error));
-    // axios.get(`http://localhost:8080/post/${question.id}/get-vote/${session}`).then((res)=>{
-      
     setIsLiked(true);
-  // })
-};
+  };
 
   let content = "";
 
@@ -83,13 +76,13 @@ const Question = (props) => {
         setUsername(res.data.username);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
-      axios.get(`http://localhost:8080/post/${question.id}/get-vote/${session}`).then((res)=>{
-        console.log(res.data);
-        setLike(res.data);
-      })
+        axios.get(`http://localhost:8080/post/${question.id}/get-vote/${session}`).then((res) => {
+          console.log(res.data);
+          setLike(res.data);
+        });
       });
     }
-  }, [question, session, setUsername,isLiked]);
+  }, [question, session, setUsername, isLiked]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();
@@ -123,8 +116,9 @@ const Question = (props) => {
         <div className="postFooter">
           <ChatBubbleOutlineIcon fontSize="small" color="white"></ChatBubbleOutlineIcon>
           <RepeatIcon fontSize="small" color="white" />
-          <span className="likes">{like}
-          <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
+          <span className="likes">
+            {like}
+            <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
           </span>
           {session === question.userId ? (
             <MoreHorizIcon fontSize="small" color="white">

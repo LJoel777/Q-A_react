@@ -14,19 +14,6 @@ function sendChatAction(value) {
 function Store(props) {
   const activeTopic = useContext(MessageContext)[1][0];
   const [initState, setInitState] = useContext(MessageContext)[0];
-  // const [allChats, dispatch] = useReducer(reducer, initState);
-  // function reducer(state, action) {
-  //   const { msg, username } = action.payload;
-  //   switch (action.type) {
-  //     case "RECEIVE_MESSAGE":
-  //       let newArr = [...initState];
-  //       newArr.push({ username, msg });
-  //       setInitState(newArr);
-  //       return newArr;
-  //     default:
-  //       return state;
-  //   }
-  // }
 
   useEffect(() => {
     if (activeTopic !== "") {
@@ -47,9 +34,7 @@ function Store(props) {
           let newArr = [...initState];
           console.log(newArr);
           newArr.push({ username: msg.username, msg: msg.msg });
-          // console.log(newArr);
           setInitState(newArr);
-          // dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
         },
         [initState]
       );
