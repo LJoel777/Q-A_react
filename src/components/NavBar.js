@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import { Tooltip } from "@material-ui/core";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import Notification from "./Notification";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -45,6 +47,9 @@ const NavBar = () => {
     setSession(localStorage.getItem("session"));
   };
 
+
+
+
   if (isNaN(session)) {
     content = (
       <div className="navBar">
@@ -71,6 +76,11 @@ const NavBar = () => {
           <Tooltip title="News by friends">
             <PeopleAltIcon color="secondary" fontSize="large"></PeopleAltIcon>
           </Tooltip>
+        </Link>
+        <Link>
+        <Tooltip title="Notifications">
+          <Notification/>
+        </Tooltip>
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           <Tooltip title="Logout">
