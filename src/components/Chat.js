@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     height: "300px",
     padding: "20px",
+    overflow: "hidden",
+    overflowY: "scroll"
   },
   chatBox: {
     width: "80%",
@@ -56,18 +58,19 @@ export default function Chat() {
   let content;
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
+    axios.get(`http://localhost:8080/message/get-messages/${activeTopic}`).then((res) => {
       setAllChats(res.data);
       setRender(false);
+      console.log(topics);
     });
-  }, [activeTopic, render, setAllChats]);
+  }, [activeTopic, render, setAllChats, topics]);
 
   const checkKey = (e) => {
     if (e.key === "Enter") {
       let message = { username: `${username}`, msg: textValue, topic: activeTopic ,  };
       sendChatAction({ username: `${username}`, msg: textValue });
       changeTextValue("");
-      axios.post("http://localhost:8080/send-message", message).then(() => {
+      axios.post("http://localhost:8080/message/send-message", message).then(() => {
         setRender(true);
       });
     }
@@ -118,8 +121,12 @@ export default function Chat() {
             variant="contained"
             color="primary"
             onClick={() => {
-              sendChatAction({ username: `${username}`, msg: textValue ,});
+              let message = { username: `${username}`, msg: textValue, topic: activeTopic ,  };
+              sendChatAction({ username: `${username}`, msg: textValue });
               changeTextValue("");
+              axios.post("http://localhost:8080/message/send-message", message).then(() => {
+              setRender(true);
+      });
             }}
           >
             Send
