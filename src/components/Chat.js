@@ -50,6 +50,7 @@ export default function Chat() {
   const [allChats, setAllChats] = useContext(MessageContext)[0];
   const sendChatAction = useContext(CTX).sendChatAction;
   const topics = useContext(UserSession)[2][0];
+  const [timestamp,setTimestamp] = useState(0); 
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
   let content;
@@ -63,7 +64,7 @@ export default function Chat() {
 
   const checkKey = (e) => {
     if (e.key === "Enter") {
-      let message = { username: `${username}`, msg: textValue, topic: activeTopic };
+      let message = { username: `${username}`, msg: textValue, topic: activeTopic ,  };
       sendChatAction({ username: `${username}`, msg: textValue });
       changeTextValue("");
       axios.post("http://localhost:8080/send-message", message).then(() => {
@@ -117,7 +118,7 @@ export default function Chat() {
             variant="contained"
             color="primary"
             onClick={() => {
-              sendChatAction({ username: `${username}`, msg: textValue });
+              sendChatAction({ username: `${username}`, msg: textValue ,});
               changeTextValue("");
             }}
           >

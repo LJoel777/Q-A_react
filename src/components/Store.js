@@ -15,14 +15,15 @@ function Store(props) {
   const activeTopic = useContext(MessageContext)[1][0];
   const [initState, setInitState] = useContext(MessageContext)[0];
 
-  useEffect(() => {
-    if (activeTopic !== "") {
-      console.log(activeTopic);
-      axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
-        setInitState(res.data);
-      });
-    }
-  }, [activeTopic, setInitState]);
+  // useEffect(() => {
+  //   if (activeTopic !== "") {
+  //     console.log(activeTopic);
+  //     axios.get(`http://localhost:8080/get-messages/${activeTopic}`).then((res) => {
+  //       setInitState(res.data);
+  //       console.log(JSON.stringify(res.data) + "RESDATA")
+  //     });
+  //   }
+  // }, [activeTopic]);
 
   useEffect(() => {
     if (!socket) {
@@ -32,6 +33,7 @@ function Store(props) {
         function (msg) {
           console.log(initState);
           let newArr = [...initState];
+          console.log("Laci")
           console.log(newArr);
           newArr.push({ username: msg.username, msg: msg.msg });
           setInitState(newArr);
@@ -39,7 +41,7 @@ function Store(props) {
         [initState]
       );
     }
-  });
+  },[]);
 
   return <CTX.Provider value={{ sendChatAction }}>{props.children}</CTX.Provider>;
 }

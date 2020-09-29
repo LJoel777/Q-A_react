@@ -13,6 +13,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import AnswerList from "./AnswerList";
 import QuestionAndAnswers from "./QuestionAndAnswers";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const PostDiv = styled.div`
   display: flex;
@@ -116,10 +117,14 @@ const Question = (props) => {
         <div className="postFooter">
           <ChatBubbleOutlineIcon fontSize="small" color="white"></ChatBubbleOutlineIcon>
           <RepeatIcon fontSize="small" color="white" />
-          <span className="likes">
-            {like}
-            <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
-          </span>
+          {isLiked ?(
+            <span className="likes">{like}
+              <FavoriteIcon fontSize="small" color="white"></FavoriteIcon>
+            </span>
+          ):(
+          <span className="likes">{like}
+          <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
+          </span>)}
           {session === question.userId ? (
             <MoreHorizIcon fontSize="small" color="white">
               <p class="postSettings" href={`/editQuestion/${question.id}`}>
