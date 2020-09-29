@@ -102,7 +102,6 @@ const Answer = (props) => {
     setIsLoading(true);
     if (answer !== null) {
       axios.get(`http://localhost:8080/user/${answer.user.id}`).then((res) => {
-
         setUsername(res.data.username);
 
         setUserProfilePicture(res.data.profilePicture);
@@ -126,7 +125,6 @@ const Answer = (props) => {
             <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
             <br />
             <span className="userName">{username}</span>
-
           </div>
         </Link>
         <p className="description">{answer.description}</p>
