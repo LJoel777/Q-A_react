@@ -42,12 +42,10 @@ const QuestionsList = (props) => {
   useEffect(() => {
     setIsLoading(true);
     let url;
-    console.log(session);
     if (props.match.path === "/" || props.match.path === "/hobby-news") {
-      // url = "http://localhost:8080/post/hobby-news/" + session;
-      url = `http://localhost:8080/hobby-news/${session}`;
+      url = `http://localhost:8080/post/hobby-news/${session}`;
     } else {
-      url = "http://localhost:8080/friend-news/" + session;
+      url = "http://localhost:8080/post/friend-news/" + session;
     }
     axios.get(url).then((res) => {
       console.log(res.data);
@@ -88,24 +86,17 @@ const QuestionsList = (props) => {
           </ul>
         </div>
         <div className="feed">
-          <PostModal
-            className="postModal"
-            isLoading={isLoading}
-            session={session}
-            history={props.history}
-          />
+          <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />
           {questions.map((question) => (
-            <Question key={question.id} question={question} />
+            <Question key={question.postId} question={question} />
           ))}
         </div>
         <div className="chatSide">
-          <ul>
-            {/* <li>casdas</li>
+          <ul>{/* <li>casdas</li>
                      <li>dasdas</li>
                      <li>fefefefe</li>
                      <li>fafafaafa</li>
-                     <li>fefefefe</li> */}
-          </ul>
+                     <li>fefefefe</li> */}</ul>
         </div>
       </Container>
     );

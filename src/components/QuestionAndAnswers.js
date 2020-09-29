@@ -10,8 +10,6 @@ import PersonIcon from "@material-ui/icons/Person";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 
-import SettingsIcon from "@material-ui/icons/Settings";
-
 const PostAndComment = styled.div`
   .button {
     margin-left: 20%;
@@ -76,7 +74,7 @@ const QuestionAndAnswers = ({ match }) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/post/${match.params.id}/${session}`).then((res) => {
-      console.log(match.params.id);
+      console.log(res.data);
       setQuestion(res.data);
       setAnswerId(res.data.id);
       setIsLoading(false);
@@ -123,13 +121,11 @@ const QuestionAndAnswers = ({ match }) => {
           <AnswerList answerId={answerId} />
         </PostAndComment>
         <div className="chatSide">
-          <ul>
-            {/* <li>casdas</li>
+          <ul>{/* <li>casdas</li>
             <li>dasdas</li>
             <li>fefefefe</li>
             <li>fafafaafa</li>
-            <li>fefefefe</li> */}
-          </ul>
+            <li>fefefefe</li> */}</ul>
         </div>
       </QandAContainer>
     );
