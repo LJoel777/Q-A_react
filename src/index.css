@@ -138,3 +138,14 @@ svg{
 .postText{
     color:white;
 }
+#dropdownBtn {
+    background: none;
+    border: none;
+  }
+  #dropdownBtn:hover {
+    background: #6c757d;
+    border-radius: 60%;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
