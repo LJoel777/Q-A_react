@@ -13,25 +13,27 @@ import Chat from "./Chat";
 import Store from "./Store";
 import Settings from "./Settings";
 import { MessageContextProvider } from "../context/MessageContext";
+import ProtectedRoute from "../helpers/Protected.route";
+import AxiosConfig from "../AxiosConfig";
 
 function Main() {
   return (
     <div className="Main">
       <NavBar />
-      <Route exact path={["/", "/hobby-news", "/friend-news"]} component={QuestionsList} />
-      <Route exact path="/question/:id" component={QuestionAndAnswer} />
-      <Route exact path="/addAnswer/:id" component={AddAnswer} />
+      <ProtectedRoute exact path={["/", "/hobby-news", "/friend-news"]} component={QuestionsList} />
+      <ProtectedRoute exact path="/question/:id" component={QuestionAndAnswer} />
+      <ProtectedRoute exact path="/addAnswer/:id" component={AddAnswer} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/registration" component={Register} />
-      <Route exact path="/editQuestion/:id" component={EditQuestion} />
-      <Route exact path="/editAnswer/:id" component={EditAnswer} />
-      <Route exact path="/user/:id" component={UserPage} />
-      <Route exact path="/settings" component={Settings} />
-      {/* <MessageContextProvider>
+      <ProtectedRoute exact path="/editQuestion/:id" component={EditQuestion} />
+      <ProtectedRoute exact path="/editAnswer/:id" component={EditAnswer} />
+      <ProtectedRoute exact path="/user/:id" component={UserPage} />
+      <ProtectedRoute exact path="/settings" component={Settings} />
+      <MessageContextProvider>
         <Store>
           <Route exact path="/chat" component={Chat} />
         </Store>
-      </MessageContextProvider> */}
+      </MessageContextProvider>
     </div>
   );
 }

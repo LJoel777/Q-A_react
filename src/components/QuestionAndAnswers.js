@@ -67,6 +67,10 @@ const QuestionAndAnswers = ({ match }) => {
 
   const logOut = () => {
     localStorage.setItem("session", null);
+    localStorage.setItem("username", null);
+    localStorage.setItem("hobbies", null);
+    localStorage.removeItem("token");
+    localStorage.setItem("session", null);
     setSession(localStorage.getItem("session"));
   };
   useEffect(() => {

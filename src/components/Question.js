@@ -13,6 +13,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import AnswerList from "./AnswerList";
 import QuestionAndAnswers from "./QuestionAndAnswers";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const PostDiv = styled.div`
   display: flex;
