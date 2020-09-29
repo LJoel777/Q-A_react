@@ -9,7 +9,6 @@ import PersonIcon from "@material-ui/icons/Person";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { Link } from "react-router-dom";
-import axiosConfig from "../AxiosConfig";
 
 const Container = styled.div`
   display: flex;
@@ -29,9 +28,13 @@ const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useContext(UserSession)[0];
-
   let content = "";
+
   const logOut = () => {
+    localStorage.setItem("session", null);
+    localStorage.setItem("username", null);
+    localStorage.setItem("hobbies", null);
+    localStorage.removeItem("token");
     localStorage.setItem("session", null);
     setSession(localStorage.getItem("session"));
   };
@@ -44,18 +47,14 @@ const QuestionsList = (props) => {
     } else {
       url = "http://localhost:8080/post/friend-news/" + session;
     }
-    if (!isNaN(session)) {
-      axios.get(url).then((res) => {
-        console.log(res.data);
-        setQuestions(res.data);
-        setIsLoading(false);
-      });
-    } else {
-      console.log(session);
-    }
-  }, [session, props.match.path]);
+    axios.get(url).then((res) => {
+      console.log(res.data);
+      setQuestions(res.data);
+      setIsLoading(false);
+    });
+  }, [props.match.path, session]);
 
-  if (!isLoading && !isNaN(session)) {
+  if (!isLoading) {
     content = (
       <Container className="col">
         <div className="profileSide">
@@ -101,8 +100,6 @@ const QuestionsList = (props) => {
         </div>
       </Container>
     );
-  } else if (isNaN(session)) {
-    props.history.push("/login");
   } else content = "Loading";
   return content;
 };

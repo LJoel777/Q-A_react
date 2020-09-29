@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import FormDiv from "../style/form";
-import { setToken } from "../LocalStorageService";
-import { setLocalStorageHobbies, setLocalStorageUsername, setLocalStorageSession } from "../LocalStorageService";
+import { setToken } from "../helpers/LocalStorageService";
+import { setLocalStorageHobbies, setLocalStorageUsername, setLocalStorageSession } from "../helpers/LocalStorageService";
 
 const Login = (props) => {
   const setSession = useContext(UserSession)[0][1];

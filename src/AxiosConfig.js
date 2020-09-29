@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "./LocalStorageService";
+import { getToken } from "./helpers/LocalStorageService";
 
 axios.interceptors.request.use(
   (config) => {

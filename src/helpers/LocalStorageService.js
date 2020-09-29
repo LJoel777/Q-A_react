@@ -10,6 +10,10 @@ export const removeToken = () => {
   localStorage.removeItem("token");
 };
 
+export const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null;
+};
+
 export const setLocalStorageSession = (session) => localStorage.setItem("session", session);
 export const setLocalStorageUsername = (username) => localStorage.setItem("username", username);
 export const setLocalStorageHobbies = (hobbies) => localStorage.setItem("hobbies", hobbies);

@@ -77,7 +77,6 @@ const Question = (props) => {
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
         axios.get(`http://localhost:8080/post/${question.id}/get-vote/${session}`).then((res) => {
-          console.log(res.data);
           setLike(res.data);
         });
       });
