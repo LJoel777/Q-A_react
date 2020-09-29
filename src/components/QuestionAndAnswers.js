@@ -56,10 +56,9 @@ const QandAContainer = styled.div`
   }
 `;
 
-const QuestionAndAnswers = ({ match }) => {
+const QuestionAndAnswers = (props) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [answerId, setAnswerId] = useState(null);
   const [session, setSession] = useContext(UserSession)[0];
   let content = "";
 
@@ -73,13 +72,11 @@ const QuestionAndAnswers = ({ match }) => {
   };
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/post/${match.params.id}/${session}`).then((res) => {
-      console.log(res.data);
+    axios.get(`http://localhost:8080/post/${props.match.params.id}/${session}`).then((res) => {
       setQuestion(res.data);
-      setAnswerId(res.data.id);
       setIsLoading(false);
     });
-  }, [match.params.id, session]);
+  }, [props.match.params.id, session]);
 
   if (!isLoading) {
     content = (
@@ -113,12 +110,12 @@ const QuestionAndAnswers = ({ match }) => {
           </ul>
         </div>
         <PostAndComment>
-          <Question question={question} />
-          <Link to={`/addAnswer/${question.id}`} className="LinkButton">
+          <Question question={question} history={props.history} />
+          <Link to={`/addAnswer/${question.postId}`} className="LinkButton">
             <div className="button">Comment</div>
           </Link>
           <hr />
-          <AnswerList answerId={answerId} />
+          <AnswerList questionId={question.postId} />
         </PostAndComment>
         <div className="chatSide">
           <ul>{/* <li>casdas</li>

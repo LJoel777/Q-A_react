@@ -52,7 +52,6 @@ export default function Chat() {
   const [allChats, setAllChats] = useContext(MessageContext)[0];
   const sendChatAction = useContext(CTX).sendChatAction;
   const topics = useContext(UserSession)[2][0];
-  const [timestamp, setTimestamp] = useState(0);
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
   let content;

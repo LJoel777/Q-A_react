@@ -61,7 +61,7 @@ const NavBar = () => {
       <div className="navBar">
         <div className="logo">
           <Link className="link" to="/">
-            <img className="logo" src={Logo} />
+            <img className="logo" alt="" src={Logo} />
           </Link>
         </div>
         <Link className="link" to={`/user/${session}`}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,9 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
+import { Dropdown } from "react-bootstrap";
+import EditQuestion from "./EditQuestion";
 
 const PostDiv = styled.div`
   display: flex;
@@ -44,21 +46,44 @@ const PostDiv = styled.div`
   .likes {
     color: white;
   }
+
+  #dropdownBtn {
+    background: none;
+    border: none;
+    border-radius: 60%;
+  }
+  #dropdownBtn:hover {
+    background: #6c757d;
+    border-radius: 60%;
+  }
+
+  #dropdownBtn::active {
+    border: none;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
 `;
 
 const Question = (props) => {
   const [question, setQuestion] = useState(props.question);
-  const user = question.userInfoView;
   const [voteNumber, setVoteNumber] = useState(question.voteNumber);
   const [deleted, setDeleted] = useState(false);
   const session = useContext(UserSession)[0][0];
   const [isLiked, setIsLiked] = useState(question.userVoted);
+  let user;
+  if (!deleted) user = question.userInfoView;
 
   const changeLike = (e) => {
     e.preventDefault();
     axios.get(`http://localhost:8080/post/${question.postId}/vote/${session}`).catch((error) => console.log(error));
-    setVoteNumber(voteNumber + 1);
-    setIsLiked(true);
+    if (!isLiked) {
+      setVoteNumber(voteNumber + 1);
+      setIsLiked(true);
+    } else {
+      setVoteNumber(voteNumber - 1);
+      setIsLiked(false);
+    }
   };
 
   let content = "";
@@ -93,32 +118,36 @@ const Question = (props) => {
           </div>
         </div>
         <div className="postFooter">
-          <ChatBubbleOutlineIcon fontSize="small" color="white"></ChatBubbleOutlineIcon>
-          <RepeatIcon fontSize="small" color="white" />
+          <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon>
+          <RepeatIcon />
           {isLiked ? (
             <span className="likes">
               {voteNumber}
-              <FavoriteIcon fontSize="small" color="white"></FavoriteIcon>
+              <FavoriteIcon onClick={changeLike}></FavoriteIcon>
             </span>
           ) : (
             <span className="likes">
               {voteNumber}
-              <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
+              <FavoriteBorderIcon onClick={changeLike} />
             </span>
           )}
           {session === question.userId ? (
-            <MoreHorizIcon fontSize="small" color="white">
-              <p class="postSettings" href={`/editQuestion/${question.postId}`}>
-                Edit post
-              </p>
-              <p class="postSettings" onClick={deleteQuestion}>
-                Delete post
-              </p>
-            </MoreHorizIcon>
+            <Dropdown>
+              <Dropdown.Toggle id="dropdownBtn">
+                <MoreHorizontIcon />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={deleteQuestion}>Delete</Dropdown.Item>
+                <Dropdown.Item>
+                  <EditQuestion id={question.postId} history={props.history} />
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           ) : (
             ""
           )}
         </div>
+        {/* {show === true ? <EditQuestion id={question.postId} show={show} history={props.history} /> : ""} */}
       </PostDiv>
     );
   } else content = "";

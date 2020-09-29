@@ -9,12 +9,11 @@ const AnswerList = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/answer/answersByQuestionId/${props.answerId}`).then((res) => {
+    axios.get(`http://localhost:8080/answer/answersByQuestionId/${props.questionId}`).then((res) => {
       setAnswers(res.data);
-      console.log(res.data);
       setIsLoading(false);
     });
-  }, [props.answerId]);
+  }, [props]);
 
   if (!isLoading) {
     content = (

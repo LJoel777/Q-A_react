@@ -88,7 +88,7 @@ const QuestionsList = (props) => {
         <div className="feed">
           <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />
           {questions.map((question) => (
-            <Question key={question.postId} question={question} />
+            <Question key={question.postId} question={question} history={props.history} />
           ))}
         </div>
         <div className="chatSide">
