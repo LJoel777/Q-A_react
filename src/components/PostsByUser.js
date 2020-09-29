@@ -10,10 +10,12 @@ function PostsByUser(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/post/posts-by-user-id/${id}`).then((res) => {
-      setQuestions(res.data);
-      setIsLoading(false);
-    });
+    axios
+      .get(`http://localhost:8080/post/posts-by-user-id/${id}`)
+      .then((res) => {
+        setQuestions(res.data);
+        setIsLoading(false);
+      });
   }, [id]);
 
   if (!isLoading) {

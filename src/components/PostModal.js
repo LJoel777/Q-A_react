@@ -26,7 +26,7 @@ const Post = styled.div`
     font-weight: bold;
     color: white;
     border-radius: 5px;
-    border:none;
+    border: none;
   }
   .myModal {
     background: black;
@@ -63,7 +63,6 @@ const PostModal = (props) => {
           categories: hobbies.replace(/\s/g, "").split(","),
           imagePath: imagePath,
         };
-        console.log(question)
         return axios.post("http://localhost:8080/post/add", question).then((res) => {
           props.history.push(`/question/${res.data}`);
         });
