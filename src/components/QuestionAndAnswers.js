@@ -75,7 +75,7 @@ const QuestionAndAnswers = ({ match }) => {
   };
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/post/${match.params.id}`).then((res) => {
+    axios.get(`http://localhost:8080/post/${match.params.id}/${session}`).then((res) => {
       console.log(match.params.id);
       setQuestion(res.data);
       setAnswerId(res.data.id);
@@ -123,11 +123,13 @@ const QuestionAndAnswers = ({ match }) => {
           <AnswerList answerId={answerId} />
         </PostAndComment>
         <div className="chatSide">
-          <ul>{/* <li>casdas</li>
+          <ul>
+            {/* <li>casdas</li>
             <li>dasdas</li>
             <li>fefefefe</li>
             <li>fafafaafa</li>
-            <li>fefefefe</li> */}</ul>
+            <li>fefefefe</li> */}
+          </ul>
         </div>
       </QandAContainer>
     );

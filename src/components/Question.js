@@ -5,7 +5,7 @@ import trash from "../images/trash.png";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import { Button } from "react-bootstrap";
-
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -59,13 +59,15 @@ const Question = (props) => {
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0][0];
-  const [like, setLike] = useState(0);
+  const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
   const changeLike = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/post/${question.id}/vote/${session}/1 `).catch((error) => console.log(error));
-    setIsLiked(true);
+    axios
+      .get(`http://localhost:8080/post/${question.id}/vote/${session}/ `)
+      .catch((error) => console.log(error));
+    setIsLiked(!isLiked);
   };
 
   let content = "";
@@ -73,20 +75,20 @@ const Question = (props) => {
   useEffect(() => {
     setIsLoading(true);
     if (question !== null) {
-      axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
+      axios.get(`http://localhost:8080/user/${question.userId}`).then((res) => {
         setUsername(res.data.username);
         setUserProfilePicture(res.data.profilePicture);
         setIsLoading(false);
-        axios.get(`http://localhost:8080/post/${question.id}/get-vote/${session}`).then((res) => {
-          setLike(res.data);
-        });
+        setLikes(question.voteNumber);
       });
     }
   }, [question, session, setUsername, isLiked]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/post/${question.id}/remove`).catch((error) => console.log(error));
+    axios
+      .get(`http://localhost:8080/post/${question.id}/remove`)
+      .catch((error) => console.log(error));
     setQuestion(null);
     setDeleted(true);
   };
@@ -95,9 +97,13 @@ const Question = (props) => {
     content = (
       <PostDiv className="postDiv" id={question.id}>
         <div className="postHeader flexbox-item">
-          <Link to={`/user/${question.user.id}`} className="linkToProfile">
+          <Link to={`/user/${question.userId}`} className="linkToProfile">
             <div className="profile">
-              <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
+              <img
+                src={userProfilePicture}
+                alt="profilePicture"
+                className="profilePicture"
+              />
               <p className="userName">{username}</p>
             </div>
           </Link>
@@ -114,16 +120,26 @@ const Question = (props) => {
           </div>
         </div>
         <div className="postFooter">
-          <ChatBubbleOutlineIcon fontSize="small" color="white"></ChatBubbleOutlineIcon>
+          <ChatBubbleOutlineIcon
+            fontSize="small"
+            color="white"
+          ></ChatBubbleOutlineIcon>
           <RepeatIcon fontSize="small" color="white" />
-          {isLiked ?(
-            <span className="likes">{like}
+          {isLiked ? (
+            <span className="likes">
+              {likes}
               <FavoriteIcon fontSize="small" color="white"></FavoriteIcon>
             </span>
-          ):(
-          <span className="likes">{like}
-          <FavoriteBorderIcon fontSize="small" color="white" onClick={changeLike} />
-          </span>)}
+          ) : (
+            <span className="likes">
+              {likes}
+              <FavoriteBorderIcon
+                fontSize="small"
+                color="white"
+                onClick={changeLike}
+              />
+            </span>
+          )}
           {session === question.userId ? (
             <MoreHorizIcon fontSize="small" color="white">
               <p class="postSettings" href={`/editQuestion/${question.id}`}>
