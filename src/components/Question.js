@@ -63,20 +63,20 @@ const Question = (props) => {
 
   let content = "";
 
-  useEffect(() => {
-    setIsLoading(true);
-    if (question !== null) {
-      axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
-        setUsername(res.data.username);
-        setUserProfilePicture(res.data.profilePicture);
-        setIsLoading(false);
-        axios.get(`http://localhost:8080/post/${question.postId}/get-vote/${session}`).then((res) => {
-          console.log(res.data);
-          setLike(res.data);
-        });
-      });
-    }
-  }, [question, session, setUsername, isLiked]);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   if (question !== null) {
+  //     axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
+  //       setUsername(res.data.username);
+  //       setUserProfilePicture(res.data.profilePicture);
+  //       setIsLoading(false);
+  //       axios.get(`http://localhost:8080/post/${question.postId}/get-vote/${session}`).then((res) => {
+  //         console.log(res.data);
+  //         setLike(res.data);
+  //       });
+  //     });
+  //   }
+  // }, [question, session, setUsername, isLiked]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();

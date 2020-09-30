@@ -1,24 +1,48 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import {Dropdown} from 'react-bootstrap'
+import axios from "axios";
+import React, { useState,useContext,useEffect } from "react";
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
+
+const Notification = (props) =>{
+    const [senderPicure,setSenderPicture] = useState("")
+    const [senderUsername,setSenderUsername] = useState("")
 
 
+    console.log(props);
+    // let content;
+    // switch(props.notification.notificationType){
+    //     case "FRIENDREQUEST":
+    //         axios.get(`http://localhost:8080/user/${props.notification.senderId}`).then((res) =>{
+    //             setSenderPicture(res.data);
+    //             setSenderUsername(res.data.username)
+    //         });
+    //         content=(
+    //             <div className="notification">
+    //                 <div>
+    //                     <img src={senderPicure} alt="sender"/>
+    //                 </div>
+    //                 <div>
+    //                     <p>
+    //                     {senderUsername} want to add you as a friend!
+    //                     </p>
+    //                 </div>
+    //                 <div>
+    //                     <CheckIcon color="secondary" fontSize="large"/>
+    //                     <CloseIcon color="secondary" fontSize="large"/>
+    //                 </div>
+    //             </div>
+    //         )
+    //         break;
 
-const Notification = () => {
-    return (
-        <Dropdown>
-        <Dropdown.Toggle id="dropdownBtn">
-        <NotificationsIcon color = "secondary" fontSize="large" />       
-         </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  };
-
+    //     case "VOTE":
+    //         content=<p>loading</p>
+    //         break;
+        
+    //     case "COMMENT":
+    //        content= <p>loading</p>
+    //         break;
+    // }
+    // return content;
+}
 
 export default Notification;

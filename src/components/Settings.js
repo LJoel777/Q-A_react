@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import FormDiv from "../style/form";
 import settings from "../images/settings.png";
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const SettingsDiv = styled.div`
   .post {
@@ -87,10 +88,7 @@ const Settings = (props) => {
   if (!isLoading) {
     content = (
       <SettingsDiv>
-        <Button className="post" variant="primary" onClick={handleShow}>
-          Settings
-          <img src={settings} alt="settings " />
-        </Button>
+              <SettingsIcon color="secondary" fontSize="large" onClick={handleShow}/>
         <Modal className="myModal" show={show} onHide={handleClose}>
           <FormDiv>
             <input className="" placeholder="Email Address..." value={emailAddress} onChange={changeEmailAddress}></input>

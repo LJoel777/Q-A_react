@@ -138,14 +138,50 @@ svg{
 .postText{
     color:white;
 }
-#dropdownBtn {
+/* .notification{
+    overflow: visible;
+    position: absolute;
+    z-index: 200;
+} */
+    #dropdownBtn {
     background: none;
     border: none;
-  }
-  #dropdownBtn:hover {
+    }
+    #dropdownBtn:hover {
     background: #6c757d;
     border-radius: 60%;
   }
   .dropdown-toggle::after {
     display: none;
   }
+
+  .userContainer{
+      display: flex;
+      flex-direction: row;
+  }
+  .userData{
+      display: flex;
+      flex-direction: column;
+      flex: 0.5;
+  }
+  .MuiSvgIcon-root p{
+        color: white;
+ }
+ .sideChat{
+     flex: 0.2;
+ }
+ 
+ .profileSide a{
+     color:White;
+ }
+ .postHeader a{
+     color: white;
+ }
+ .profileButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+ .profileButtons svg{
+     font-size: 40px;
+ }

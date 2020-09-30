@@ -5,6 +5,14 @@ import { UserSession } from "../context/UserSession";
 import Settings from "./Settings";
 import UserPost from "./UserPost";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import HomeIcon from "@material-ui/icons/Home";
+import PersonIcon from "@material-ui/icons/Person";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+
 
 const UseData = styled.div`
   .imageContainer {
@@ -45,6 +53,10 @@ const UseData = styled.div`
   }
 `;
 
+
+
+
+
 const UserPage = (props) => {
   const id = props.match.params.id;
   const [userName, setUserName] = useState("");
@@ -53,8 +65,17 @@ const UserPage = (props) => {
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [friendIdList, setFriendIdList] = useState([]);
-  const session = useContext(UserSession)[0][0];
+  const [session,setSession] = useContext(UserSession)[0];
   let content = "";
+
+  const logOut = () => {
+    localStorage.setItem("session", null);
+    localStorage.setItem("username", null);
+    localStorage.setItem("hobbies", null);
+    localStorage.removeItem("token");
+    localStorage.setItem("session", null);
+    setSession(localStorage.getItem("session"));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,8 +112,36 @@ const UserPage = (props) => {
 
   if (!isLoading) {
     content = (
-      <div>
-        <UseData>
+      <div className="userContainer">
+          <div className="profileSide">
+          <ul>
+            <li>
+              <Link className="link" to={`/user/${session}`}>
+                <PersonIcon color="secondary" fontSize="large" />
+                <p>Profile</p>
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to="/">
+                <HomeIcon color="secondary" fontSize="large" />
+                <p>Home</p>
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to="/chat">
+                <ChatBubbleIcon color="secondary" fontSize="large" />
+                <p>Chat</p>
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to={""} onClick={logOut}>
+                <PowerSettingsNewIcon color="secondary" fontSize="large" />
+                <p>Logout</p>
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <UseData className="userData">
           <div className="imageContainer">
             <img src={profilePicture} alt="profilePicture" />
           </div>
@@ -105,23 +154,26 @@ const UserPage = (props) => {
               Name: {firstName} {lastName}
             </h3>
           </div>
+          <div className="profileButtons">
           {parseInt(id) !== session ? (
             !friendIdList.includes(session) ? (
-              <Button type="button" className="setFriend" onClick={handleFriend}>
-                Set friend
-              </Button>
+             <PersonAddIcon color="secondary" fontSize="large" onClick={handleFriend}/>
             ) : (
-              <Button type="button" className="setFriend" onClick={handleRemoveFriend}>
-                Remove friend
-              </Button>
+          <PersonAddDisabledIcon color="secondary" fontSize="large" onClick={handleRemoveFriend} />
             )
           ) : (
             <Settings history={props.history} />
           )}
+          </div>
           <hr />
+          <UserPost id={id} />
         </UseData>
-        <UserPost id={id} />
-      </div>
+       <div className="sideChat">
+         <ul>
+           <li></li>
+         </ul>
+       </div>
+        </div>
     );
   } else content = "Loading...";
 
