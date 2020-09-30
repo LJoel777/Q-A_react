@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
@@ -13,7 +13,6 @@ import Notification from "./Notification";
 
 const NavDiv = styled.div`
   background-color: #333;
-  overflow: hidden;
   display: flex;
   .link {
     font-size: 20px;
@@ -47,9 +46,6 @@ const NavBar = () => {
     setSession(localStorage.getItem("session"));
   };
 
-
-
-
   if (isNaN(session)) {
     content = (
       <div className="navBar">
@@ -78,9 +74,9 @@ const NavBar = () => {
           </Tooltip>
         </Link>
         <Link>
-        <Tooltip title="Notifications">
-          <Notification/>
-        </Tooltip>
+          <Tooltip title="Notifications">
+            <Notification />
+          </Tooltip>
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           <Tooltip title="Logout">

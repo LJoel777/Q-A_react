@@ -32,10 +32,6 @@ const Settings = (props) => {
   const handleShow = () => setShow(true);
   let content = "";
 
-  if (isNaN(session)) {
-    props.history.push("/login");
-  }
-
   const postData = (e) => {
     e.preventDefault();
     let data = {

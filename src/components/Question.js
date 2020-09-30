@@ -9,7 +9,10 @@ import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
 import { Dropdown } from "react-bootstrap";
-import EditQuestion from "./EditQuestion";
+import EditPost from "./EditPost";
+import AddComment from "./AddComment";
+import Answer from "./Answer";
+import AnswerList from "./AnswerList";
 
 const PostDiv = styled.div`
   display: flex;
@@ -21,13 +24,21 @@ const PostDiv = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
   border-radius: 20px;
-  .postBody > img {
+  font-size: 20px;
+  .postBody {
     border-radius: 20px;
     height: auto;
+    .contentImg {
+      width: 100%;
+      border-radius: 10px;
+    }
   }
   .postHeader {
     width: 100%;
-    position: relative;
+    .profilePicture {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
   }
 
   .postFooter {
@@ -42,6 +53,11 @@ const PostDiv = styled.div`
     width: 600px;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .commentDiv {
+    text-align: left;
+    width: 100%;
   }
   .likes {
     color: white;
@@ -63,14 +79,19 @@ const PostDiv = styled.div`
   .dropdown-toggle::after {
     display: none;
   }
+  hr {
+    border-top: 1px solid white;
+  }
 `;
 
 const Question = (props) => {
   const [question, setQuestion] = useState(props.question);
-  const [voteNumber, setVoteNumber] = useState(question.voteNumber);
   const [deleted, setDeleted] = useState(false);
   const session = useContext(UserSession)[0][0];
-  const [isLiked, setIsLiked] = useState(question.userVoted);
+  const [isLiked, setIsLiked] = useState(!deleted ? question.userVoted : false);
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [voteNumber, setVoteNumber] = useState(!deleted ? question.voteNumber : 0);
+  const [showCommentModal, setShowCommentModal] = useState("none");
   let user;
   if (!deleted) user = question.userInfoView;
 
@@ -87,21 +108,6 @@ const Question = (props) => {
   };
 
   let content = "";
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (question !== null) {
-      axios.get(`http://localhost:8080/user/${question.user.id}`).then((res) => {
-        setUsername(res.data.username);
-        setUserProfilePicture(res.data.profilePicture);
-        setIsLoading(false);
-        axios.get(`http://localhost:8080/post/${question.postId}/get-vote/${session}`).then((res) => {
-          console.log(res.data);
-          setLike(res.data);
-        });
-      });
-    }
-  }, [question, session, setUsername, isLiked]);
 
   const deleteQuestion = (e) => {
     e.preventDefault();
@@ -123,7 +129,7 @@ const Question = (props) => {
         </div>
         <div className="postBody">
           <div className="imgContainer">
-            <img src={question.imagePath} alt=""></img>
+            <img src={question.imagePath} alt="" className="contentImg" />
           </div>
 
           <div className="postDescription">
@@ -133,8 +139,12 @@ const Question = (props) => {
           </div>
         </div>
         <div className="postFooter">
-          <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon>
-          <RepeatIcon />
+          <ChatBubbleOutlineIcon
+            onClick={() => {
+              if (showCommentModal === "none") setShowCommentModal("block");
+              else setShowCommentModal("none");
+            }}
+          />
           {isLiked ? (
             <span className="likes">
               {voteNumber}
@@ -153,16 +163,19 @@ const Question = (props) => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={deleteQuestion}>Delete</Dropdown.Item>
-                <Dropdown.Item>
-                  <EditQuestion id={question.postId} history={props.history} />
-                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setShowPostModal(true)}>Edit</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
             ""
           )}
         </div>
-        {/* {show === true ? <EditQuestion id={question.postId} show={show} history={props.history} /> : ""} */}
+        <div className="commentDiv" style={{ display: showCommentModal }}>
+          <hr />
+          {showCommentModal === "block" ? <AnswerList questionId={question.postId} /> : ""}
+        </div>
+        {showPostModal === true ? <EditPost id={question.postId} show={showPostModal} history={props.history} setShowModal={setShowPostModal.bind(this)} /> : " "}
+        {showCommentModal === true ? <AddComment id={question.postId} show={showCommentModal} history={props.history} setShowCommentModal={setShowCommentModal.bind(this)} /> : " "}
       </PostDiv>
     );
   } else content = "";

@@ -48,7 +48,6 @@ const QuestionsList = (props) => {
       url = "http://localhost:8080/post/friend-news/" + session;
     }
     axios.get(url).then((res) => {
-      console.log(res.data);
       setQuestions(res.data);
       setIsLoading(false);
     });

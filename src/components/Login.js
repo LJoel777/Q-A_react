@@ -51,7 +51,7 @@ const Login = (props) => {
 
   return (
     <FormDiv>
-      <input id="title" placeholder="Email..." onChange={setEmailOnChange} />
+      <input id="title" placeholder="Username..." onChange={setEmailOnChange} />
       <input id="description" placeholder="Password..." type="password" onChange={setPasswordOnChange} />
       <button name="submit" onClick={checkFields}>
         Log in
