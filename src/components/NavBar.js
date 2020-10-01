@@ -59,7 +59,6 @@ const NavBar = () => {
       </div>
     );
   } else {
-    console.log("ÉN VAGYOK A NAVBAR");
     content = (
       <div className="navBar">
         <div className="logo">

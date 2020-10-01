@@ -20,7 +20,7 @@ const EditComment = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/answer/${id}`).then((res) => {
+    axios.get(`http://localhost:8080/answer/${id}/${session}`).then((res) => {
       setDescription(res.data.description);
       setImagePath(res.data.imagePath);
       setValue("description", description);

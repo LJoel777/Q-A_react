@@ -43,24 +43,12 @@ const AnswerDiv = styled.div`
 const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
-  const [username, setUsername] = useState("");
+  const username = props.answer.user.username;
   const [showEditComment, setShowEditComment] = useState(false);
   const setRefresh = props.setRefresh;
-  const [userProfilePicture, setUserProfilePicture] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const userProfilePicture = props.answer.user.profilePicture;
   const session = useContext(UserSession)[0];
   let content = "";
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (answer !== null) {
-      axios.get(`http://localhost:8080/user/${answer.user.id}`).then((res) => {
-        setUsername(res.data.username);
-        setUserProfilePicture(res.data.profilePicture);
-        setIsLoading(false);
-      });
-    }
-  }, [answer]);
 
   const deleteAnswer = (e) => {
     e.preventDefault();
@@ -69,7 +57,7 @@ const Answer = (props) => {
     setDeleted(true);
   };
 
-  if (!deleted && !isLoading) {
+  if (!deleted) {
     content = (
       <AnswerDiv>
         <div className="commentHeader">
