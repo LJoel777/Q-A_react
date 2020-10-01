@@ -5,13 +5,11 @@ import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
 import { Dropdown } from "react-bootstrap";
 import EditPost from "./EditPost";
 import AddComment from "./AddComment";
-import Answer from "./Answer";
 import AnswerList from "./AnswerList";
 
 const PostDiv = styled.div`

@@ -7,7 +7,6 @@ import PostModal from "./PostModal";
 import SideNarBar from "./SideNavBar";
 import { ChatHelperContext } from "../context/ChatHelper";
 import Chat from "./Chat";
-import Store from "./Store";
 import { MessageContextProvider } from "../context/MessageContext";
 
 const Container = styled.div`
@@ -55,9 +54,7 @@ const QuestionsList = (props) => {
         </div>
         <div className="chatSide">
           <MessageContextProvider>
-            <Store>
-              <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
-            </Store>
+            <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
           </MessageContextProvider>
         </div>
       </Container>

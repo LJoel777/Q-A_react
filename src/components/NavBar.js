@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import { Tooltip } from "@material-ui/core";
@@ -61,7 +59,7 @@ const NavBar = () => {
       </div>
     );
   } else {
-    console.log("ÉN VAGYOK A NAVBAR")
+    console.log("ÉN VAGYOK A NAVBAR");
     content = (
       <div className="navBar">
         <div className="logo">
@@ -78,9 +76,9 @@ const NavBar = () => {
           </Tooltip>
         </Link>
         <Link>
-        <Tooltip title="Notifications">
-          <NotificationList/>
-        </Tooltip>
+          <Tooltip title="Notifications">
+            <NotificationList />
+          </Tooltip>
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           <Tooltip title="Logout">

@@ -4,15 +4,13 @@ import styled from "styled-components";
 import { UserSession } from "../context/UserSession";
 import Settings from "./Settings";
 import UserPost from "./UserPost";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
-
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
 
 const UseData = styled.div`
   .imageContainer {
@@ -53,10 +51,6 @@ const UseData = styled.div`
   }
 `;
 
-
-
-
-
 const UserPage = (props) => {
   const id = props.match.params.id;
   const [userName, setUserName] = useState("");
@@ -65,7 +59,7 @@ const UserPage = (props) => {
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [friendIdList, setFriendIdList] = useState([]);
-  const [session,setSession] = useContext(UserSession)[0];
+  const [session, setSession] = useContext(UserSession)[0];
   let content = "";
 
   const logOut = () => {
@@ -112,7 +106,7 @@ const UserPage = (props) => {
   if (!isLoading) {
     content = (
       <div className="userContainer">
-          <div className="profileSide">
+        <div className="profileSide">
           <ul>
             <li>
               <Link className="link" to={`/user/${session}`}>
@@ -154,25 +148,25 @@ const UserPage = (props) => {
             </h3>
           </div>
           <div className="profileButtons">
-          {parseInt(id) !== session ? (
-            !friendIdList.includes(session) ? (
-             <PersonAddIcon color="secondary" fontSize="large" onClick={handleFriend}/>
+            {parseInt(id) !== session ? (
+              !friendIdList.includes(session) ? (
+                <PersonAddIcon color="secondary" fontSize="large" onClick={handleFriend} />
+              ) : (
+                <PersonAddDisabledIcon color="secondary" fontSize="large" onClick={handleRemoveFriend} />
+              )
             ) : (
-          <PersonAddDisabledIcon color="secondary" fontSize="large" onClick={handleRemoveFriend} />
-            )
-          ) : (
-            <Settings history={props.history} />
-          )}
+              <Settings history={props.history} />
+            )}
           </div>
           <hr />
           <UserPost id={id} history={props.history} />
         </UseData>
-       <div className="sideChat">
-         <ul>
-           <li></li>
-         </ul>
-       </div>
+        <div className="sideChat">
+          <ul>
+            <li></li>
+          </ul>
         </div>
+      </div>
     );
   } else content = "Loading...";
 

@@ -5,7 +5,6 @@ import { UserSession } from "../context/UserSession";
 import Question from "./Question";
 import SideNarBar from "./SideNavBar";
 import Chat from "./Chat";
-import Store from "./Store";
 import { MessageContextProvider } from "../context/MessageContext";
 import { ChatHelperContext } from "../context/ChatHelper";
 
@@ -45,9 +44,7 @@ const QuestionAndAnswers = (props) => {
         </div>
         <div className="chatSide">
           <MessageContextProvider>
-            <Store>
-              <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
-            </Store>
+            <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
           </MessageContextProvider>
         </div>
       </QandAContainer>
