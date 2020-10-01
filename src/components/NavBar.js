@@ -9,7 +9,7 @@ import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import { Tooltip } from "@material-ui/core";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import Notification from "./Notification";
+import NotificationList from "./NotificationList";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -61,6 +61,7 @@ const NavBar = () => {
       </div>
     );
   } else {
+    console.log("ÉN VAGYOK A NAVBAR")
     content = (
       <div className="navBar">
         <div className="logo">
@@ -77,9 +78,9 @@ const NavBar = () => {
           </Tooltip>
         </Link>
         <Link>
-          <Tooltip title="Notifications">
-            <Notification />
-          </Tooltip>
+        <Tooltip title="Notifications">
+          <NotificationList/>
+        </Tooltip>
         </Link>
         <Link className="link" to={""} onClick={logOut}>
           <Tooltip title="Logout">

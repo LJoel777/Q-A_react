@@ -5,6 +5,9 @@ import { CTX } from "./Store";
 import { UserSession } from "../context/UserSession";
 import axios from "axios";
 import { MessageContext } from "../context/MessageContext";
+import io from "socket.io-client";
+import firebase from 'firebase';
+import {db} from'../Firebase';
 import styled from "styled-components";
 import { Dropdown } from "react-bootstrap";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -108,84 +111,114 @@ const ChatDivClosed = styled.div`
 
 export default function Chat(props) {
   const [render, setRender] = useState(false);
+  const [readError,setReadError] = useState(null)
+  const [writeError,setWriteError] = useState(null)
+  const [chats,setChats] = useState([]);
   const username = useContext(UserSession)[1][0];
   const [allChats, setAllChats] = useContext(MessageContext)[0];
   const sendChatAction = useContext(CTX).sendChatAction;
   const topics = useContext(UserSession)[2][0];
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
-  const setShow = props.setShowChat;
-  const show = props.show;
-  const stableSetter = useCallback(() => setAllChats(), [setAllChats]);
+  const session = useContext(UserSession)[0][0];
+
+  
+
+
+  const  handleSubmit = (e) =>{
+     db.collection('chat').add({
+       message: textValue,
+       timestamp: Date.now(),
+       topic:activeTopic,
+       username: username,
+     })
+    changeTextValue("");
+  }
+
+
   let content;
-  useEffect(() => {
-    axios.get(`http://localhost:8080/message/get-messages/${activeTopic}`).then((res) => {
-      setAllChats(res.data);
-      setRender(false);
-    });
-  }, [activeTopic, setAllChats, stableSetter]);
+  let socket;
+
+
+useEffect(()=>{
+    db.collection('chat')
+    .where('topic','==',activeTopic)
+    .orderBy('timestamp','asc')
+    .onSnapshot(snapshot =>{
+        setChats(snapshot.docs.map(doc => doc.data()))
+        console.log(chats)
+    })
+},[activeTopic])
+
+
+
+const handleChange = (e)=>{
+  changeTextValue(e.target.value);
+}
+
+const setTopic = (e)=>{
+  changeActiveTopic(e.target.innerText)
+}
+
 
   const checkKey = (e) => {
     if (e.key === "Enter") {
-      let message = { username: `${username}`, msg: textValue, topic: activeTopic };
-      sendChatAction({ username: `${username}`, msg: textValue, topic: activeTopic });
-      changeTextValue("");
-      axios.post("http://localhost:8080/message/send-message", message).then(() => {
-        setRender(true);
-      });
+
     }
   };
-  if (show === "block") {
-    content = (
-      <ChatDiv style={{ display: show }}>
-        <div className="header">
-          <Dropdown id="dropDown">
-            <Dropdown.Toggle id="topicBtn">{activeTopic}</Dropdown.Toggle>
-            <Dropdown.Menu>
+
+    return (
+         <div className={classes.root}>
+        <Paper elevation={0} />
+        <Typography variant="h4" component="h3">
+          Chat app
+        </Typography>
+        <Typography variant="h5" component="p">
+          {activeTopic}
+        </Typography>
+
+        <div className={classes.flex}>
+          <div className={classes.topicsWindow}>
+            <List>
               {String(topics)
                 .replace(/\s/g, "")
                 .split(",")
                 .map((topic) => {
                   return (
-                    <Dropdown.Item onClick={(e) => changeActiveTopic(e.target.innerText)} key={topic} button>
-                      {topic}
-                    </Dropdown.Item>
+                    <ListItem onClick={setTopic} key={topic} button>
+                      <ListItemText primary={topic} />
+                    </ListItem>
                   );
                 })}
-            </Dropdown.Menu>
-          </Dropdown>
-          <CloseIcon className="close" onClick={() => setShow("none")} />
-        </div>
-
-        <ScrollToBottom>
-          <div className="chatWindow">
-            {allChats.length > 0 ? (
-              allChats.map((chat, i) => {
-                return (
-                  <div className="content" key={i}>
-                    <p className="username">{chat.username}</p>
-                    <p className="message">{chat.msg}</p>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="content"></div>
-            )}
+            </List>
           </div>
-        </ScrollToBottom>
-        <div className="send">
-          <input placeholder="Message..." label="Send a chat" className="chatBox" value={textValue} onChange={(e) => changeTextValue(e.target.value)} onKeyDown={checkKey} />
+          <div className={classes.chatWindow}>
+            {chats.map((chat, i) => {
+              return (
+                <div className={classes.flex} key={i}>
+                  <Chip label={chat.username} />
+                  <Typography variant="body1" gutterBottom>
+                    {chat.message}
+                  </Typography>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className={classes.flex}>
+          <TextField label="Send a chat" className={classes.chatBox} value={textValue} onChange={(e) => changeTextValue(e.target.value)} onKeyDown={checkKey} />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+                handleSubmit();
+            }}
+          >
+            Send
+          </Button>
         </div>
         <Paper />
-      </ChatDiv>
-    );
-  } else {
-    content = (
-      <ChatDivClosed className="closed" onClick={() => setShow("block")}>
-        Chat <ChatBubbleIcon color="secondary" fontSize="large" />
-      </ChatDivClosed>
-    );
-  }
+      </div>
+    )
 
-  return content;
 }
