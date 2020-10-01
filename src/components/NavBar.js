@@ -49,6 +49,9 @@ const NavBar = () => {
   if (isNaN(session)) {
     content = (
       <div className="navBar">
+        <div className="logo">
+          <img className="logo" alt="" src={Logo} />
+        </div>
         <Link className="link" to="/login">
           Login
         </Link>

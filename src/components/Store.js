@@ -19,11 +19,9 @@ function Store(props) {
       socket.on(
         "chat message",
         function (msg) {
-          console.log(initState);
           let newArr = [...initState];
-          console.log("Laci");
           console.log(newArr);
-          newArr.push({ username: msg.username, msg: msg.msg });
+          newArr.push({ username: msg.username, msg: msg.msg, topic: msg.topic });
           setInitState(newArr);
         },
         [initState]

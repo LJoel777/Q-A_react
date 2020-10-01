@@ -62,23 +62,25 @@ const PostDiv = styled.div`
   .likes {
     color: white;
   }
-
   #dropdownBtn {
     background: none;
     border: none;
-    border-radius: 60%;
-  }
-  #dropdownBtn:hover {
-    background: #6c757d;
-    border-radius: 60%;
+    border-radius: 10%;
+    outline-style: none;
   }
 
   #dropdownBtn::active {
+    outline: none;
     border: none;
+  }
+
+  #dropdownBtn::focus {
+    outline: 0;
   }
   .dropdown-toggle::after {
     display: none;
   }
+
   hr {
     border-top: 1px solid white;
   }
@@ -161,7 +163,7 @@ const Question = (props) => {
               <Dropdown.Toggle id="dropdownBtn">
                 <MoreHorizontIcon />
               </Dropdown.Toggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu className="btn">
                 <Dropdown.Item onClick={deleteQuestion}>Delete</Dropdown.Item>
                 <Dropdown.Item onClick={() => setShowPostModal(true)}>Edit</Dropdown.Item>
               </Dropdown.Menu>

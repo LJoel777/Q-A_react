@@ -16,7 +16,7 @@ export default function UserPost(props) {
   return (
     <UserPosts>
       <h1 className="postsTitle">Posts:</h1>
-      <PostByUser id={id} />
+      <PostByUser id={id} history={props.history} />
     </UserPosts>
   );
 }

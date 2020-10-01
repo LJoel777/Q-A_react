@@ -5,6 +5,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import EditComment from "./EditComment";
+import DeleteBtn from "@material-ui/icons/Delete";
+import { Dropdown } from "react-bootstrap";
+import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
 
 const AnswerDiv = styled.div`
   display: flex;
@@ -17,7 +20,7 @@ const AnswerDiv = styled.div`
   margin-bottom: 5px;
   margin-top: 5px;
   font-size: 15px;
-
+  position: relative;
   .img {
     width: 150px;
     height: 150px;
@@ -29,13 +32,20 @@ const AnswerDiv = styled.div`
     display: flex;
     margin-top: -10px;
   }
+
+  .footer {
+    position: absolute;
+    right: 0px;
+    top: -3px;
+  }
 `;
 
 const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
   const [username, setUsername] = useState("");
-
+  const [showEditComment, setShowEditComment] = useState(false);
+  const setRefresh = props.setRefresh;
   const [userProfilePicture, setUserProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const session = useContext(UserSession)[0];
@@ -73,6 +83,22 @@ const Answer = (props) => {
           <p className="userName">{username}</p>
           <p className="description">{answer.description}</p>
           {answer.imagePath !== "" ? <img src={answer.imagePath} alt="" className="img" /> : " "}
+        </div>
+        <div className="footer">
+          {parseInt(session) === answer.user.id ? (
+            <Dropdown>
+              <Dropdown.Toggle id="dropdownBtn">
+                <MoreHorizontIcon />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={deleteAnswer}>Delete</Dropdown.Item>
+                <Dropdown.Item onClick={() => setShowEditComment(true)}>Edit</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            ""
+          )}
+          {showEditComment === true ? <EditComment id={answer.id} show={showEditComment} setShowModal={setShowEditComment.bind(this)} setRefresh={setRefresh.bind(this)} /> : ""}
         </div>
       </AnswerDiv>
     );

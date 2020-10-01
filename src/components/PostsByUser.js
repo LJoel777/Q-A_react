@@ -17,10 +17,11 @@ function PostsByUser(props) {
   }, [id]);
 
   if (!isLoading) {
+    console.log(props);
     content = (
       <div>
         {questions.map((question) => (
-          <Question key={question.id} question={question} />
+          <Question key={question.id} question={question} history={props.history} />
         ))}
       </div>
     );

@@ -23,7 +23,7 @@ const AnswerList = (props) => {
       <div>
         <AddComment id={props.questionId} setRefresh={setRefresh.bind(this)} />
         {answers.map((answer) => (
-          <Answer key={answer.id} answer={answer} />
+          <Answer key={answer.id} answer={answer} setRefresh={setRefresh.bind(this)} />
         ))}
       </div>
     );

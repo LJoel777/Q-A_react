@@ -13,31 +13,30 @@ const EditComment = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const show = props.show;
   const setShow = props.setShowModal;
-  const { register, handleSubmit, setValue } = useForm({
-    reValidateMode: "onChange",
-  });
+  const setRefresh = props.setRefresh;
+  const { register, handleSubmit, setValue } = useForm();
 
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/post/${id}/${session}`).then((res) => {
+    axios.get(`http://localhost:8080/answer/${id}`).then((res) => {
       setDescription(res.data.description);
       setImagePath(res.data.imagePath);
       setValue("description", description);
       setValue("imagePath", imagePath);
       setIsLoading(false);
     });
-  }, [description, handleSubmit, id, imagePath, session, setValue]);
+  }, [description, id, imagePath, session, setValue]);
 
   const postData = (data) => {
     const question = {
       description: data.description,
       imagePath: data.imagePath,
     };
-    return axios.post(`http://localhost:8080/post/${id}/update`, question).then((res) => {
+    return axios.post(`http://localhost:8080/answer/${id}/update`, question).then((res) => {
       setShow(false);
-      props.history.push(`/question/${id}`);
+      setRefresh(true);
     });
   };
 

@@ -4,40 +4,30 @@ import Question from "./Question";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import PostModal from "./PostModal";
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import { Link } from "react-router-dom";
+import SideNarBar from "./SideNavBar";
+import { ChatHelperContext } from "../context/ChatHelper";
+import Chat from "./Chat";
+import Store from "./Store";
+import { MessageContextProvider } from "../context/MessageContext";
 
 const Container = styled.div`
   display: flex;
-  flex: 1;
-  min-width: fit-content;
   flex-direction: row;
-  .profileSide li p {
-    display: inline-flex;
-    margin: 10px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
+  justify-content: space-between;
+  .feed {
+    flex-grow: 2;
+  }
+  .chatSide {
+    flex-grow: 1;
   }
 `;
 
 const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [session, setSession] = useContext(UserSession)[0];
+  const [showChat, setShowChat] = useContext(ChatHelperContext);
+  const session = useContext(UserSession)[0][0];
   let content = "";
-
-  const logOut = () => {
-    localStorage.setItem("session", null);
-    localStorage.setItem("username", null);
-    localStorage.setItem("hobbies", null);
-    localStorage.removeItem("token");
-    localStorage.setItem("session", null);
-    setSession(localStorage.getItem("session"));
-  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -56,34 +46,7 @@ const QuestionsList = (props) => {
   if (!isLoading) {
     content = (
       <Container className="col">
-        <div className="profileSide">
-          <ul>
-            <li>
-              <Link className="link" to={`/user/${session}`}>
-                <PersonIcon color="secondary" fontSize="large" />
-                <p>Profile</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/">
-                <HomeIcon color="secondary" fontSize="large" />
-                <p>Home</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/chat">
-                <ChatBubbleIcon color="secondary" fontSize="large" />
-                <p>Chat</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to={""} onClick={logOut}>
-                <PowerSettingsNewIcon color="secondary" fontSize="large" />
-                <p>Logout</p>
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <SideNarBar />
         <div className="feed">
           <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />
           {questions.map((question) => (
@@ -91,11 +54,11 @@ const QuestionsList = (props) => {
           ))}
         </div>
         <div className="chatSide">
-          <ul>{/* <li>casdas</li>
-                     <li>dasdas</li>
-                     <li>fefefefe</li>
-                     <li>fafafaafa</li>
-                     <li>fefefefe</li> */}</ul>
+          <MessageContextProvider>
+            <Store>
+              <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
+            </Store>
+          </MessageContextProvider>
         </div>
       </Container>
     );
