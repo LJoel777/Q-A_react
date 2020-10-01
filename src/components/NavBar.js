@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import { UserSession } from "../context/UserSession";
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
@@ -24,16 +23,8 @@ const NavDiv = styled.div`
 
 const NavBar = () => {
   const [session, setSession] = useContext(UserSession)[0];
-  const [username, setUsername] = useContext(UserSession)[1];
+  const username = useContext(UserSession)[1];
   let content = "";
-
-  useEffect(() => {
-    if (!isNaN(session)) {
-      axios.get(`http://localhost:8080/user/${session}`).then((res) => {
-        setUsername(res.data.username);
-      });
-    }
-  }, [session, setUsername]);
 
   const logOut = () => {
     localStorage.setItem("session", null);
@@ -59,7 +50,6 @@ const NavBar = () => {
       </div>
     );
   } else {
-    console.log("ÉN VAGYOK A NAVBAR");
     content = (
       <div className="navBar">
         <div className="logo">
@@ -75,11 +65,9 @@ const NavBar = () => {
             <PeopleAltIcon color="secondary" fontSize="large"></PeopleAltIcon>
           </Tooltip>
         </Link>
-        <Link>
-          <Tooltip title="Notifications">
-            <NotificationList />
-          </Tooltip>
-        </Link>
+        <Tooltip title="Notifications">
+          <NotificationList />
+        </Tooltip>
         <Link className="link" to={""} onClick={logOut}>
           <Tooltip title="Logout">
             <PowerSettingsNewIcon color="secondary" fontSize="large" />

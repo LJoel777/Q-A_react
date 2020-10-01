@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import trash from "../images/trash.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import EditComment from "./EditComment";
-import DeleteBtn from "@material-ui/icons/Delete";
 import { Dropdown } from "react-bootstrap";
 import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
 
