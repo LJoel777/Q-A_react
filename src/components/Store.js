@@ -9,6 +9,7 @@ let socket;
 
 function sendChatAction(value) {
   socket.emit("chat message", value);
+  console.log(value)
 }
 
 function Store(props) {
@@ -25,23 +26,22 @@ function Store(props) {
   //   }
   // }, [activeTopic]);
 
-  useEffect(() => {
-    if (!socket) {
-      socket = io(":3001");
-      socket.on(
-        "chat message",
-        function (msg) {
-          console.log(initState);
-          let newArr = [...initState];
-          console.log("Laci")
-          console.log(newArr);
-          newArr.push({ username: msg.username, msg: msg.msg });
-          setInitState(newArr);
-        },
-        [initState]
-      );
-    }
-  },[]);
+  // useEffect(() => {
+  //   if (!socket) {
+  //     socket = io(":3001");
+  //     socket.on(
+  //       "chat message",
+  //       function (msg) {
+  //         console.log(msg);
+  //         let newArr = [...initState];
+  //         console.log("Laci")
+  //         console.log(newArr);
+  //         newArr.push({ username: msg.username, msg: msg.msg });
+  //         setInitState(newArr);
+  //       },
+  //     );
+  //   }
+  // },[initState]);
 
   return <CTX.Provider value={{ sendChatAction }}>{props.children}</CTX.Provider>;
 }

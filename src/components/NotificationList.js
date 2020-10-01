@@ -32,8 +32,7 @@ const NotificationList = () => {
          </Dropdown.Toggle>
         <Dropdown.Menu className="notification">
         {allNotifications.map((notification) => (
-          //  <Dropdown.Item> <Notification notification={notification}/></Dropdown.Item>
-          console.log(notification)
+            <Notification notification={notification}/>
           ))}
           {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
           <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>

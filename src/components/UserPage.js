@@ -96,7 +96,7 @@ const UserPage = (props) => {
 
   const handleFriend = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/user/${id}/add-friend/${session}`).then((res) => {
+    axios.get(`http://localhost:8080/user/${id}/request-friend/${session}`).then((res) => {
       setFriendIdList(res.data);
       console.log(res.data);
     });

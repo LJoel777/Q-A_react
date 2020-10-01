@@ -13,6 +13,10 @@ import { CTX } from "./Store";
 import { UserSession } from "../context/UserSession";
 import axios from "axios";
 import { MessageContext } from "../context/MessageContext";
+import io from "socket.io-client";
+import firebase from 'firebase';
+import {db} from'../Firebase';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Chat() {
   const [render, setRender] = useState(false);
+  const [readError,setReadError] = useState(null)
+  const [writeError,setWriteError] = useState(null)
+  const [chats,setChats] = useState([]);
   const username = useContext(UserSession)[1][0];
   const classes = useStyles();
   const [allChats, setAllChats] = useContext(MessageContext)[0];
@@ -55,30 +62,55 @@ export default function Chat() {
   const [timestamp, setTimestamp] = useState(0);
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
-  let content;
+  const session = useContext(UserSession)[0][0];
 
-  useEffect(() => {
-    axios.get(`http://localhost:8080/message/get-messages/${activeTopic}`).then((res) => {
-      setAllChats(res.data);
-      setRender(false);
-      console.log(topics);
-    });
-  }, [activeTopic, render, setAllChats, topics]);
+  
+
+
+  const  handleSubmit = (e) =>{
+     db.collection('chat').add({
+       message: textValue,
+       timestamp: Date.now(),
+       topic:activeTopic,
+       username: username,
+     })
+    changeTextValue("");
+  }
+
+
+  let content;
+  let socket;
+
+
+useEffect(()=>{
+    db.collection('chat')
+    .where('topic','==',activeTopic)
+    .orderBy('timestamp','asc')
+    .onSnapshot(snapshot =>{
+        setChats(snapshot.docs.map(doc => doc.data()))
+        console.log(chats)
+    })
+},[activeTopic])
+
+
+
+const handleChange = (e)=>{
+  changeTextValue(e.target.value);
+}
+
+const setTopic = (e)=>{
+  changeActiveTopic(e.target.innerText)
+}
+
 
   const checkKey = (e) => {
     if (e.key === "Enter") {
-      let message = { username: `${username}`, msg: textValue, topic: activeTopic };
-      sendChatAction({ username: `${username}`, msg: textValue });
-      changeTextValue("");
-      axios.post("http://localhost:8080/message/send-message", message).then(() => {
-        setRender(true);
-      });
+
     }
   };
 
-  if (allChats.length > 0) {
-    content = (
-      <div className={classes.root}>
+    return (
+         <div className={classes.root}>
         <Paper elevation={0} />
         <Typography variant="h4" component="h3">
           Chat app
@@ -95,7 +127,7 @@ export default function Chat() {
                 .split(",")
                 .map((topic) => {
                   return (
-                    <ListItem onClick={(e) => changeActiveTopic(e.target.innerText)} key={topic} button>
+                    <ListItem onClick={setTopic} key={topic} button>
                       <ListItemText primary={topic} />
                     </ListItem>
                   );
@@ -103,12 +135,12 @@ export default function Chat() {
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {allChats.map((chat, i) => {
+            {chats.map((chat, i) => {
               return (
                 <div className={classes.flex} key={i}>
                   <Chip label={chat.username} />
                   <Typography variant="body1" gutterBottom>
-                    {chat.msg}
+                    {chat.message}
                   </Typography>
                 </div>
               );
@@ -121,12 +153,7 @@ export default function Chat() {
             variant="contained"
             color="primary"
             onClick={() => {
-              let message = { username: `${username}`, msg: textValue, topic: activeTopic };
-              sendChatAction({ username: `${username}`, msg: textValue });
-              changeTextValue("");
-              axios.post("http://localhost:8080/message/send-message", message).then(() => {
-                setRender(true);
-              });
+                handleSubmit();
             }}
           >
             Send
@@ -134,10 +161,6 @@ export default function Chat() {
         </div>
         <Paper />
       </div>
-    );
-  } else {
-    content = "";
-  }
+    )
 
-  return content;
 }

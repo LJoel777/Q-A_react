@@ -1,4 +1,4 @@
-import React, { useEffect, useContext,useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -27,16 +27,12 @@ const NavDiv = styled.div`
 const NavBar = () => {
   const [session, setSession] = useContext(UserSession)[0];
   const [username, setUsername] = useContext(UserSession)[1];
-  const [isLoading, setIsLoading] = useState(true);
-
   let content = "";
 
   useEffect(() => {
-    setIsLoading(true)
     if (!isNaN(session)) {
       axios.get(`http://localhost:8080/user/${session}`).then((res) => {
         setUsername(res.data.username);
-        setIsLoading(false)
       });
     }
   }, [session, setUsername]);
@@ -53,7 +49,7 @@ const NavBar = () => {
 
 
 
-  if (isNaN(session) || (!isLoading)) {
+  if (isNaN(session)) {
     content = (
       <div className="navBar">
         <Link className="link" to="/login">
