@@ -84,7 +84,6 @@ const UserPage = (props) => {
       setProfilePicture(res.data.profilePicture);
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
-      console.log(res.data);
       setFriendIdList(
         res.data.friends.map((friend) => {
           return friend;
@@ -166,7 +165,7 @@ const UserPage = (props) => {
           )}
           </div>
           <hr />
-          <UserPost id={id} />
+          <UserPost id={id} history={props.history} />
         </UseData>
        <div className="sideChat">
          <ul>

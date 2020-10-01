@@ -1,131 +1,54 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import AnswerList from "./AnswerList";
-import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
 import Question from "./Question";
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-
-const PostAndComment = styled.div`
-  .button {
-    margin-left: 20%;
-    border-radius: 20px;
-    padding: 5px;
-    background: #333333;
-    width: 100px;
-    text-align: center;
-  }
-  .LinkButton {
-    text-decoration: none;
-    color: white;
-  }
-  .button:hover {
-    background: #76d14f;
-    color: black;
-  }
-`;
+import SideNarBar from "./SideNavBar";
+import Chat from "./Chat";
+import Store from "./Store";
+import { MessageContextProvider } from "../context/MessageContext";
+import { ChatHelperContext } from "../context/ChatHelper";
 
 const QandAContainer = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 0;
-  justify-content: center;
-
-  .profileSide svg {
-    color: gradient(#cc2b5e → #753a88);
+  justify-content: space-between;
+  width: 100%;
+  .feed {
+    flex-grow: 2;
   }
-  .profileSide ul {
-    position: relative;
-    list-style-type: none;
-    left: -80%;
-  }
-  .profileSide li {
-    padding: 10px;
-    margin: 30px;
-  }
-  .profileSide li p {
-    display: inline-flex;
-    margin: 10px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
+  .chatSide {
+    flex-grow: 1;
   }
 `;
 
-const QuestionAndAnswers = ({ match }) => {
+const QuestionAndAnswers = (props) => {
   const [question, setQuestion] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [answerId, setAnswerId] = useState(null);
-  const [session, setSession] = useContext(UserSession)[0];
+  const [showChat, setShowChat] = useContext(ChatHelperContext);
+  const session = useContext(UserSession)[0][0];
   let content = "";
-
-  const logOut = () => {
-    localStorage.setItem("session", null);
-    localStorage.setItem("username", null);
-    localStorage.setItem("hobbies", null);
-    localStorage.removeItem("token");
-    localStorage.setItem("session", null);
-    setSession(localStorage.getItem("session"));
-  };
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8080/post/${match.params.id}/${session}`).then((res) => {
-      console.log(res.data);
+    axios.get(`http://localhost:8080/post/${props.match.params.id}/${session}`).then((res) => {
       setQuestion(res.data);
-      setAnswerId(res.data.id);
       setIsLoading(false);
     });
-  }, [match.params.id, session]);
+  }, [props.match.params.id, session]);
 
   if (!isLoading) {
     content = (
-      <QandAContainer>
-        <div className="profileSide">
-          <ul>
-            <li>
-              <Link className="link" to={`/user/${session}`}>
-                <PersonIcon color="secondary" fontSize="large" />
-                <p>Profile</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/">
-                <HomeIcon color="secondary" fontSize="large" />
-                <p>Home</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/chat">
-                <ChatBubbleIcon color="secondary" fontSize="large" />
-                <p>Chat</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to={""} onClick={logOut}>
-                <PowerSettingsNewIcon color="secondary" fontSize="large" />
-                <p>Logout</p>
-              </Link>
-            </li>
-          </ul>
+      <QandAContainer className="col">
+        <SideNarBar />
+        <div className="feed">
+          <Question question={question} history={props.history} />
         </div>
-        <PostAndComment>
-          <Question question={question} />
-          <Link to={`/addAnswer/${question.id}`} className="LinkButton">
-            <div className="button">Comment</div>
-          </Link>
-          <hr />
-          <AnswerList answerId={answerId} />
-        </PostAndComment>
         <div className="chatSide">
-          <ul>{/* <li>casdas</li>
-            <li>dasdas</li>
-            <li>fefefefe</li>
-            <li>fafafaafa</li>
-            <li>fefefefe</li> */}</ul>
+          <MessageContextProvider>
+            <Store>
+              <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
+            </Store>
+          </MessageContextProvider>
         </div>
       </QandAContainer>
     );

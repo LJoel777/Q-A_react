@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
@@ -46,12 +46,12 @@ const NavBar = () => {
     setSession(localStorage.getItem("session"));
   };
 
-
-
-
   if (isNaN(session)) {
     content = (
       <div className="navBar">
+        <div className="logo">
+          <img className="logo" alt="" src={Logo} />
+        </div>
         <Link className="link" to="/login">
           Login
         </Link>
@@ -66,7 +66,7 @@ const NavBar = () => {
       <div className="navBar">
         <div className="logo">
           <Link className="link" to="/">
-            <img className="logo" src={Logo} />
+            <img className="logo" alt="" src={Logo} />
           </Link>
         </div>
         <Link className="link" to={`/user/${session}`}>

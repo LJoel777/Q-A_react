@@ -10,19 +10,18 @@ function PostsByUser(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`http://localhost:8080/post/posts-by-user-id/${id}`)
-      .then((res) => {
-        setQuestions(res.data);
-        setIsLoading(false);
-      });
+    axios.get(`http://localhost:8080/post/posts-by-user-id/${id}`).then((res) => {
+      setQuestions(res.data);
+      setIsLoading(false);
+    });
   }, [id]);
 
   if (!isLoading) {
+    console.log(props);
     content = (
       <div>
         {questions.map((question) => (
-          <Question key={question.id} question={question} />
+          <Question key={question.id} question={question} history={props.history} />
         ))}
       </div>
     );

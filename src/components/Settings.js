@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import FormDiv from "../style/form";
 import settings from "../images/settings.png";
-import SettingsIcon from '@material-ui/icons/Settings';
+import { setLocalStorageHobbies, setLocalStorageUsername, setLocalStorageSession } from "../helpers/LocalStorageService"
 
 const SettingsDiv = styled.div`
   .post {
@@ -32,10 +32,6 @@ const Settings = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   let content = "";
-
-  if (isNaN(session)) {
-    props.history.push("/login");
-  }
 
   const postData = (e) => {
     e.preventDefault();
@@ -77,6 +73,8 @@ const Settings = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+      setLocalStorageUsername(res.data.username);
+      setLocalStorageHobbies(res.data.fieldsOfInterests);
       setHobbies(res.data.fieldsOfInterests);
       setEmailAddress(res.data.emailAddress);
       setProfilePicture(res.data.profilePicture);

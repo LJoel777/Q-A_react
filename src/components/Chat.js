@@ -1,14 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState, useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Chip from "@material-ui/core/Chip";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import { CTX } from "./Store";
 import { UserSession } from "../context/UserSession";
 import axios from "axios";
@@ -16,50 +8,116 @@ import { MessageContext } from "../context/MessageContext";
 import io from "socket.io-client";
 import firebase from 'firebase';
 import {db} from'../Firebase';
+import styled from "styled-components";
+import { Dropdown } from "react-bootstrap";
+import ScrollToBottom from "react-scroll-to-bottom";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import CloseIcon from "@material-ui/icons/Close";
 
+const ChatDiv = styled.div`
+  position: fixed;
+  bottom: -50px;
+  right: -30px;
+  width: 400px;
+  text-align: center;
+  margin: 50px;
+  padding: 3, 2;
+  background: #1e1c1c;
+  border: 0.1px solid #4d5258;
+  color: white;
+  border-radius: 5px;
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  .header {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    background: #242222;
+  }
+  .chatWindow {
+    display: block;
+    width: 100%;
+    height: 400px;
+    padding: 20px;
+  }
+  .scroll {
+    width: 400px;
+    height: 400px;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    margin-left: -10px;
+    .username {
+      margin-right: 10px;
+      background: lightgray;
+      border-radius: 10px;
+      padding: 5px;
+      color: black;
+      height: fit-content;
+    }
+    .message {
+      width: 250px;
+      word-wrap: break-word;
+      text-align: left;
+    }
+  }
+  .send {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    background: #242222;
+    .chatBox {
+      border-radius: 10px;
+      width: 30em;
+    }
+    .submit {
+      font-weight: bold;
+      border-radius: 10px;
+      margin-left: 20px;
+    }
+  }
+  .close {
+    color: #f50057;
+    font-size: 40px;
+    margin-left: 240px;
+  }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    textAlign: "center",
-    margin: "50px",
-    padding: theme.spacing(3, 2),
-    background: "white",
-  },
-  flex: {
-    display: "flex",
-    alignItems: "center",
-  },
-  topicsWindow: {
-    width: "30%",
-    height: "300px",
-    borderRight: "1px solid grey",
-  },
-  chatWindow: {
-    width: "70%",
-    height: "300px",
-    padding: "20px",
-    overflow: "hidden",
-    overflowY: "scroll",
-  },
-  chatBox: {
-    width: "80%",
-  },
-  button: {
-    width: "15%",
-  },
-}));
+  #topicBtn {
+    background: #f50057;
+    color: white;
+    font-weight: bold;
+    border: none;
+  }
+`;
+const ChatDivClosed = styled.div`
+  position: fixed;
+  bottom: -50px;
+  right: -30px;
+  width: 110px;
+  text-align: center;
+  margin: 50px;
+  padding: 2px;
+  background: #1e1c1c;
+  border: 0.1px solid #4d5258;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+`;
 
-export default function Chat() {
+export default function Chat(props) {
   const [render, setRender] = useState(false);
   const [readError,setReadError] = useState(null)
   const [writeError,setWriteError] = useState(null)
   const [chats,setChats] = useState([]);
   const username = useContext(UserSession)[1][0];
-  const classes = useStyles();
   const [allChats, setAllChats] = useContext(MessageContext)[0];
   const sendChatAction = useContext(CTX).sendChatAction;
   const topics = useContext(UserSession)[2][0];
-  const [timestamp, setTimestamp] = useState(0);
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
   const session = useContext(UserSession)[0][0];

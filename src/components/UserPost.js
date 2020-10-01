@@ -15,7 +15,8 @@ export default function UserPost(props) {
   const id = props.id ? props.id : props.match.params.id;
   return (
     <UserPosts>
-      <PostByUser id={id} />
+      <h1 className="postsTitle">Posts:</h1>
+      <PostByUser id={id} history={props.history} />
     </UserPosts>
   );
 }
