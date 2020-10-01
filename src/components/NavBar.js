@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-
 import Logo from "../images/logo.png";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import { Tooltip } from "@material-ui/core";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import Notification from "./Notification";
+import NotificationList from "./NotificationList";
 
 const NavDiv = styled.div`
   background-color: #333;
@@ -49,6 +47,9 @@ const NavBar = () => {
   if (isNaN(session)) {
     content = (
       <div className="navBar">
+        <div className="logo">
+          <img className="logo" alt="" src={Logo} />
+        </div>
         <Link className="link" to="/login">
           Login
         </Link>
@@ -58,6 +59,7 @@ const NavBar = () => {
       </div>
     );
   } else {
+    console.log("ÉN VAGYOK A NAVBAR");
     content = (
       <div className="navBar">
         <div className="logo">
@@ -75,7 +77,7 @@ const NavBar = () => {
         </Link>
         <Link>
           <Tooltip title="Notifications">
-            <Notification />
+            <NotificationList />
           </Tooltip>
         </Link>
         <Link className="link" to={""} onClick={logOut}>

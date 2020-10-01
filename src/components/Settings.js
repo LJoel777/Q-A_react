@@ -5,7 +5,8 @@ import { UserSession } from "../context/UserSession";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import FormDiv from "../style/form";
-import settings from "../images/settings.png";
+import { setLocalStorageHobbies, setLocalStorageUsername } from "../helpers/LocalStorageService";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const SettingsDiv = styled.div`
   .post {
@@ -72,6 +73,8 @@ const Settings = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${session}`).then((res) => {
+      setLocalStorageUsername(res.data.username);
+      setLocalStorageHobbies(res.data.fieldsOfInterests);
       setHobbies(res.data.fieldsOfInterests);
       setEmailAddress(res.data.emailAddress);
       setProfilePicture(res.data.profilePicture);
@@ -83,10 +86,7 @@ const Settings = (props) => {
   if (!isLoading) {
     content = (
       <SettingsDiv>
-        <Button className="post" variant="primary" onClick={handleShow}>
-          Settings
-          <img src={settings} alt="settings " />
-        </Button>
+        <SettingsIcon color="secondary" fontSize="large" onClick={handleShow} />
         <Modal className="myModal" show={show} onHide={handleClose}>
           <FormDiv>
             <input className="" placeholder="Email Address..." value={emailAddress} onChange={changeEmailAddress}></input>
