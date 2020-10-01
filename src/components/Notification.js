@@ -11,7 +11,7 @@ const Notification = (props) => {
   const [senderId, setSenderId] = useState();
   const [notificationId, setNotificationId] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [session, setSession] = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
   const [deleteSelf, setDeleteSelf] = useState(false);
 
   const handleAcceptFriendRequest = (e) => {
@@ -29,16 +29,14 @@ const Notification = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${props.notification.senderId}`).then((res) => {
-      console.log(res.data);
       setSenderPicture(res.data);
       setSenderUsername(res.data.username);
       setSenderId(res.data.id);
       setNotificationId(props.notification.id);
       setIsLoading(false);
     });
-  }, [deleteSelf, props.notification.id, props.notification.senderId]);
+  }, [props.notification.id, props.notification.senderId]);
 
-  console.log(props);
   let content;
   if (deleteSelf) {
     content = <br />;
@@ -90,6 +88,8 @@ const Notification = (props) => {
           </div>
         );
         break;
+      default:
+        content = <div></div>;
     }
   } else {
     content = <p>Loading...</p>;

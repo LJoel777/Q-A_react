@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import AnswerList from "./AnswerList";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
-import Question from "./Question";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 
 const SideNavBarDiv = styled.div`
   min-width: 170px;

@@ -1,11 +1,8 @@
-import React, { useCallback, useStyles } from "react";
+import React from "react";
 import { useState, useContext, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { UserSession } from "../context/UserSession";
-import axios from "axios";
 import { MessageContext } from "../context/MessageContext";
-import io from "socket.io-client";
-import firebase from "firebase";
 import { db } from "../Firebase";
 import styled from "styled-components";
 import { Dropdown } from "react-bootstrap";
