@@ -108,6 +108,9 @@ const ChatDivClosed = styled.div`
   cursor: pointer;
 `;
 
+let unsub;
+
+
 export default function Chat(props) {
   const [chats, setChats] = useState([]);
   const username = useContext(UserSession)[1][0];
@@ -115,6 +118,7 @@ export default function Chat(props) {
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
   const setShow = props.setShowChat;
+  // const [unsub,setUnsub];
   const show = props.show;
 
   const handleSubmit = (e) => {
@@ -132,7 +136,12 @@ export default function Chat(props) {
   let content;
 
   useEffect(() => {
-    db.collection("chat")
+    console.log("UNSUBSCRIBE"+unsub);
+    if(unsub){
+      unsub();
+    }
+    console.log("activeTOPIC"+activeTopic);
+    unsub = db.collection("chat")
       .where("topic", "==", activeTopic)
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
