@@ -4,6 +4,28 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
+import styled from "styled-components";
+
+const NotificationDiv = styled.div`
+  .notification {
+    display: flex;
+    flex-direction: row;
+    width: 220px;
+    padding: 5px;
+  }
+  .profilePicture {
+    flex-grow: 1;
+    border-radius: 50%;
+    width: 50px;
+    margin-top: 5px;
+  }
+  .icon {
+    flex-grow: 1;
+  }
+  .message {
+    flex-grow: 1;
+  }
+`;
 
 const Notification = (props) => {
   const [senderPicure, setSenderPicture] = useState("");
@@ -29,7 +51,7 @@ const Notification = (props) => {
   useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:8080/user/${props.notification.senderId}`).then((res) => {
-      setSenderPicture(res.data);
+      setSenderPicture(res.data.profilePicture);
       setSenderUsername(res.data.username);
       setSenderId(res.data.id);
       setNotificationId(props.notification.id);
@@ -45,13 +67,13 @@ const Notification = (props) => {
       case "FRIENDREQUEST":
         content = (
           <div className="notification">
-            <div>
-              <img src={senderPicure} alt="sender" />
+            <div className="profilePicture">
+              <img src={senderPicure} alt="sender" className="profilePicture" />
             </div>
-            <div>
+            <div className="message">
               <p>{senderUsername} want to add you as a friend!</p>
             </div>
-            <div>
+            <div className="icon">
               <CheckIcon color="secondary" fontSize="large" onClick={handleAcceptFriendRequest} />
               <CloseIcon color="secondary" fontSize="large" onClick={handleDeclineFriendRequest} />
             </div>
@@ -63,7 +85,7 @@ const Notification = (props) => {
         content = (
           <div className="notification">
             <div>
-              <img src={senderPicure} alt="sender" />
+              <img src={senderPicure} alt="sender" className="profilePicture" />
             </div>
             <Link to={`/question/${props.notification.postId}`}>
               <div>
@@ -78,7 +100,7 @@ const Notification = (props) => {
         content = (
           <div className="notification">
             <div>
-              <img src={senderPicure} alt="sender" />
+              <img src={senderPicure} alt="sender" className="profilePicture" />
             </div>
             <div>
               <Link to={`/question/${props.notification.postId}`}>
@@ -95,7 +117,7 @@ const Notification = (props) => {
     content = <p>Loading...</p>;
   }
 
-  return content;
+  return <NotificationDiv>{content}</NotificationDiv>;
 };
 
 export default Notification;

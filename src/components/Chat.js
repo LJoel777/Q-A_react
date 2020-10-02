@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Dropdown } from "react-bootstrap";
 import ScrollToBottom from "react-scroll-to-bottom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import CloseIcon from "@material-ui/icons/Close";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const ChatDiv = styled.div`
   position: fixed;
@@ -25,12 +25,6 @@ const ChatDiv = styled.div`
   .flex {
     display: flex;
     align-items: center;
-  }
-  .header {
-    display: flex;
-    flex-direction: row;
-    padding: 2px;
-    background: #242222;
   }
   .chatWindow {
     display: block;
@@ -75,10 +69,23 @@ const ChatDiv = styled.div`
       margin-left: 20px;
     }
   }
-  .close {
-    color: #f50057;
-    font-size: 40px;
-    margin-left: 240px;
+  .header {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    background: #242222;
+    height: 45px;
+    .exit {
+      flex: 2;
+      text-align: right;
+      margin-right: 5px;
+      margin-top: -20px;
+      p {
+        color: #f50057;
+        font-size: 50px;
+        cursor: pointer;
+      }
+    }
   }
 
   #topicBtn {
@@ -107,7 +114,6 @@ const ChatDivClosed = styled.div`
 
 let unsub;
 
-
 export default function Chat(props) {
   const [chats, setChats] = useState([]);
   const username = useContext(UserSession)[1][0];
@@ -115,8 +121,8 @@ export default function Chat(props) {
   const [textValue, changeTextValue] = useState("");
   const [activeTopic, changeActiveTopic] = useContext(MessageContext)[1];
   const setShow = props.setShowChat;
-  // const [unsub,setUnsub];
   const show = props.show;
+  console.log(topics);
 
   const handleSubmit = (e) => {
     if (e.key === "Enter") {
@@ -133,12 +139,13 @@ export default function Chat(props) {
   let content;
 
   useEffect(() => {
-    console.log("UNSUBSCRIBE"+unsub);
-    if(unsub){
+    console.log("UNSUBSCRIBE" + unsub);
+    if (unsub) {
       unsub();
     }
-    console.log("activeTOPIC"+activeTopic);
-    unsub = db.collection("chat")
+    console.log("activeTOPIC" + activeTopic);
+    unsub = db
+      .collection("chat")
       .where("topic", "==", activeTopic)
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
@@ -159,7 +166,10 @@ export default function Chat(props) {
       <ChatDiv style={{ display: show }}>
         <div className="header">
           <Dropdown id="dropDown">
-            <Dropdown.Toggle id="topicBtn">{activeTopic}</Dropdown.Toggle>
+            <Dropdown.Toggle id="topicBtn">
+              {activeTopic}
+              <ExpandMoreIcon />
+            </Dropdown.Toggle>
             <Dropdown.Menu>
               {String(topics)
                 .replace(/\s/g, "")
@@ -173,7 +183,9 @@ export default function Chat(props) {
                 })}
             </Dropdown.Menu>
           </Dropdown>
-          <CloseIcon className="close" onClick={() => setShow("none")} />
+          <div className="exit">
+            <p onClick={() => setShow("none")}>×</p>
+          </div>
         </div>
 
         <ScrollToBottom>

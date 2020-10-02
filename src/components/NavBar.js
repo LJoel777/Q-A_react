@@ -7,17 +7,32 @@ import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import { Tooltip } from "@material-ui/core";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import NotificationList from "./NotificationList";
+import SearchByHobby from "./SearchByHobby";
+import SearchByUsername from "./SearchByUserName";
 
 const NavDiv = styled.div`
-  background-color: #333;
-  display: flex;
+  .navBar {
+    background-color: #333;
+    display: flex;
+    flex-direction: row;
+  }
   .link {
+    flex-grow: 0;
     font-size: 20px;
     float: left;
     color: #f50057;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+  }
+  .search {
+    flex-grow: 1;
+    display: flex;
+    margin-left: 30px;
+    flex-direction: row;
+  }
+  .logoLink {
+    flex-grow: 2;
   }
 `;
 
@@ -52,10 +67,12 @@ const NavBar = () => {
   } else {
     content = (
       <div className="navBar">
-        <div className="logo">
-          <Link className="link" to="/">
-            <img className="logo" alt="" src={Logo} />
-          </Link>
+        <Link className="link" to="/" className="logoLink">
+          <img className="logo" alt="" src={Logo} />
+        </Link>
+        <div className="search">
+          <SearchByHobby />
+          <SearchByUsername />
         </div>
         <Link className="link" to={`/user/${session}`}>
           {username}

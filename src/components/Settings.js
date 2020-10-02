@@ -42,6 +42,8 @@ const Settings = (props) => {
       fieldsOfInterests: String(hobbies).replace(/\s/g, "").split(","),
     };
     return axios.post(`http://localhost:8080/user/update-user/${session}`, data).then((res) => {
+      setLocalStorageHobbies(res.data.fieldsOfInterests);
+      setLocalStorageUsername(res.data.username);
       setUsername(res.data.username);
       setEmailAddress(res.data.emailAddress);
       setHobbies(res.data.fieldsOfInterests);

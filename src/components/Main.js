@@ -10,6 +10,7 @@ import Settings from "./Settings";
 import ProtectedRoute from "../helpers/Protected.route";
 import AxiosConfig from "../AxiosConfig";
 import { ChatHelperProvider } from "../context/ChatHelper";
+import QuestionsBySearchResult from "./QuestionsBySearchResult";
 
 function Main() {
   return (
@@ -20,6 +21,7 @@ function Main() {
       <ProtectedRoute exact path="/user/:id" component={UserPage} />
       <ProtectedRoute exact path="/settings" component={Settings} />
       <ChatHelperProvider>
+        <ProtectedRoute exact path="/questionsBySearchResult" component={QuestionsBySearchResult} />
         <ProtectedRoute exact path="/question/:id" component={QuestionAndAnswer} />
         <ProtectedRoute exact path={["/", "/hobby-news", "/friend-news"]} component={QuestionsList} />
       </ChatHelperProvider>

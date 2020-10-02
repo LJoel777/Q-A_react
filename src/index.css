@@ -110,25 +110,6 @@ svg {
   width: 50%;
 }
 
-.profileSide svg {
-  color: gradient(#cc2b5e → #753a88);
-}
-.profileSide ul {
-  position: relative;
-  list-style-type: none;
-  left: -12%;
-}
-.profileSide li {
-  padding: 10px;
-  margin: 30px;
-}
-.profileSide li p {
-  display: inline-flex;
-  margin: 10px;
-  font-weight: bold;
-  font-size: 18px;
-}
-
 .postText {
   color: white;
 }
@@ -154,13 +135,7 @@ svg {
 .MuiSvgIcon-root p {
   color: white;
 }
-.sideChat {
-  flex: 0.2;
-}
 
-.profileSide a {
-  color: White;
-}
 .postHeader a {
   color: white;
 }

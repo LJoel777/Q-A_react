@@ -4,13 +4,9 @@ import styled from "styled-components";
 import { UserSession } from "../context/UserSession";
 import Settings from "./Settings";
 import UserPost from "./UserPost";
-import { Link } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
+import SideNarBar from "./SideNavBar";
 
 const UseData = styled.div`
   .imageContainer {
@@ -51,6 +47,18 @@ const UseData = styled.div`
   }
 `;
 
+const UserPageDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .feed {
+    flex-grow: 2;
+  }
+  .chatSide {
+    flex-grow: 1;
+  }
+`;
+
 const UserPage = (props) => {
   const id = props.match.params.id;
   const [userName, setUserName] = useState("");
@@ -59,17 +67,8 @@ const UserPage = (props) => {
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [friendIdList, setFriendIdList] = useState([]);
-  const [session, setSession] = useContext(UserSession)[0];
+  const session = useContext(UserSession)[0][0];
   let content = "";
-
-  const logOut = () => {
-    localStorage.setItem("session", null);
-    localStorage.setItem("username", null);
-    localStorage.setItem("hobbies", null);
-    localStorage.removeItem("token");
-    localStorage.setItem("session", null);
-    setSession(localStorage.getItem("session"));
-  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,7 +90,7 @@ const UserPage = (props) => {
     e.preventDefault();
     axios.get(`http://localhost:8080/user/${id}/request-friend/${session}`).then((res) => {
       setFriendIdList(res.data);
-      console.log(res.data);
+      alert("Friend request sent!");
     });
   };
 
@@ -99,42 +98,14 @@ const UserPage = (props) => {
     e.preventDefault();
     axios.get(`http://localhost:8080/user/${id}/remove-friend/${session}`).then((res) => {
       setFriendIdList(res.data);
-      console.log(res.data);
     });
   };
 
   if (!isLoading) {
     content = (
-      <div className="userContainer">
-        <div className="profileSide">
-          <ul>
-            <li>
-              <Link className="link" to={`/user/${session}`}>
-                <PersonIcon color="secondary" fontSize="large" />
-                <p>Profile</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/">
-                <HomeIcon color="secondary" fontSize="large" />
-                <p>Home</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to="/chat">
-                <ChatBubbleIcon color="secondary" fontSize="large" />
-                <p>Chat</p>
-              </Link>
-            </li>
-            <li>
-              <Link className="link" to={""} onClick={logOut}>
-                <PowerSettingsNewIcon color="secondary" fontSize="large" />
-                <p>Logout</p>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <UseData className="userData">
+      <UserPageDiv>
+        <SideNarBar className="data" />
+        <UseData className="feed">
           <div className="imageContainer">
             <img src={profilePicture} alt="profilePicture" />
           </div>
@@ -161,12 +132,8 @@ const UserPage = (props) => {
           <hr />
           <UserPost id={id} history={props.history} />
         </UseData>
-        <div className="sideChat">
-          <ul>
-            <li></li>
-          </ul>
-        </div>
-      </div>
+        <div className="chatSide"></div>
+      </UserPageDiv>
     );
   } else content = "Loading...";
 
