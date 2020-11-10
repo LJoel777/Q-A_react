@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { UserSession } from "../context/UserSession";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Settings from "./Settings";
 import UserPost from "./UserPost";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
+import SideNarBar from "./SideNavBar";
 
 const UseData = styled.div`
   .imageContainer {
@@ -19,11 +21,11 @@ const UseData = styled.div`
       border-radius: 50%;
     }
   }
-  h1{
-    color:white
+  h1 {
+    color: white;
   }
-  h3{
-    color:white
+  h3 {
+    color: white;
   }
   .infoContainer {
     text-align: center;
@@ -37,13 +39,23 @@ const UseData = styled.div`
     width: 90%;
     text-align: center;
   }
+  .setFriend {
+    width: 150px;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 20px;
+  }
 `;
 
-const UserPosts = styled.div`
-  .postsTitle {
-    display:flex;
-    color:white;
-    margin-left: 13%;
+const UserPageDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .feed {
+    flex-grow: 2;
+  }
+  .chatSide {
+    flex-grow: 1;
   }
 `;
 
@@ -54,9 +66,8 @@ const UserPage = (props) => {
   const [lastName, setLastName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isSetting, setIsSetting] = useState(false);
-  const session = useContext(UserSession)[0];
-  const [value, setValue] = useState("Set hobbies");
+  const [friendIdList, setFriendIdList] = useState([]);
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   useEffect(() => {
@@ -66,73 +77,64 @@ const UserPage = (props) => {
       setProfilePicture(res.data.profilePicture);
       setFirstName(res.data.firstName);
       setLastName(res.data.lastName);
+      setFriendIdList(
+        res.data.friends.map((friend) => {
+          return friend;
+        })
+      );
       setIsLoading(false);
     });
   }, [id]);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (!isSetting) {
-      setValue("See posts");
-    } else {
-      setValue("Set hobbies");
-    }
-    setIsSetting(!isSetting);
-  };
-
   const handleFriend = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/user/${id}/add-friend/${session}`);
+    axios.get(`http://localhost:8080/user/${id}/request-friend/${session}`).then((res) => {
+      setFriendIdList(res.data);
+      alert("Friend request sent!");
+    });
+  };
+
+  const handleRemoveFriend = (e) => {
+    e.preventDefault();
+    axios.get(`http://localhost:8080/user/${id}/remove-friend/${session}`).then((res) => {
+      setFriendIdList(res.data);
+    });
   };
 
   if (!isLoading) {
-    if (parseInt(id) !== session) {
-      content = (
-        <div>
-          <UseData>
-            <div className="imageContainer">
-              <img src={profilePicture} alt="profilePicture" />
-            </div>
-            <div className="nameContainer">
-              <h1>{userName}</h1>
-            </div>
-            <div className="infoContainer">
-              <h1>Personal Details:</h1>
-              <h3>
-                Name: {firstName} {lastName}
-              </h3>
-            </div>
-            <input type="button" value="Set as friend" onClick={handleFriend} />
-            <hr />
-          </UseData>
-          <UserPost />
-        </div>
-      );
-    } else {
-      content = (
-        <div>
-          <Router>
-            <UseData>
-              <div className="imageContainer">
-                <img src={profilePicture} alt="profilePicture" />
-              </div>
-              <div className="nameContainer">
-                <h1>{userName}</h1>
-              </div>
-              <div className="infoContainer">
-                <h1>Personal Details:</h1>
-                <h3>
-                  Name: {firstName} {lastName}
-                </h3>
-              </div>
-              <hr />
-            </UseData>
-            <input type="button" onClick={handleClick} value={value} />
-            <Route exact path="/user/:id" component={!isSetting ? UserPost : Settings} />
-          </Router>
-        </div>
-      );
-    }
+    content = (
+      <UserPageDiv>
+        <SideNarBar className="data" />
+        <UseData className="feed">
+          <div className="imageContainer">
+            <img src={profilePicture} alt="profilePicture" />
+          </div>
+          <div className="nameContainer">
+            <h1>{userName}</h1>
+          </div>
+          <div className="infoContainer">
+            <h1>Personal Details:</h1>
+            <h3>
+              Name: {firstName} {lastName}
+            </h3>
+          </div>
+          <div className="profileButtons">
+            {parseInt(id) !== session ? (
+              !friendIdList.includes(session) ? (
+                <PersonAddIcon color="secondary" fontSize="large" onClick={handleFriend} />
+              ) : (
+                <PersonAddDisabledIcon color="secondary" fontSize="large" onClick={handleRemoveFriend} />
+              )
+            ) : (
+              <Settings history={props.history} />
+            )}
+          </div>
+          <hr />
+          <UserPost id={id} history={props.history} />
+        </UseData>
+        <div className="chatSide"></div>
+      </UserPageDiv>
+    );
   } else content = "Loading...";
 
   return content;

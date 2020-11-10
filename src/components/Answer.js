@@ -1,109 +1,52 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import trash from "../images/trash.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserSession } from "../context/UserSession";
+import EditComment from "./EditComment";
+import { Dropdown } from "react-bootstrap";
+import MoreHorizontIcon from "@material-ui/icons/MoreHoriz";
 
 const AnswerDiv = styled.div`
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  background: #333;
-  max-width: 60%;
-  margin-top: 10px;
-  margin-bottom: 10px;
   display: flex;
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  flex-direction: row;
+  background: #262626f7;
+  border-radius: 10px;
+  width: 100%;
+  color: white;
+  padding: 15px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-size: 15px;
   position: relative;
-  .button {
-    margin-right: 20px;
-    border-radius: 20px;
-    padding: 5px;
-    background: #333333;
-    width: 100px;
-    text-align: center;
+  .img {
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
   }
-  .LinkButton {
-    text-decoration: none;
-    color: white;
+  .content {
+    flex-direction: column;
+    margin-left: 10px;
+    display: flex;
+    margin-top: -10px;
   }
-  .button:hover {
-    background: #76d14f;
-    color: black;
-  }
-  img {
-    width: 20%;
-    flex: 20%;
-  }
-  .trash {
-    flex: 5%;
-    width: 30px;
-    height: 30px;
+
+  .footer {
     position: absolute;
-    right: 20px;
-    top: 90px;
-    transform: translate(50%, -50%);
-    z-index: 100;
-  }
-  .trash:hover {
-    width: 40px;
-    height: 40px;
-  }
-  .profile {
-    margin-top: -22px;
-    margin-left: -22px;
-    flex: 20%;
-    padding: 10px;
-    text-align: center;
-    .profilePicture {
-      float:left;
-      border-radius: 50%;
-      width: 50px;
-    }
-  }
-  .linkToProfile {
-    text-decoration: none;
-    color: white;
-  }
-
-  h1{
-    color:white;
-  }
-
-  .userName{
-    position:relative;
-    left:60px;  
-    font-size:20px;
-    font-weight:bold;
-    bottom:38px;
-  }
-  .description {
-    flex: 70%;
+    right: 0px;
+    top: -3px;
   }
 `;
 
 const Answer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
   const [deleted, setDeleted] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userProfilePicture, setUserProfilePicture] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const username = props.answer.user.username;
+  const [showEditComment, setShowEditComment] = useState(false);
+  const setRefresh = props.setRefresh;
+  const userProfilePicture = props.answer.user.profilePicture;
   const session = useContext(UserSession)[0];
   let content = "";
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (answer !== null) {
-      axios.get(`http://localhost:8080/user/${answer.userId}`).then((res) => {
-        setUserName(res.data.userName);
-        setUserProfilePicture(res.data.profilePicture);
-        setIsLoading(false);
-      });
-    }
-  }, [answer]);
 
   const deleteAnswer = (e) => {
     e.preventDefault();
@@ -112,28 +55,37 @@ const Answer = (props) => {
     setDeleted(true);
   };
 
-  if (!deleted && !isLoading) {
+  if (!deleted) {
     content = (
       <AnswerDiv>
-        <Link to={`/user/${answer.userId}`} className="linkToProfile">
-          <div className="profile">
-            <img src={userProfilePicture} alt="profilePicture" className="profilePicture"></img>
-            <br />
-            <span className="userName">{userName}</span>
-          </div>
-        </Link>
-        <h1 className="description">{answer.description}</h1>
-        <img src={answer.imgPath} alt=""></img>
-        {session === answer.userId ? (
-          <div>
-            <img src={trash} alt="trash" className="trash" onClick={deleteAnswer}></img>
-            <Link to={`/editAnswer/${props.answer.id}`} className="LinkButton">
-              <div className="button">Edit comment</div>
-            </Link>{" "}
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="commentHeader">
+          <Link to={`/user/${session}`} className="linkToProfile">
+            <div className="profile">
+              <img src={userProfilePicture} alt="profilePicture" className="profilePicture" />
+            </div>
+          </Link>
+        </div>
+        <div className="content">
+          <p className="userName">{username}</p>
+          <p className="description">{answer.description}</p>
+          {answer.imagePath !== "" ? <img src={answer.imagePath} alt="" className="img" /> : " "}
+        </div>
+        <div className="footer">
+          {parseInt(session) === answer.user.id ? (
+            <Dropdown>
+              <Dropdown.Toggle id="dropdownBtn">
+                <MoreHorizontIcon />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={deleteAnswer}>Delete</Dropdown.Item>
+                <Dropdown.Item onClick={() => setShowEditComment(true)}>Edit</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            ""
+          )}
+          {showEditComment === true ? <EditComment id={answer.id} show={showEditComment} setShowModal={setShowEditComment.bind(this)} setRefresh={setRefresh.bind(this)} /> : ""}
+        </div>
       </AnswerDiv>
     );
   } else content = "";

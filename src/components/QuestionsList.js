@@ -3,151 +3,64 @@ import styled from "styled-components";
 import Question from "./Question";
 import axios from "axios";
 import { UserSession } from "../context/UserSession";
-import { Button } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import PostModal from "./PostModal";
+import SideNarBar from "./SideNavBar";
+import { ChatHelperContext } from "../context/ChatHelper";
+import Chat from "./Chat";
+import { MessageContextProvider } from "../context/MessageContext";
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .feed {
+    flex-grow: 2;
+  }
+  .chatSide {
+    flex-grow: 1;
+  }
+`;
 
 const QuestionsList = (props) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const session = useContext(UserSession)[0];
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [description, setDescription] = useState("");
-  const [imagePath, setImagePath] = useState("");
-  const [hobbies, setHobbies] = useState([]);
-
-  const setHobbiesOnChange = (e) => {
-    setHobbies(e.target.value);
-  };
-
-  const setDescriptionOnChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const setImagePathOnChange = (e) => {
-    setImagePath(e.target.value);
-  };
-
+  const [showChat, setShowChat] = useContext(ChatHelperContext);
+  const session = useContext(UserSession)[0][0];
   let content = "";
 
   useEffect(() => {
     setIsLoading(true);
     let url;
     if (props.match.path === "/" || props.match.path === "/hobby-news") {
-      url = "http://localhost:8080/hobby-news/" + session;
+      url = `http://localhost:8080/post/hobby-news/${session}`;
     } else {
-      url = "http://localhost:8080/friend-news/" + session;
+      url = "http://localhost:8080/post/friend-news/" + session;
     }
-    if (!isNaN(session)) {
-      axios.get(url).then((res) => {
-        setQuestions(res.data);
-        setIsLoading(false);
-      });
-    }
-  }, [session, props.match.path]);
+    axios.get(url).then((res) => {
+      setQuestions(res.data);
+      setIsLoading(false);
+    });
+  }, [props.match.path, session]);
 
-  if (!isLoading && !isNaN(session)) {
-    const checkFields = (e) => {
-      e.preventDefault();
-      const question = {
-        userId: session,
-        description: description,
-        categories: hobbies.replace(/\s/g, "").split(","),
-        imagePath: imagePath,
-      };
-      if (description.length > 0) {
-        return axios.post("http://localhost:8080/question/add", question).then((res) => {
-          console.log(props.history);
-          props.history.push(`/question/${res.data}`);
-        });
-      } else alert("Please fill the title and description field!");
-    };
+  if (!isLoading) {
     content = (
-      <div>
-        <Post>
-          <Button className="post" variant="primary" onClick={handleShow}>
-            <div className="textarea">
-              <textarea id="subject" name="rg" placeholder="Share your story..."></textarea>
-            </div>
-          </Button>
-
-          <Modal className="myModal" show={show} onHide={handleClose}>
-            <Modal.Body>
-              <textarea className="postText" placeholder="Share your story..." onChange={setDescriptionOnChange}></textarea>
-            </Modal.Body>
-            <Modal.Footer>
-              <input type="text" placeholder="Tags" onChange={setHobbiesOnChange} />
-              <input type="text" placeholder="Image URL" onChange={setImagePathOnChange} />
-              <Button variant="primary" name="submit" className="postButton" onClick={checkFields}>
-                Submit
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </Post>
-        <Container className="col">
+      <Container className="col">
+        <SideNarBar />
+        <div className="feed">
+          <PostModal className="postModal" isLoading={isLoading} session={session} history={props.history} />
           {questions.map((question) => (
-            <Question key={question.id} question={question} />
+            <Question key={question.postId} question={question} history={props.history} />
           ))}
-        </Container>
-      </div>
+        </div>
+        <div className="chatSide">
+          <MessageContextProvider>
+            <Chat show={showChat} setShowChat={setShowChat.bind(this)} />
+          </MessageContextProvider>
+        </div>
+      </Container>
     );
-  } else if (isNaN(session)) {
-    props.history.push("/login");
   } else content = "Loading";
   return content;
 };
-
-const LinkDiv = styled.div`
-  background-color: #333;
-  overflow: hidden;
-  .link {
-    font-size: 20px;
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  .link:hover {
-    background-color: #76d14f;
-    color: black;
-  }
-
-  .link:active {
-    background-color: #333;
-    color: white;
-  }
-`;
-
-const Post = styled.div `
-    .btn{
-      background:rgba(0,0,0,0.0);
-      position:relative;
-      left:50%;
-      transform:translate(-50%);
-      width:30%;
-      border:none;
-    }
-    .btn .textarea{
-      position:relative;
-      z-index:20;
-      opacity:1;
-      width:100%;
-    }
-    .btn .textarea textarea{
-      background:white;
-      width:100%;
-      font-size:20px;
-      font-weight:bold;
-      color:white;
-      border-radius:5px;
-    }
-   .myModal{
-      background:black;
-    }
-`;
 
 export default QuestionsList;
